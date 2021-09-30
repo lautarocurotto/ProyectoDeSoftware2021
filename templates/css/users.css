@@ -1,0 +1,27 @@
+button{
+    padding: 5px;
+
+    border: 0;
+}
+
+.new-user-btn{
+    color: green;
+
+}
+
+table{
+    width: 80%;
+    margin: 20px auto 0 auto;
+}
+
+thead{
+    font-weight: bolder;
+}
+
+/* .logo *{
+    display: inline;
+} */
+
+.title{
+    font-size: 2rem;
+}

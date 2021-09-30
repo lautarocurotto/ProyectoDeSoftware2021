@@ -1,0 +1,34 @@
+body, html{
+    height: 80%;
+}
+
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.topbar{
+    justify-content: center;
+}
+
+.login-form{
+    width: 60%;
+    padding: 15px;
+    text-align: center;
+}
+
+input{
+    width: 300px;
+}
+
+input[type="submit"]{
+    width: auto;
+}
+
+@media (max-width: 850px){
+    .login-form{
+        width: 90%;
+    }
+}
