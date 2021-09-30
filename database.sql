@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 30-09-2021 a las 17:13:17
+-- Tiempo de generación: 30-09-2021 a las 18:16:59
 -- Versión del servidor: 8.0.26-0ubuntu0.20.04.2
 -- Versión de PHP: 7.4.3
 
@@ -32,6 +32,28 @@ CREATE TABLE `administra_punto` (
   `id_usuario` int NOT NULL,
   `id_punto_encuentro` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Configuracion`
+--
+
+CREATE TABLE `Configuracion` (
+  `id` int NOT NULL,
+  `color1` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `color2` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `color3` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `maxElementos` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `criterio_orden` varchar(255) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `Configuracion`
+--
+
+INSERT INTO `Configuracion` (`id`, `color1`, `color2`, `color3`, `maxElementos`, `criterio_orden`) VALUES
+(1, '#FFFFEE', '#FFFFAA', '#FFFFFF', '10', 'Random');
 
 -- --------------------------------------------------------
 
@@ -182,6 +204,12 @@ CREATE TABLE `usuario_tiene_rol` (
 --
 
 --
+-- Indices de la tabla `Configuracion`
+--
+ALTER TABLE `Configuracion`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `Permiso`
 --
 ALTER TABLE `Permiso`
@@ -222,6 +250,12 @@ ALTER TABLE `usuario_tiene_rol`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `Configuracion`
+--
+ALTER TABLE `Configuracion`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `Permiso`
