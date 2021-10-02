@@ -3,6 +3,7 @@ from flask import Flask, render_template
 from config import config
 from app import db
 
+
 def create_app(environment="development"):
     # Configuración inicial de la app
     app = Flask(__name__)

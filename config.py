@@ -48,5 +48,3 @@ config = dict(
     development=DevelopmentConfig, test=TestingConfig, production=ProductionConfig
 )
 
-## More information
-# https://flask.palletsprojects.com/en/2.0.x/config/
