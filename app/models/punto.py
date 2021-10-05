@@ -2,7 +2,7 @@ from app.db import db
 from sqlalchemy import Column,Integer,String
 
 class Punto(db.Model):
-    __table__="Punto_encuentro"
+    __tablename__="Punto_encuentro"
     id=Column(Integer,primary_key=True)
     nombre=Column(String(255),unique=True)
     direccion=Column(String(255),unique=True)

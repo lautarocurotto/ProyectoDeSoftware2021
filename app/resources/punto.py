@@ -1,4 +1,5 @@
 from flask import redirect, render_template, request, url_for, session, abort
+from app.db import db
 
 #from app.helpers.auth import authenticated
 from app.models.punto import Punto
@@ -16,14 +17,16 @@ def index():
 def create():
     #if not authenticated(session):
      #   abort(401)
+    params=request.form
+    new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],coordenadas=params["coordenadas"],estado=params["status"],telefono=params["telefono"],email=params["email"])
+    db.session.add(new_punto)
+    db.session.commit()
 
-    #conn = connection()
-    #Punto.create(conn, request.form)
-    return redirect(url_for("punto_index"))
+    return redirect(url_for("puntos_index"))
     
 def destroy(id_punto):
     #if not authenticated(session) or not admin(session):
      #   abort(401)
 
     
-    return redirect(url_for("punto_index"))
+    return redirect(url_for("puntos_index"))

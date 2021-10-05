@@ -30,7 +30,7 @@ def create_app(environment="development"):
     
 
     app.add_url_rule("/puntos","puntos_index",punto.index)
-    app.add_url_rule("/puntos/nuevo","puntos_create",punto.create)
+    app.add_url_rule("/puntos/nuevo","puntos_create",punto.create, methods=["POST"] )
 
     
 
