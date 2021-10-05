@@ -1,47 +1,53 @@
 from os import environ
-from flask import Flask, render_template
-from config import config
-from app import db
 
 
-def create_app(environment="development"):
-    # Configuración inicial de la app
-    app = Flask(__name__)
+class Config(object):
+    """Base configuration."""
 
-    # Carga de la configuración
-    env = environ.get("FLASK_ENV", environment)
-    app.config.from_object(config[env])
+    DB_HOST = "bd_name"
+    DB_USER = "db_user"
+    DB_PASS = "db_pass"
+    DB_NAME = "db_name"
+    SECRET_KEY = "secret"
 
-    # Server Side session
-    app.config["SESSION_TYPE"] = "filesystem"
-    
+    @staticmethod
+    def configure(app):
+        # Implement this method to do further configuration on your app.
+        pass
 
-    # Configure db
-    db.init_app(app)
 
-    # Funciones que se exportan al contexto de Jinja2
-    #app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
+class ProductionConfig(Config):
+    """Production configuration."""
 
-    # Autenticación
-    
+    DB_HOST = environ.get("DB_HOST", "localhost")
+    DB_USER = environ.get("DB_USER", "MY_DB_USER")
+    DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
+    DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
 
-    # Rutas de Consultas
-    
 
-    # Rutas de Usuarios
-    
+class DevelopmentConfig(Config):
+    """Development configuration."""
 
-    # Ruta para el Home (usando decorator)
-    @app.route("/")
-    def home():
-        return render_template("home.html")
+    DB_HOST = environ.get("DB_HOST", "localhost")
+    DB_USER = environ.get("DB_USER", "MY_DB_USER")
+    DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
+    DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
+    SQLALCHEMY_DATABASE_URI= (
+        f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:3306/{DB_NAME}"
+    )
 
-    # Rutas de API-REST (usando Blueprints)
-   
 
-    # Handlers
-    
-    
+class TestingConfig(Config):
+    """Testing configuration."""
 
-    
-    return app
+    TESTING = True
+    DB_HOST = environ.get("DB_HOST", "localhost")
+    DB_USER = environ.get("DB_USER", "MY_DB_USER")
+    DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
+    DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
+
+
+config = dict(
+    development=DevelopmentConfig, test=TestingConfig, production=ProductionConfig
+)
+

@@ -2,6 +2,7 @@ from os import environ
 from flask import Flask, render_template
 from config import config
 from app import db
+from app.resources import punto
 
 
 def create_app(environment="development"):
@@ -28,7 +29,9 @@ def create_app(environment="development"):
     # Rutas de Consultas
     
 
-    # Rutas de Usuarios
+    app.add_url_rule("/puntos","puntos_index",punto.index)
+    app.add_url_rule("/puntos/nuevo","puntos_create",punto.create)
+
     
 
     # Ruta para el Home (usando decorator)
