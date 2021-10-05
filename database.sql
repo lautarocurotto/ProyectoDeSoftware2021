@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 30-09-2021 a las 18:16:59
+-- Tiempo de generación: 05-10-2021 a las 11:48:33
 -- Versión del servidor: 8.0.26-0ubuntu0.20.04.2
 -- Versión de PHP: 7.4.3
 
@@ -41,19 +41,23 @@ CREATE TABLE `administra_punto` (
 
 CREATE TABLE `Configuracion` (
   `id` int NOT NULL,
-  `color1` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `color2` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `color3` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `maxElementos` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `criterio_orden` varchar(255) COLLATE utf8_spanish_ci NOT NULL
+  `color1Privada` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `color2Privada` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `color3Privada` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `color1Publica` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `color2Publica` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `color3Publica` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `maxElementos` int NOT NULL,
+  `criterio_orden` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `sitio_en_mantenimiento` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `Configuracion`
 --
 
-INSERT INTO `Configuracion` (`id`, `color1`, `color2`, `color3`, `maxElementos`, `criterio_orden`) VALUES
-(1, '#FFFFEE', '#FFFFAA', '#FFFFFF', '10', 'Random');
+INSERT INTO `Configuracion` (`id`, `color1Privada`, `color2Privada`, `color3Privada`, `color1Publica`, `color2Publica`, `color3Publica`, `maxElementos`, `criterio_orden`, `sitio_en_mantenimiento`) VALUES
+(2, '#FFAAFF', '#EA3711', '#EA2011', '#C8F2D2', '#C7F1D1', '#C6FFD3', 2, 'Alfabetico', 0);
 
 -- --------------------------------------------------------
 
@@ -104,10 +108,18 @@ CREATE TABLE `Punto_encuentro` (
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `direccion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `coordenadas` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `estado` tinyint(1) NOT NULL,
+  `estado` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `telefono` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='Tabla para guardar los puntos de encuentro';
+
+--
+-- Volcado de datos para la tabla `Punto_encuentro`
+--
+
+INSERT INTO `Punto_encuentro` (`id`, `nombre`, `direccion`, `coordenadas`, `estado`, `telefono`, `email`) VALUES
+(3, 'puntolp', '45 8 y 11', '11 222 43', 'publicado', '1122233', 'agshad@gmail.com'),
+(5, 'sfgsg', 'sgsfg', 'sfgsfg', 'despublicado', 'sgsg', 'sdgsdg@yahoo.com.ar');
 
 -- --------------------------------------------------------
 
@@ -255,7 +267,7 @@ ALTER TABLE `usuario_tiene_rol`
 -- AUTO_INCREMENT de la tabla `Configuracion`
 --
 ALTER TABLE `Configuracion`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `Permiso`
@@ -267,7 +279,7 @@ ALTER TABLE `Permiso`
 -- AUTO_INCREMENT de la tabla `Punto_encuentro`
 --
 ALTER TABLE `Punto_encuentro`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `Rol`
