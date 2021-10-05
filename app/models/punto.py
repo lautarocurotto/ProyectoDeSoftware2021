@@ -3,6 +3,7 @@ from sqlalchemy import Column,Integer,String
 
 
 
+
 class Punto(db.Model):
     __tablename__="Punto_encuentro"
     id=Column(Integer,primary_key=True)
@@ -14,10 +15,9 @@ class Punto(db.Model):
     email=Column(String(255),unique=True)
 
     @classmethod
-    def dame_todo(csl,nombre,estado):
+    def dame_todo(csl):
         #filtrar por cantidad max y orden#
         #filtrar por nombre y estado#
-
 
         return  csl.query.all()
 
