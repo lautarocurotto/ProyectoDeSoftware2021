@@ -12,6 +12,16 @@ def index():
     puntosTotal = Punto.query.all()
     return render_template("puntos-encuentro.html", puntos=puntosTotal)
 
+def create():
+    #if not authenticated(session):
+     #   abort(401)
+    params=request.form
+    new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],coordenadas=params["coordenadas"],estado=params["status"],telefono=params["telefono"],email=params["email"])
+    db.session.add(new_punto)
+    db.session.commit()
+
+    return redirect(url_for("puntos_index"))
+
 def update(id):
     #if not authenticated(session):
      #   abort(401)
@@ -35,20 +45,16 @@ def update(id):
         return render_template("punto-encuentro-update.html", punto_to_update=punto_to_update)
     
 
-
-def create():
-    #if not authenticated(session):
-     #   abort(401)
-    params=request.form
-    new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],coordenadas=params["coordenadas"],estado=params["status"],telefono=params["telefono"],email=params["email"])
-    db.session.add(new_punto)
-    db.session.commit()
-
-    return redirect(url_for("puntos_index"))
-    
-def destroy(id_punto):
+def delete(id):
     #if not authenticated(session) or not admin(session):
      #   abort(401)
 
+    punto_to_delete=Punto.query.get_or_404(id)
+    try:
+        db.session.delete(punto_to_delete)
+        db.session.commit()
+        return redirect(url_for("puntos_index"))
+    except:
+        return "Hubo un problema al borrar el punto de encuento"
+
     
-    return redirect(url_for("puntos_index"))
