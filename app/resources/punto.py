@@ -57,4 +57,14 @@ def delete(id):
     except:
         return "Hubo un problema al borrar el punto de encuento"
 
+def show(id):
+    #if not authenticated(session) or not admin(session):
+     #   abort(401)
+
+    p=Punto.query.get_or_404(id)
+
+    return render_template("punto-encuentro-show.html", punto=p)
+   
+        
+
     

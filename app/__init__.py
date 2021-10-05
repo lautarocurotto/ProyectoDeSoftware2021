@@ -35,6 +35,7 @@ def create_app(environment="development"):
     app.add_url_rule("/puntos/nuevo","puntos_create",punto.create, methods=["POST"] )
     app.add_url_rule("/puntos/update/<int:id>","puntos_update",punto.update, methods=["POST", "GET"] )
     app.add_url_rule("/puntos/delete/<int:id>","puntos_delete",punto.delete)
+    app.add_url_rule("/puntos/show/<int:id>","puntos_show",punto.show)
     
 
     # Ruta para el Home (usando decorator)
