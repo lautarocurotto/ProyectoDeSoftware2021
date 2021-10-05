@@ -1,0 +1,46 @@
+<div class="modal" id="new-pto-modal">
+    <div class="modal-content">
+        <h2>Modificar punto de encuentro</h2>
+        <form action="/puntos/update/{{punto_to_update.id}}" method="POST">
+            <div class="input-control">
+                <label for="newusername">
+                    <input type="text" name="nombre" required placeholder="Nombre" required value="{{punto_to_update.nombre}}">
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="name">
+                    <input type="text" name="direccion" required placeholder="Direccion" required value="{{punto_to_update.direccion}}">  
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="lastname">
+                    <input type="text" name="coordenadas" required placeholder="Coordenadas" required value="{{punto_to_update.coordenadas}}">
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="status">
+                    <select name="status" id="status" required value="{{punto_to_update.status}}">
+                        <option value="publicado">publicado</option>
+                        <option value="despublicado">despublicado</option>
+                    </select>
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="email">
+                    <input type="text" name="telefono" required placeholder="Telefono" required value="{{punto_to_update.telefono}}">
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="email">
+                    <input type="email" name="email" required placeholder="Email" required value="{{punto_to_update.email}}">
+                </label>
+            </div>
+            
+            <div class="input-control">
+                <input type="submit" value="Modificar punto de encuentro">
+                
+            </div>
+        </form>
+        
+    </div>
+</div>

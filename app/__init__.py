@@ -1,8 +1,10 @@
 from os import environ
-from flask import Flask, render_template
+from flask import Flask, render_template,redirect,url_for,request
 from config import config
 from app import db
 from app.resources import punto
+
+
 
 
 def create_app(environment="development"):
@@ -31,13 +33,15 @@ def create_app(environment="development"):
 
     app.add_url_rule("/puntos","puntos_index",punto.index)
     app.add_url_rule("/puntos/nuevo","puntos_create",punto.create, methods=["POST"] )
-
+    app.add_url_rule("/puntos/update/<int:id>","puntos_update",punto.update, methods=["POST", "GET"] )
     
 
     # Ruta para el Home (usando decorator)
     @app.route("/")
     def home():
         return render_template("home.html")
+    
+
 
     # Rutas de API-REST (usando Blueprints)
    
