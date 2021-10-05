@@ -1,0 +1,168 @@
+<!-- 
+Esta seria la página de administracion CRUD de los puntos de encuentro de la app privada
+
+-->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puntos de encuentro - Zonas de inundación</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/users.css">
+    <link rel="stylesheet" href="css/modal.css">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="topbar">
+        <div class="logo">
+            <img src="assets/laplata2.jpg" alt="logo la plata">
+            <div class="logo-text">
+                <h2>Zonas de inundación</h2>
+                <small>App privada</small>
+            </div>
+        </div>
+
+        <div class="user-options">
+            <button onclick="showMenu(this);">
+                <span>{username} </span>
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="content">
+        <h1>Administración de puntos de encuentro</h1>
+        <button onclick="showNewForm(this);" class="new-user-btn"><i class="fas fa-plus-circle"></i> Nuevo punto de encuentro</button>
+        <button onclick="showSearchForm(this);"><i class="fas fa-search"></i> Buscar</button>
+        <button onclick="showPublished(this);" class="filterbtn"><i class="fas fa-user-check"></i> Mostrar sólo públicados</button>
+        <button onclick="showUnpublished(this);" class="filterbtn"><i class="fas fa-user-times"></i> Mostrar sólo despublicados</button>
+        <button onclick="clearFilters(this);"><i class="fas fa-times"></i> Quitar filtros</button>
+        <div class="modal" id="search-form">
+            <div class="modal-content">
+                <h2>Búsqueda  de Punto de encuentro</h2>
+                <div class="input-control">
+                    <input type="text" name="query" required id="user-query">
+                    <small>Búsqueda por nombre</small>
+                </div>
+                <div class="input-control">
+                    <button onclick="filterUsers(this);">Buscar</button>
+                    <button onclick="closeForm(this);">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td>Nombre</td>
+                    <td>Estado</td>
+                    <td>Dirección</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{un pto de encuentro}</td>
+                    <td>publicado</td>
+                    <td>61 y 1</td>
+                    <td>
+                        <button><i class="far fa-edit"></i></button>
+                        <button><i class="far fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{un pto de encuentro}</td>
+                    <td>despublicado</td>
+                    <td>120 y 50</td>
+                    <td>
+                        <button><i class="far fa-edit"></i></button>
+                        <button><i class="far fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        Desarrollado por <a href="mailto:asdasdsadas@ba.gob.ar">nombredeempresa</a>
+    </footer>
+
+    <div class="modal" id="new-pto-modal">
+        <div class="modal-content">
+            <h2>Nuevo punto de encuentro</h2>
+            <form action="#nuevo-usuario">
+                <div class="input-control">
+                    <label for="newusername">
+                        <input type="text" name="newusername" required placeholder="Username" required>
+                    </label>
+                </div>
+                <div class="input-control">
+                    <label for="name">
+                        <input type="text" name="name" required placeholder="Nombre" required>
+                    </label>
+                </div>
+                <div class="input-control">
+                    <label for="lastname">
+                        <input type="text" name="lastname" required placeholder="Apellido" required>
+                    </label>
+                </div>
+                <div class="input-control">
+                    <label for="email">
+                        <input type="email" name="email" required placeholder="Email" required>
+                    </label>
+                </div>
+                <div class="input-control">
+                    <label for="status">
+                        <select name="status" id="status" required>
+                            <option value="publicado">publicado</option>
+                            <option value="despublicado">despublicado</option>
+                        </select>
+                    </label>
+                </div>
+                <!-- <div class="input-control">
+                    <label for="roles">
+                        <select name="roles" id="roles" required>
+                            <option value="operador">operador</option>
+                            <option value="administrador">administrador</option>
+                        </select>
+                    </label>
+                </div> -->
+                <div class="input-control">
+                    <label for="password">
+                        <input type="password" name="password" required placeholder="Contraseña" required>
+                    </label>
+                </div>
+                <div class="input-control">
+                    <input type="submit" value="Crear punto de encuentro">
+                </div>
+            </form>
+            <button onclick="closeForm(this);">Cancelar</button>
+        </div>
+    </div>
+
+    <div class="modal" id="menu">
+        <div class="modal-content">
+            <h3>Menú</h3>
+            <div class="menu-item">
+                <a href="#dashboard">Inicio</a>
+            </div>
+            <div class="menu-item">
+                <a href="#puntos-encuentro">Usuarios</a>
+            </div>
+            <div class="menu-item">
+                <a href="#puntos-encuentro">Mis preferencias</a>
+            </div>
+            <button onclick="closeForm(this);">Cerrar</button>
+        </div>
+    </div>
+    <script src="js/puntos-encuentro.js"></script>
+</body>
+</html>
