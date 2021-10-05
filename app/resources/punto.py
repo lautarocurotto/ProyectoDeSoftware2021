@@ -9,7 +9,7 @@ def index():
     #if not authenticated(session):
      #   abort(401)
 
-    puntosTotal = Punto.query.all()
+    puntosTotal = Punto.dame_todo()
     return render_template("puntos-encuentro.html", puntos=puntosTotal)
 
 def create():
