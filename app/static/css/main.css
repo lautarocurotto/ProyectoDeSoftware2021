@@ -1,0 +1,87 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Gothic A1', sans-serif;
+}
+
+body, html{
+    width: 100%;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.topbar{
+    background: rgb(59, 59, 59);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    height: auto;
+    margin-bottom: 10px;
+    text-align: center;
+    padding: 5px;
+    align-items: center;
+}
+
+.topbar button{
+    color: white;
+}
+
+.logo img{
+    max-width: 50px;
+}
+
+.logo *{
+    display: inline;
+}
+
+footer{
+    height: 20px;
+    text-align: center;
+    background-color: rgb(59, 59, 59);
+    color: white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+input{
+    padding: 10px;
+}
+
+.input-control{
+    margin: 10px 0 10px 0;
+}
+
+button{
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.0);
+    padding: 5px;
+    border: 0;
+}
+
+#menu{
+    text-align: center;
+}
+
+.menu-item{
+    width: 80%;
+    padding: 10px;
+    text-align: center;
+    margin: 0 auto 5px auto;
+    background-color: rgb(236, 236, 236);
+}
+
+
+@media (max-width: 850px){
+    .topbar{
+        font-size: 0.8rem;
+    }
+
+    .logo-text{
+        display: none;
+    }
+
+}

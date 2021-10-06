@@ -1,0 +1,144 @@
+<!-- 
+Esta seria la página de administracion CRUD de los puntos de encuentro de la app privada
+
+-->
+
+{% extends "layout.html"%}
+{% block title %}Puntos de encuentro - Zonas de inundación{% endblock %}
+{% block head %}
+    {{super()}}
+{% endblock %}
+{% block content %}
+  
+
+<div class="container-fluid">
+    <h1>Administración de puntos de encuentro</h1>
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#new-pto-modal">Nuevo punto de encuentro</button>
+    <button class="btn" onclick="showSearchForm(this);"><i class="fas fa-search"></i> Buscar</button>
+    <button class="btn" onclick="showPublished(this);" class="filterbtn"><i class="fas fa-user-check"></i> Mostrar sólo públicados</button>
+    <button class="btn" onclick="showUnpublished(this);" class="filterbtn"><i class="fas fa-user-times"></i> Mostrar sólo despublicados</button>
+    <button class="btn" onclick="clearFilters(this);"><i class="fas fa-times"></i> Quitar filtros</button>
+    <div class="modal" id="search-form">
+        <div class="modal-content">
+            <h2>Búsqueda  de Punto de encuentro</h2>
+            <div class="input-control">
+                <input type="text" name="query" required id="user-query">
+                <small>Búsqueda por nombre</small>
+            </div>
+            <div class="input-control">
+                <button onclick="filterUsers(this);">Buscar</button>
+                <button onclick="closeForm(this);">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Nombre</td>
+                <td>Estado</td>
+                <td>Dirección</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {%for punto in puntos %}
+            <tr>
+                <td>{{punto.nombre}}</td>
+                <td>{{punto.estado}}</td>
+                <td>{{punto.direccion}}</td>
+                <td>
+                    <a href="/puntos/update/{{punto.id}}"><i class="far fa-edit">Editar</i></a>
+                    <a href="/puntos/delete/{{punto.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+                    <a href="/puntos/show/{{punto.id}}">Ver</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="modal fade" id="new-pto-modal" tabindex="-1" aria-labelledby="new-pto-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="new-pto-modalLabel">Nuevo Punto de encuentro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{{ url_for('puntos_create') }}" method="POST">
+                <div class="mb-3">
+                    <label for="nombre">
+                        <input class="form-control" type="text" name="nombre" required placeholder="Nombre" required>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="direccion">
+                        <input class="form-control" type="text" name="direccion" required placeholder="Direccion" required>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="coordenadas">
+                        <input class="form-control" type="text" name="coordenadas" required placeholder="Coordenadas" required>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="status">
+                        <select class="form-control" name="status" id="status" required>
+                            <option value="publicado">publicado</option>
+                            <option value="despublicado">despublicado</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="telefono">
+                        <input class="form-control" type="text" name="telefono" required placeholder="Telefono" required>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="email">
+                        <input class="form-control" type="email" name="email" required placeholder="Email" required>
+                    </label>
+                </div>
+                
+                <div class="mb-3">
+                    <input class="btn btn-success" type="submit" value="Crear punto de encuentro">
+                    <button class="btn btn-secondary" type="reset">Limpiar</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% block menu %}
+
+
+<div class="modal fade" id="menu" tabindex="-1" aria-labelledby="menuLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="menuLabel">Menu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="menu-item">
+                <a href="{{url_for('configuracion')}}">Inicio</a>
+            </div>
+            <div class="menu-item">
+                <a href="{{url_for('configuracion')}}">Usuarios</a>
+            </div>
+            <div class="menu-item">
+                <a href="{{url_for('configuracion')}}">Puntos de encuentro</a>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+
+<script src="js/puntos-encuentro.js"></script>
+
+{% endblock %}

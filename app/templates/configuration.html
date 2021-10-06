@@ -1,0 +1,106 @@
+
+{% extends "layout.html" %}
+
+    {% block title %}Configuración - Zonas de inundación{% endblock %}
+    {%block head %}
+        {{ super() }}
+    {% endblock %}
+
+    {%block topbar %}
+        {{super()}}
+    {% endblock %}
+
+    {% block message %}
+        {{ super() }}
+    {% endblock %}
+
+        {% block content %}
+        <h1>Configuraciones del sistema</h1>
+        <div class="form-control">
+            <form action="{{url_for('config_set_max_elementos')}}" method="post">
+                <label for="max-elementos">Elementos por página</label>
+                <input type="number" name="max-elementos" id="max-elementos" value="{{configs[0].maxElementos}}" min="5" max="25">
+                <input type="submit" value="Guardar">
+            </form>
+        </div>
+        <div class="form-control">
+            <label for="criterio-orden">Criterio de ordenación</label>
+            <select onchange="setCriterio(this);" name="criterio-orden" id="criterio-orden">
+                <option value=""> </option>
+                <option value="alfabetico" {{ "selected" if "alfabetico" == configs[0].criterio_orden}}>Alfabético (nombre)</option>
+            </select>
+        </div>
+        <div class="form-control">
+            {% if (configs[0].sitio_en_mantenimiento) %}
+            <a class="btn btn-success" href="{{url_for('config_toggle_mantenimiento')}}">Activar sitio</a>
+            {% else %}
+            <a class="btn btn-danger" href="{{url_for('config_toggle_mantenimiento')}}">Desactivar sitio</a>
+            {% endif %}
+        </div>
+
+        <h3>Paleta de colores de aplicación privada</h3>
+        <p>Podrá seleccionar tres colores.</p>
+        <div class="form-control">
+            <label for="color1">Color #1</label>
+            <input onchange="setColor(this, 1);" type="color" name="color1" id="private-color1"  value="{{configs[0].color1Privada}}">
+        </div>
+        <div class="form-control">
+            <label for="color2">Color #1</label>
+            <input onchange="setColor(this, 2);" type="color" name="color2" id="private-color2"  value="{{configs[0].color2Privada}}">
+        </div>
+        <div class="form-control">
+            <label for="color3">Color #1</label>
+            <input onchange="setColor(this, 3);" type="color" name="color3" id="private-color3"  value="{{configs[0].color3Privada}}">
+        </div>
+
+        <h3>Paleta de colores de aplicación pública</h3>
+        <p>Podrá seleccionar tres colores.</p>
+        <div class="form-control">
+            <label for="color1">Color #1</label>
+            <input type="color" name="color1" id="public-color1" value="{{configs[0].color1}}">
+        </div>
+        <div class="form-control">
+            <label for="color2">Color #1</label>
+            <input type="color" name="color2" id="public-color2" value="{{configs[0].color2}}">
+        </div>
+        <div class="form-control">
+            <label for="color3">Color #1</label>
+            <input type="color" name="color3" id="public-color3" value="{{configs[0].color3}}">
+        </div>
+
+        {% endblock %}
+
+    {% block menu %}
+
+
+    <div class="modal fade" id="menu" tabindex="-1" aria-labelledby="menuLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="menuLabel">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Inicio</a>
+                </div>
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Usuarios</a>
+                </div>
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Puntos de encuentro</a>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block jsimport %}
+        <script>
+            var base_url = "{{url_for('configuracion')}}";
+        </script>
+        <script src="{{ url_for('static', filename='js/configuration.js') }}"></script>
+    {% endblock %}
+</body>
+</html>
