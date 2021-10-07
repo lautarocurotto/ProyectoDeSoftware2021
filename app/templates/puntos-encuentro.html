@@ -24,10 +24,7 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
   
 
 <div class="content">
-    <h1>Administración de puntos de encuentro</h1>
-    
-   
-    
+ 
     <div class="modal" id="search-form">
         <div class="modal-content">
             <h2>Búsqueda de punto de encuentro</h2>
@@ -134,6 +131,12 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
         
     </div>
 </div>
-
+{% with messages = get_flashed_messages() %}
+    {%if messages%}
+        {%for message in messages%}
+            <h1>{{message}}</h1>
+        {%endfor%}
+    {%endif%}
+{%endwith%}
 
 {% endblock %}

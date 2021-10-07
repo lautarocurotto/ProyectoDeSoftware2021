@@ -1,5 +1,5 @@
 from app.db import db
-from sqlalchemy import Column,Integer,String
+from sqlalchemy import Column,Integer,String,exists
 
 
 
@@ -25,6 +25,10 @@ class Punto(db.Model):
         if estadoo!=None:
                 query=query.filter_by(estado=estadoo)
         return  query.limit(conf.maxElementos).all()
+    
+    @classmethod
+    def existe_punto(cls,nombree):
+        return cls.query.filter_by(nombre=nombree).count()
         
 
            

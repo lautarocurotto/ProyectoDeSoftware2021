@@ -1,4 +1,6 @@
 from flask import redirect, render_template, request, url_for, session, abort
+import flask
+from flask.helpers import flash
 from sqlalchemy.sql.expression import true
 from app.db import db
 
@@ -20,10 +22,15 @@ def create():
     #if not authenticated(session):
      #   abort(401)
     params=request.form
-    new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],coordenadas=params["coordenadas"],estado=params["status"],telefono=params["telefono"],email=params["email"])
-    db.session.add(new_punto)
-    db.session.commit()
-
+    cant_puntos=Punto.existe_punto(params["nombre"])
+    if (cant_puntos==0):
+        new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],coordenadas=params["coordenadas"],estado=params["status"],telefono=params["telefono"],email=params["email"])
+        db.session.add(new_punto)
+        db.session.commit()
+        mensaje="Se agrego el punto"
+    else:
+        mensaje="El punto ya existe por favor elija otro nombre"
+    flash(mensaje)
     return redirect(url_for("puntos_index"))
 
 def update(id):
