@@ -4,7 +4,7 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 -->
 
 
-{% block title %}PUNTOS DE ENCEUNTRO{% endblock %}
+{% block title %}PUNTOS DE ENCUENTRO{% endblock %}
 {% block head %}
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,9 +12,7 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 <title>Puntos de encuentro - Zonas de inundación</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-<link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="css/users.css">
-<link rel="stylesheet" href="css/modal.css">
+
 
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,24 +25,41 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 
 <div class="content">
     <h1>Administración de puntos de encuentro</h1>
-    <button onclick="showNewForm(this);" class="new-user-btn"><i class="fas fa-plus-circle"></i> Nuevo punto de encuentro</button>
-    <button onclick="showSearchForm(this);"><i class="fas fa-search"></i> Buscar</button>
-    <button onclick="showPublished(this);" class="filterbtn"><i class="fas fa-user-check"></i> Mostrar sólo públicados</button>
-    <button onclick="showUnpublished(this);" class="filterbtn"><i class="fas fa-user-times"></i> Mostrar sólo despublicados</button>
-    <button onclick="clearFilters(this);"><i class="fas fa-times"></i> Quitar filtros</button>
+    
+   
+    
     <div class="modal" id="search-form">
         <div class="modal-content">
-            <h2>Búsqueda  de Punto de encuentro</h2>
-            <div class="input-control">
-                <input type="text" name="query" required id="user-query">
-                <small>Búsqueda por nombre</small>
-            </div>
-            <div class="input-control">
-                <button onclick="filterUsers(this);">Buscar</button>
-                <button onclick="closeForm(this);">Cancelar</button>
-            </div>
+            <h2>Búsqueda de punto de encuentro</h2>
+            <form action="{{ url_for('puntos_index') }}" method="POST">
+                <div class="input-control">
+                   Nombre del punto: <input type="text" name="nombreF" placeholder="Nombre del punto" required >
+                    <input type="submit" value="Buscar">
+                    <button type="reset">Limpiar</button>
+                </div>
+               
+            </form>
+            <form action="{{ url_for('puntos_index') }}" method="POST">
+                <div class="input-control">
+                    Estado del punto: <select name="statusF" required>
+                        <option value="publicado">publicado</option>
+                        <option value="despublicado">despublicado</option>
+                    </select>
+                
+                    <input type="submit" value="Buscar">
+                </div>
+               
+            </form>
+            <form action="{{ url_for('puntos_index') }}" method="GET">
+                <div class="input-control">
+                    <input type="submit" value="Borrar filtro">
+                </div>
+               
+            </form>
+  
         </div>
     </div>
+    <h2>MIS PUNTOS DE ENCUENTRO</h2>
     <table>
         <thead>
             <tr>
@@ -95,7 +110,7 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
             <div class="input-control">
                 <label for="status">
                     <select name="status" id="status" required>
-                        <option value="publicado">publicado</option>
+                        <option selected value="publicado">publicado</option>
                         <option value="despublicado">despublicado</option>
                     </select>
                 </label>
@@ -120,8 +135,5 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
     </div>
 </div>
 
-
-
-<script src="js/puntos-encuentro.js"></script>
 
 {% endblock %}

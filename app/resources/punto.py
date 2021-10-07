@@ -1,16 +1,31 @@
 from flask import redirect, render_template, request, url_for, session, abort
+from sqlalchemy.sql.expression import true
 from app.db import db
 
 #from app.helpers.auth import authenticated
 from app.models.punto import Punto
+from app.models.configuracion import Configuracion
 
 # Protected resources
 def index():
     #if not authenticated(session):
      #   abort(401)
-
-    puntosTotal = Punto.query.all()
-    return render_template("puntos-encuentro.html", puntos=puntosTotal)
+    conf=Configuracion.dame_config()
+    params=request.form
+    if request.method=="POST":
+        try:
+             puntosTotal = Punto.dame_todo(conf,params["nombreF"],None,True)
+        except:
+            try:
+                puntosTotal = Punto.dame_todo(conf,None,params["statusF"],True)
+            except:
+                return "Hubo un error filtrando puntos"
+        finally:
+            return render_template("puntos-encuentro.html", puntos=puntosTotal)
+    else:
+        puntosTotal = Punto.dame_todo(conf)
+        return render_template("puntos-encuentro.html", puntos=puntosTotal)
+    
 
 def create():
     #if not authenticated(session):
