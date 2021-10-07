@@ -16,26 +16,18 @@ class Punto(db.Model):
     email=Column(String(255),unique=True)
 
     @classmethod
-    def dame_todo(csl,conf,nombree=None,estadoo=None,tieneFiltro=False):
-        
-        if tieneFiltro:
-            if conf.criterio_orden == "Alfabetico":
-                if nombree!=None:
-                    return  csl.query.order_by(csl.nombre).filter_by(nombre=nombree).limit(conf.maxElementos).all()
-                else:
-                    
-                    return  csl.query.order_by(csl.nombre).filter_by(estado=estadoo).limit(conf.maxElementos).all()
-            else:
-                if nombree!=None:
-                    return  csl.query.order_by(csl.nombre).filter_by(nombre=nombree).limit(conf.maxElementos).all()
-                else:
-                    return  csl.query.order_by(csl.nombre).filter_by(estado=estadoo).limit(conf.maxElementos).all()
-      
-        else:
-            if conf.criterio_orden == "Alfabetico":
-                return  csl.query.order_by(csl.nombre).limit(conf.maxElementos).all()
-            else:
-                return  csl.query.limit(conf.maxElementos).all()
+    def dame_todo(csl,conf,nombree,estadoo):
+        query=csl.query
+        if conf.criterio_orden == "Alfabetico":
+            print("Entre a ordenar por nombre")
+            query=query.order_by(csl.nombre)
+        if nombree!=None:
+                print("Entre a filtrar por nombre")
+                query=query.filter_by(nombre=nombree)
+        if estadoo!=None:
+                print("Entre a filtrar por estado")
+                query=query.filter_by(estado=estadoo)
+        return  query.limit(conf.maxElementos).all()
         
 
            

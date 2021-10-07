@@ -12,19 +12,8 @@ def index():
      #   abort(401)
     conf=Configuracion.dame_config()
     params=request.form
-    if request.method=="POST":
-        try:
-             puntosTotal = Punto.dame_todo(conf,params["nombreF"],None,True)
-        except:
-            try:
-                puntosTotal = Punto.dame_todo(conf,None,params["statusF"],True)
-            except:
-                return "Hubo un error filtrando puntos"
-        finally:
-            return render_template("puntos-encuentro.html", puntos=puntosTotal)
-    else:
-        puntosTotal = Punto.dame_todo(conf)
-        return render_template("puntos-encuentro.html", puntos=puntosTotal)
+    puntosTotal = Punto.dame_todo(conf,params.get("nombreF",None),params.get("statusF",None))
+    return render_template("puntos-encuentro.html", puntos=puntosTotal)
     
 
 def create():
