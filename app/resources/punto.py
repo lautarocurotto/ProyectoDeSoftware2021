@@ -40,18 +40,23 @@ def update(id):
     punto_to_update=Punto.query.get_or_404(id)
     if request.method == "POST":
         params=request.form
-        punto_to_update.nombre=params["nombre"]
-        punto_to_update.direccion=params["direccion"]
-        punto_to_update.coordenadas=params["coordenadas"]
-        punto_to_update.estado=params["status"]
-        punto_to_update.telefono=params["telefono"]
-        punto_to_update.email=params["email"]
-        try:
-            db.session.commit()
-            return redirect(url_for("puntos_index"))
-            
-        except:
-            return "Hubo un problema al actualizar el punto de encuento"
+        cant_puntos=Punto.existe_punto(params["nombre"])
+        if (cant_puntos==0):
+            punto_to_update.nombre=params["nombre"]
+            punto_to_update.direccion=params["direccion"]
+            punto_to_update.coordenadas=params["coordenadas"]
+            punto_to_update.estado=params["status"]
+            punto_to_update.telefono=params["telefono"]
+            punto_to_update.email=params["email"]
+            try:
+                db.session.commit()
+                return redirect(url_for("puntos_index"))
+            except:
+                flash ("Hubo un problema al actualizar el punto de encuento")
+                return render_template("punto-encuentro-update.html", punto_to_update=punto_to_update)
+        else:
+            flash("El nombre ya existe, por favor elija otro nombre")
+            return render_template("punto-encuentro-update.html", punto_to_update=punto_to_update)
     else:
         return render_template("punto-encuentro-update.html", punto_to_update=punto_to_update)
     
