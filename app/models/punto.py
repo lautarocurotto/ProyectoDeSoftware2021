@@ -19,13 +19,10 @@ class Punto(db.Model):
     def dame_todo(csl,conf,nombree,estadoo):
         query=csl.query
         if conf.criterio_orden == "Alfabetico":
-            print("Entre a ordenar por nombre")
             query=query.order_by(csl.nombre)
         if nombree!=None:
-                print("Entre a filtrar por nombre")
                 query=query.filter_by(nombre=nombree)
         if estadoo!=None:
-                print("Entre a filtrar por estado")
                 query=query.filter_by(estado=estadoo)
         return  query.limit(conf.maxElementos).all()
         
