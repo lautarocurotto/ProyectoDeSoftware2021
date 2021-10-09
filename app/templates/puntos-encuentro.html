@@ -2,60 +2,43 @@
 Esta seria la página de administracion CRUD de los puntos de encuentro de la app privada
 
 -->
-
-
-{% block title %}PUNTOS DE ENCUENTRO{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
 {% block head %}
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Puntos de encuentro - Zonas de inundación</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+    <title>Puntos de encuentro - Zonas de inundación</title>
 {% endblock %}
+</head>
+<body>
 {% block content %}
-  
-
-<div class="content">
- 
-    <div class="modal" id="search-form">
-        <div class="modal-content">
-            <h2>Búsqueda de punto de encuentro</h2>
-            <form action="{{ url_for('puntos_index') }}" method="POST">
-                <div class="input-control">
-                   Nombre del punto: <input type="text" name="nombreF" placeholder="Nombre del punto" required >
-                    <input type="submit" value="Buscar">
-                    <button type="reset">Limpiar</button>
-                </div>
-               
-            </form>
-            <form action="{{ url_for('puntos_index') }}" method="POST">
-                <div class="input-control">
-                    Estado del punto: <select name="statusF" required>
-                        <option value="publicado">publicado</option>
-                        <option value="despublicado">despublicado</option>
-                    </select>
-                
-                    <input type="submit" value="Buscar">
-                </div>
-               
-            </form>
-            <form action="{{ url_for('puntos_index') }}" method="GET">
-                <div class="input-control">
-                    <input type="submit" value="Borrar filtro">
-                </div>
-               
-            </form>
-  
-        </div>
-    </div>
+    <h2>Búsqueda de punto de encuentro</h2>
+    <form  action="{{ url_for('puntos_index') }}" method="POST">
+        <div class="input-control">
+            Nombre del punto: <input type="text" name="nombreF" placeholder="Nombre" required >
+            <input class="btn btn-primary" type="submit" value="Buscar">
+            <button class="btn btn-secondary" type="reset">Limpiar</button>
+        </div>       
+    </form>
+    <form action="{{ url_for('puntos_index') }}" method="POST">
+            Estado del punto: 
+            <label><select class="form-select" name="statusF" required>
+            <option value="publicado">publicado</option>
+            <option value="despublicado">despublicado</option>
+            </select>
+             </label>
+            <input class="btn btn-primary" type="submit" value="Buscar">
+    </form>
+    <form action="{{ url_for('puntos_index') }}" method="GET">
+        <div class="input-control">
+            <input class="btn btn-secondary" type="submit" value="Limpiar filtro">
+        </div>    
+    </form>
+    <br>
     <h2>MIS PUNTOS DE ENCUENTRO</h2>
     <table>
         <thead>
@@ -73,70 +56,72 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
                 <td>{{punto.estado}}</td>
                 <td>{{punto.direccion}}</td>
                 <td>
-                    <a href="/puntos/update/{{punto.id}}"><i class="far fa-edit">Editar</i></a>
-                    <a href="/puntos/delete/{{punto.id}}"><i class="far fa-trash-alt">Borrar</i></a>
-                    <a href="/puntos/show/{{punto.id}}">Ver</a>
+                    <a class="btn btn-info" href="/puntos/show/{{punto.id}}">Ver</a>
+                    <a class="btn btn-warning" href="/puntos/update/{{punto.id}}">Editar</a>
+                    <a class="btn btn-danger" href="/puntos/delete/{{punto.id}}">Borrar</a>
+                    
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-</div>
-
-
-
-<div class="modal" id="new-pto-modal">
-    <div class="modal-content">
-        <h2>Nuevo punto de encuentro</h2>
-        <form action="{{ url_for('puntos_create') }}" method="POST">
-            <div class="input-control">
-                <label for="newusername">
-                    <input type="text" name="nombre" required placeholder="Nombre" required>
+    <br>
+    <h2>Nuevo punto de encuentro</h2>
+    <form action="{{ url_for('puntos_create') }}" method="POST">
+        <div class="mb-3">
+                <label>
+                    <label class="form-label">Nombre del punto de encuentro:</label>
+                    <input class="form-label" type="text" name="nombre" required placeholder="Nombre" required>
                 </label>
-            </div>
-            <div class="input-control">
-                <label for="name">
-                    <input type="text" name="direccion" required placeholder="Direccion" required>
+        </div>
+                <div class="mb-3">
+                <label>
+                    <label class="form-label">Direccion del punto de encuentro:</label>
+                    <input class="form-label" type="text" name="direccion" required placeholder="Direccion" required>
                 </label>
-            </div>
-            <div class="input-control">
-                <label for="lastname">
-                    <input type="text" name="coordenadas" required placeholder="Coordenadas" required>
+                </div>
+                <div class="mb-3">
+                <label>
+                    <label class="form-label">Coordenadas del punto de encuentro:</label>
+                    <input class="form-label" type="text" name="coordenadas" required placeholder="Coordenadas" required>
                 </label>
-            </div>
-            <div class="input-control">
-                <label for="status">
-                    <select name="status" id="status" required>
+                </div>
+                <div class="mb-3">
+                <label class="form-label">
+                    <label  class="form-label">Estado del punto:</label>
+                    <select class="form-select form-select-sm" name="status" id="status" required>
                         <option selected value="publicado">publicado</option>
                         <option value="despublicado">despublicado</option>
                     </select>
                 </label>
-            </div>
-            <div class="input-control">
-                <label for="email">
-                    <input type="text" name="telefono" required placeholder="Telefono" required>
+                </div>
+                <div class="mb-3">
+                <label>
+                    <label class="form-label">Telefono de contacto:</label>
+                    <input class="form-label" type="text" name="telefono" required placeholder="Telefono" required>
                 </label>
-            </div>
-            <div class="input-control">
-                <label for="email">
-                    <input type="email" name="email" required placeholder="Email" required>
-                </label>
-            </div>
+                </div>
             
-            <div class="input-control">
-                <input type="submit" value="Crear punto de encuentro">
-                <button type="reset">Limpiar</button>
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label class="form-label">Email de contacto:</label>
+                    <input class="form-label" type="email" name="email" required placeholder="Email" required>
+                </div>
+          
+            
+           
+                <input class="btn btn-primary" type="submit" value="Crear punto de encuentro">
+                <button class="btn btn-secondary" type="reset">Limpiar</button>
+           
+    </form>
         
-    </div>
-</div>
-{% with messages = get_flashed_messages() %}
-    {%if messages%}
-        {%for message in messages%}
-            <h1>{{message}}</h1>
-        {%endfor%}
-    {%endif%}
-{%endwith%}
+    {% with messages = get_flashed_messages() %}
+        {%if messages%}
+            {%for message in messages%}
+                <h1>{{message}}</h1>
+            {%endfor%}
+        {%endif%}
+    {%endwith%}
 
 {% endblock %}
+</body>
+</html>
