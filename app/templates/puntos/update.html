@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block title %}Punto {{punto_to_update.nombre}} - Zonas de inundación{% endblock %}
+
+{% block head %}
+    {{super()}}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h1>Modificando Punto de encuentro {{punto_to_update.nombre}}</h1>
+
+    <form action="/puntos/update/{{punto_to_update.id}}" method="POST">
+        <div class="mb-3">
+            <label for="newusername">
+                <input class="form-control" type="text" name="nombre" required placeholder="Nombre" required value="{{punto_to_update.nombre}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="name">
+                <input class="form-control" type="text" name="direccion" required placeholder="Direccion" required value="{{punto_to_update.direccion}}">  
+            </label>
+        </div>
+        <div class="input-control">
+            <label for="lastname">
+                <input class="form-control" type="text" name="coordenadas" required placeholder="Coordenadas" required value="{{punto_to_update.coordenadas}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="status">
+                <select class="form-control" name="status" id="status" required value="{{punto_to_update.status}}">
+                    <option value="publicado">publicado</option>
+                    <option value="despublicado">despublicado</option>
+                </select>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="email">
+                <input class="form-control" type="text" name="telefono" required placeholder="Telefono" required value="{{punto_to_update.telefono}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="email">
+                <input class="form-control" type="email" name="email" required placeholder="Email" required value="{{punto_to_update.email}}">
+            </label>
+        </div>
+        
+        <input class="btn btn-sucess" type="submit" value="Modificar punto de encuentro">
+    </form>
+    
+    <a class="btn btn-danger" href="/puntos/delete/{{punto_to_update.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+    <a href="{{url_for('puntos_index')}}">Volver</a>
+</div>
+
+
+{% endblock %}
+{% block menu %}
+
+
+    <div class="modal fade" id="menu" tabindex="-1" aria-labelledby="menuLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="menuLabel">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Inicio</a>
+                </div>
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Usuarios</a>
+                </div>
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Puntos de encuentro</a>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% endblock %}

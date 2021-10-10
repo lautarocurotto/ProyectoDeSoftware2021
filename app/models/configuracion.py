@@ -18,7 +18,7 @@ class Configuracion(db.Model):
     
 
     @classmethod
-    def dame_config(csl):
+    def getConfigs(csl):
         return  csl.query.all()[0]
 
 

@@ -3,6 +3,7 @@ from flask import Flask, render_template,redirect,url_for,request
 from config import config
 from app import db
 from app.resources import punto
+from app.resources import configuracion
 
 
 
@@ -36,6 +37,14 @@ def create_app(environment="development"):
     app.add_url_rule("/puntos/update/<int:id>","puntos_update",punto.update, methods=["POST", "GET"] )
     app.add_url_rule("/puntos/delete/<int:id>","puntos_delete",punto.delete)
     app.add_url_rule("/puntos/show/<int:id>","puntos_show",punto.show)
+
+    app.add_url_rule("/configuracion", "configuracion", configuracion.index)
+    app.add_url_rule("/configuracion/set/color1", "config_set_color1", configuracion.setColor1, methods=["POST"])
+    app.add_url_rule("/configuracion/set/color2", "config_set_color2", configuracion.setColor2, methods=["POST"])
+    app.add_url_rule("/configuracion/set/color3", "config_set_color3", configuracion.setColor3, methods=["POST"])
+    app.add_url_rule("/configuracion/set/criterio", "config_set_criterio_orden", configuracion.setCriterioOrden, methods=["POST"])
+    app.add_url_rule("/configuracion/set/max-elementos", "config_set_max_elementos", configuracion.setMaxElementos, methods=["POST"])
+    app.add_url_rule("/configuracion/set/mantenimiento", "config_toggle_mantenimiento", configuracion.toggleMaintenance)
     
 
     # Ruta para el Home (usando decorator)
