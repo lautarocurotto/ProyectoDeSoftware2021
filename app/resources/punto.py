@@ -30,8 +30,8 @@ def create():
     #if not authenticated(session):
      #   abort(401)
     params=request.form
-    comentarios=ValidarForm(params)
-    if ValidarForm.validate()==False:
+    mensaje=ValidarForm(params)
+    if mensaje.validate()==False:
         print("Falta campos create") #en realidad aca se haria un abort
     else:
         cant_puntos=Punto.existe_punto(params["nombre"])
