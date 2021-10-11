@@ -17,14 +17,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap" rel="stylesheet">
     {% endblock %}
 </head>
+
+<style>
+    .color1{
+        background-color: {{configs().color1Privada}};
+    }
+    .color2{
+        color: {{configs().color2Privada}};
+    }
+    h1, h2, h3, h4, h5{
+        color: {{configs().color2Privada}};
+    }
+    a, a:visited{
+        color: {{configs().color3Privada}};
+    }
+</style>
+
 <body class="h-100">
     {% block topbar %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark color1">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
               <img src="{{ url_for('static', filename='img/laplatacorazon.png') }}" alt="La Plata Corazon" height="40" height="40">
-              <span>Zonas inundables</span>
-              <small>App privada</small>
+              <span class="d-none d-sm-inline">
+                <span>Zonas inundables</span>
+                <small>App privada</small>
+                </span>
             </a>
             <form class="d-flex">
                 <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#menu">{{session.get("username")}} <i class="fas fa-bars"></i></button>
@@ -52,7 +70,7 @@
 
     <footer class="footer mt-auto py-3 bg-light text-center">
         <div class="container">
-          <span class="text-muted">Desarrollado por <a href="#">Nombrecompa~nia</a></span>
+          <span class="text-muted">Desarrollado por <a href="#">Grupo #40</a></span>
         </div>
     </footer>
 

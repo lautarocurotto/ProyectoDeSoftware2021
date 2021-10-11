@@ -4,8 +4,10 @@ from flask import render_template, request , abort, redirect, url_for, flash
 from app.db import db
 
 def index():
-    configs = Configuracion.getConfigs()
-    return render_template("configuration.html", configs=configs)
+    return render_template("configuration.html")
+
+def getConfigs():
+    return Configuracion.getConfigs()
 
 def setColor1():
     postdata = request.form
