@@ -25,6 +25,7 @@ def create_app(environment="development"):
 
     # Funciones que se exportan al contexto de Jinja2
     #app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
+    app.jinja_env.globals.update(configs=configuracion.getConfigs)
 
     # Autenticación
     
