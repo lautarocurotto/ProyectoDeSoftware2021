@@ -12,10 +12,11 @@ from app.models.configuracion import Configuracion
 def index():
     #if not authenticated(session):
      #   abort(401)
-    conf=Configuracion.dame_config()
-    params=request.form
-    puntosTotal = Punto.dame_todo(conf,params.get("nombreF",None),params.get("statusF",None))
-    return render_template("puntos-encuentro.html", puntos=puntosTotal)
+    conf=Configuracion.getConfigs()
+    params=request.args
+    currentPage = int(params.get("page", 0))
+    puntosTotal = Punto.dame_todo(conf,params.get("nombreF",None),params.get("statusF",None), currentPage)
+    return render_template("puntos/puntos.html", puntos=puntosTotal, nextPage=currentPage+1, prevPage=currentPage-1, max=conf.maxElementos)
     
 
 def create():
@@ -53,12 +54,12 @@ def update(id):
                 return redirect(url_for("puntos_index"))
             except:
                 flash ("Hubo un problema al actualizar el punto de encuento")
-                return render_template("punto-encuentro-update.html", punto_to_update=punto_to_update)
+                return render_template("puntos/.html", punto_to_update=punto_to_update)
         else:
             flash("El nombre ya existe, por favor elija otro nombre")
-            return render_template("punto-encuentro-update.html", punto_to_update=punto_to_update)
+            return render_template("puntos/update.html", punto_to_update=punto_to_update)
     else:
-        return render_template("punto-encuentro-update.html", punto_to_update=punto_to_update)
+        return render_template("puntos/update.html", punto_to_update=punto_to_update)
     
 
 def delete(id):
@@ -79,7 +80,7 @@ def show(id):
 
     p=Punto.query.get_or_404(id)
 
-    return render_template("punto-encuentro-show.html", punto=p)
+    return render_template("puntos/show.html", punto=p)
    
         
 

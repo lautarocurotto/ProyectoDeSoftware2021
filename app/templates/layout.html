@@ -1,0 +1,67 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap" rel="stylesheet">
+    {% endblock %}
+</head>
+<body class="h-100">
+    {% block topbar %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+              <img src="{{ url_for('static', filename='img/laplatacorazon.png') }}" alt="La Plata Corazon" height="40" height="40">
+              <span>Zonas inundables</span>
+              <small>App privada</small>
+            </a>
+            <form class="d-flex">
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#menu">{{session.get("username")}} <i class="fas fa-bars"></i></button>
+            </form>
+          </div>
+        </div>
+    </nav>
+    {% endblock %}
+
+    <div class="content container-fluid">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="message">
+                {% for message in messages %}
+                <div class="alert alert-primary">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}
+        {% endblock %}
+        
+    </div>
+
+    <footer class="footer mt-auto py-3 bg-light text-center">
+        <div class="container">
+          <span class="text-muted">Desarrollado por <a href="#">Nombrecompa~nia</a></span>
+        </div>
+    </footer>
+
+    {%block menu %}
+    {% endblock %}
+
+    <script src="{{ url_for('static', filename='bootstrap/bootstrap.min.js') }}"></script>
+    {% block jsimport %}
+    {% endblock %}
+
+</body>
+</html>
