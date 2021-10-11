@@ -2,13 +2,20 @@ from flask import redirect, render_template, request, url_for, session, abort
 import flask
 from flask.helpers import flash
 from sqlalchemy.sql.expression import true
+from wtforms import form
 from app.db import db
+from app.resources.validador import ValidarForm
 
 #from app.helpers.auth import authenticated
 from app.models.punto import Punto
 from app.models.configuracion import Configuracion
 
 # Protected resources
+
+def tieneCamposLlenos(params):
+    
+    return params["nombre"]!="" and params["direccion"]!="" and params["coordenadas"]!="" and params["status"]!="" and params["telefono"]!="" and params["email"]!="" 
+
 def index():
     #if not authenticated(session):
      #   abort(401)
@@ -23,43 +30,49 @@ def create():
     #if not authenticated(session):
      #   abort(401)
     params=request.form
-    cant_puntos=Punto.existe_punto(params["nombre"])
-    if (cant_puntos==0):
-        new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],coordenadas=params["coordenadas"],estado=params["status"],telefono=params["telefono"],email=params["email"])
-        db.session.add(new_punto)
-        db.session.commit()
-        mensaje="Se agrego el punto"
+    comentarios=ValidarForm(params)
+    if ValidarForm.validate()==False:
+        print("Falta campos create") #en realidad aca se haria un abort
     else:
-        mensaje="El punto ya existe por favor elija otro nombre"
-    flash(mensaje)
-    return redirect(url_for("puntos_index"))
+        cant_puntos=Punto.existe_punto(params["nombre"])
+        if (cant_puntos==0):
+            new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],coordenadas=params["coordenadas"],estado=params["status"],telefono=params["telefono"],email=params["email"])
+            db.session.add(new_punto)
+            db.session.commit()
+            mensaje="Se agrego el punto"
+        else:
+            mensaje="El punto ya existe por favor elija otro nombre"
+        flash(mensaje)
+        return redirect(url_for("puntos_index"))
 
 def update(id):
     #if not authenticated(session):
      #   abort(401)
-
-    punto_to_update=Punto.query.get_or_404(id)
-    if request.method == "POST":
-        params=request.form
-        cant_puntos=Punto.existe_punto(params["nombre"])
-        if (cant_puntos==0):
-            punto_to_update.nombre=params["nombre"]
-            punto_to_update.direccion=params["direccion"]
-            punto_to_update.coordenadas=params["coordenadas"]
-            punto_to_update.estado=params["status"]
-            punto_to_update.telefono=params["telefono"]
-            punto_to_update.email=params["email"]
-            try:
-                db.session.commit()
-                return redirect(url_for("puntos_index"))
-            except:
-                flash ("Hubo un problema al actualizar el punto de encuento")
-                return render_template("puntos/.html", punto_to_update=punto_to_update)
-        else:
-            flash("El nombre ya existe, por favor elija otro nombre")
-            return render_template("puntos/update.html", punto_to_update=punto_to_update)
+    params=request.form
+    if tieneCamposLlenos(params)==False:
+        print("Falta campos update") #en realidad aca se haria un abort
     else:
-        return render_template("puntos/update.html", punto_to_update=punto_to_update)
+        punto_to_update=Punto.query.get_or_404(id)
+        if request.method == "POST":
+            cant_puntos=Punto.existe_punto(params["nombre"])
+            if (cant_puntos==0):
+                punto_to_update.nombre=params["nombre"]
+                punto_to_update.direccion=params["direccion"]
+                punto_to_update.coordenadas=params["coordenadas"]
+                punto_to_update.estado=params["status"]
+                punto_to_update.telefono=params["telefono"]
+                punto_to_update.email=params["email"]
+                try:
+                    db.session.commit()
+                    return redirect(url_for("puntos_index"))
+                except:
+                    flash ("Hubo un problema al actualizar el punto de encuento")
+                    return render_template("puntos/.html", punto_to_update=punto_to_update)
+            else:
+                flash("El nombre ya existe, por favor elija otro nombre")
+                return render_template("puntos/update.html", punto_to_update=punto_to_update)
+        else:
+            return render_template("puntos/update.html", punto_to_update=punto_to_update)
     
 
 def delete(id):
