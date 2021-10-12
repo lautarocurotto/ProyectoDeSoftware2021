@@ -94,22 +94,22 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
             <form action="{{ url_for('puntos_create') }}" method="POST">
                 <div class="mb-3">
                     <label for="nombre">
-                        <input class="form-control" type="text" name="nombre" required placeholder="Nombre" required>
+                        <input class="form-control" required type="text" name="nombre" placeholder="Nombre" >
                     </label>
                 </div>
                 <div class="mb-3">
                     <label for="direccion">
-                        <input class="form-control" type="text" name="direccion" required placeholder="Direccion" required>
+                        <input class="form-control" required type="text" name="direccion"  placeholder="Direccion" >
                     </label>
                 </div>
                 <div class="mb-3">
                     <label for="coordenadas">
-                        <input class="form-control" type="text" name="coordenadas" required placeholder="Coordenadas" required>
+                        <input class="form-control" required type="text" name="coordenadas" placeholder="Coordenadas" >
                     </label>
                 </div>
                 <div class="mb-3">
                     <label for="status">
-                        <select class="form-control" name="status" id="status" required>
+                        <select class="form-control" required name="status" id="status" >
                             <option value="publicado">publicado</option>
                             <option value="despublicado">despublicado</option>
                         </select>
@@ -117,12 +117,12 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
                 </div>
                 <div class="mb-3">
                     <label for="telefono">
-                        <input class="form-control" type="text" name="telefono" required placeholder="Telefono" required>
+                        <input class="form-control" type="text" name="telefono" required placeholder="Telefono" >
                     </label>
                 </div>
                 <div class="mb-3">
                     <label for="email">
-                        <input class="form-control" type="email" name="email" required placeholder="Email" required>
+                        <input class="form-control" type="email" required name="email" placeholder="Email" >
                     </label>
                 </div>
                 
@@ -163,6 +163,6 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 {% endblock %}
 
 
-<script src="js/puntos-encuentro.js"></script>
+
 
 {% endblock %}

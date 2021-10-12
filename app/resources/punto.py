@@ -2,9 +2,8 @@ from flask import redirect, render_template, request, url_for, session, abort
 import flask
 from flask.helpers import flash
 from sqlalchemy.sql.expression import true
-from wtforms import form
 from app.db import db
-from app.resources.validador import ValidarForm
+from app.resources.validadorPuntos import ValidarForm
 
 #from app.helpers.auth import authenticated
 from app.models.punto import Punto
@@ -12,9 +11,6 @@ from app.models.configuracion import Configuracion
 
 # Protected resources
 
-def tieneCamposLlenos(params):
-    
-    return params["nombre"]!="" and params["direccion"]!="" and params["coordenadas"]!="" and params["status"]!="" and params["telefono"]!="" and params["email"]!="" 
 
 def index():
     #if not authenticated(session):
@@ -32,10 +28,11 @@ def create():
     params=request.form
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
-        print("Falta campos create") #en realidad aca se haria un abort
+        print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
     else:
-        cant_puntos=Punto.existe_punto(params["nombre"])
-        if (cant_puntos==0):
+        print("Los campos estan validados")
+        cant_puntos=Punto.existe_punto(params["nombre"]) # Me fijo si ya existe un punto con ese nombre
+        if (cant_puntos==0): #si la cantidad es 0 es porque no hay ninguna tupla en la base de datos con ese nombre, o sea que no existe 
             new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],coordenadas=params["coordenadas"],estado=params["status"],telefono=params["telefono"],email=params["email"])
             db.session.add(new_punto)
             db.session.commit()
@@ -43,16 +40,21 @@ def create():
         else:
             mensaje="El punto ya existe por favor elija otro nombre"
         flash(mensaje)
-        return redirect(url_for("puntos_index"))
+    return redirect(url_for("puntos_index"))
 
 def update(id):
+
     #if not authenticated(session):
      #   abort(401)
+
     params=request.form
-    if tieneCamposLlenos(params)==False:
-        print("Falta campos update") #en realidad aca se haria un abort
+    punto_to_update=Punto.query.get_or_404(id)
+    mensaje=ValidarForm(params)
+    if mensaje.validate()==False:
+        print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
+        return render_template("puntos/update.html", punto_to_update=punto_to_update)
     else:
-        punto_to_update=Punto.query.get_or_404(id)
+        print("Los campos estan validados")
         if request.method == "POST":
             cant_puntos=Punto.existe_punto(params["nombre"])
             if (cant_puntos==0):
@@ -67,7 +69,7 @@ def update(id):
                     return redirect(url_for("puntos_index"))
                 except:
                     flash ("Hubo un problema al actualizar el punto de encuento")
-                    return render_template("puntos/.html", punto_to_update=punto_to_update)
+                    return render_template("puntos/update.html", punto_to_update=punto_to_update)
             else:
                 flash("El nombre ya existe, por favor elija otro nombre")
                 return render_template("puntos/update.html", punto_to_update=punto_to_update)
@@ -88,6 +90,7 @@ def delete(id):
         return "Hubo un problema al borrar el punto de encuento"
 
 def show(id):
+
     #if not authenticated(session) or not admin(session):
      #   abort(401)
 
