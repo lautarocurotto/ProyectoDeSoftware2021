@@ -50,24 +50,10 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
     <nav aria-label="Puntos navigation pages">
         <ul class="pagination">
             {% if(not prevPage < 0)%}
-                {% if(filtroStatus == 'publicado')%}
-                    <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', statusF='publicado', page=prevPage)}}">Anterior</a></li>
-                {% elif (filtroStatus == 'despublicado')%}
-                    <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', statusF='despublicado', page=prevPage)}}">Anterior</a></li>
-                {% else%}
-                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=prevPage)}}">Anterior</a></li>
-                {% endif %}
+                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=prevPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}">Anterior</a></li>
             {% endif %}
-            {% if (puntos.count()) == max %}
-                {% if(filtroStatus == 'publicado')%}
-                        <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', statusF='publicado', page=nextPage)}}">Siguiente</a></li>
-                {% elif (filtroStatus == 'despublicado')%}
-                    <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', statusF='despublicado', page=nextPage)}}">Siguiente</a></li>
-                {% else %}
-                    <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=nextPage)}}">Siguiente</a></li>
-                {% endif %}
-
-            
+            {% if puntos.count() == max %}
+                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=nextPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}">Siguiente</a></li>
             {% endif %}
         </ul>
     </nav>
@@ -87,7 +73,7 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
                     <label for="nombreF">Nombre del punto: </label>
                     <input type="text" name="nombreF" placeholder="Nombre" required >
                     <input class="btn btn-primary" type="submit" value="Buscar">
-                    <a class="btn btn-secondary" type="reset">Limpiar</a>
+                    <button class="btn btn-secondary" type="reset">Limpiar</button>
                 </form>
             </div>
         </div>
