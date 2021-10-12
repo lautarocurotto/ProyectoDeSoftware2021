@@ -19,7 +19,7 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 
     <a href="{{url_for('puntos_index', statusF='publicado')}}"><i class="fas fa-user-check"></i> Mostrar sólo publicados</a>
 
-    <a href="{{url_for('puntos_index', statusF='despublicado')}}"><i class="fas fa-user-check"></i> Mostrar sólo despublicados</a>
+    <a href="{{url_for('puntos_index',statusF='despublicado')}}"><i class="fas fa-user-check"></i> Mostrar sólo despublicados</a>
 
     <a class="btn" href="{{url_for('puntos_index')}}"><i class="fas fa-times"></i> Quitar filtros</a>
 
@@ -50,10 +50,24 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
     <nav aria-label="Puntos navigation pages">
         <ul class="pagination">
             {% if(not prevPage < 0)%}
+                {% if(filtroStatus == 'publicado')%}
+                    <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', statusF='publicado', page=prevPage)}}">Anterior</a></li>
+                {% elif (filtroStatus == 'despublicado')%}
+                    <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', statusF='despublicado', page=prevPage)}}">Anterior</a></li>
+                {% else%}
                 <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=prevPage)}}">Anterior</a></li>
+                {% endif %}
             {% endif %}
             {% if (puntos.count()) == max %}
-            <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=nextPage)}}">Siguiente</a></li>
+                {% if(filtroStatus == 'publicado')%}
+                        <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', statusF='publicado', page=nextPage)}}">Siguiente</a></li>
+                {% elif (filtroStatus == 'despublicado')%}
+                    <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', statusF='despublicado', page=nextPage)}}">Siguiente</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=nextPage)}}">Siguiente</a></li>
+                {% endif %}
+
+            
             {% endif %}
         </ul>
     </nav>

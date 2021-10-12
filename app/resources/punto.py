@@ -11,7 +11,7 @@ from app.models.configuracion import Configuracion
 
 # Protected resources
 
-
+ 
 def index():
     #if not authenticated(session):
      #   abort(401)
@@ -19,7 +19,7 @@ def index():
     params=request.args
     currentPage = int(params.get("page", 0))
     puntosTotal = Punto.dame_todo(conf,params.get("nombreF",None),params.get("statusF",None), currentPage)
-    return render_template("puntos/puntos.html", puntos=puntosTotal, nextPage=currentPage+1, prevPage=currentPage-1, max=conf.maxElementos)
+    return render_template("puntos/puntos.html", filtroStatus=params.get("statusF",None), puntos=puntosTotal, nextPage=currentPage+1, prevPage=currentPage-1, max=conf.maxElementos)
     
 
 def create():
