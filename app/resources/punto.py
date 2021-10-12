@@ -49,14 +49,14 @@ def update(id):
 
     params=request.form
     punto_to_update=Punto.query.get_or_404(id)
-    mensaje=ValidarForm(params)
-    if mensaje.validate()==False:
-        print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
-        return render_template("puntos/update.html", punto_to_update=punto_to_update)
-    else:
-        print("Los campos estan validados")
-        if request.method == "POST":
-            cant_puntos=Punto.existe_punto(params["nombre"])
+    if request.method == "POST":
+        mensaje=ValidarForm(params)
+        if mensaje.validate()==False:
+            print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
+            return render_template("puntos/update.html", punto_to_update=punto_to_update)
+        else:
+            print("Los campos estan validados")
+            cant_puntos=Punto.existe_punto(params["nombre"],id,True)
             if (cant_puntos==0):
                 punto_to_update.nombre=params["nombre"]
                 punto_to_update.direccion=params["direccion"]
@@ -73,8 +73,8 @@ def update(id):
             else:
                 flash("El nombre ya existe, por favor elija otro nombre")
                 return render_template("puntos/update.html", punto_to_update=punto_to_update)
-        else:
-            return render_template("puntos/update.html", punto_to_update=punto_to_update)
+    else:
+        return render_template("puntos/update.html", punto_to_update=punto_to_update)
     
 
 def delete(id):
