@@ -39,10 +39,16 @@ class Usuario(db.Model):
 
 
     @classmethod
-    def dame_todo(csl,conf,page,activoo):
+    def dame_todo(csl,conf,page,activoo,nombre):
         query=csl.query
+        if nombre!=None:
+            query=query.filter_by(username=nombre)
         if activoo!=None:
-            query=query.filter_by(activo=1)
+            if activoo=='activo':
+                query=query.filter_by(activo=1)
+            if activoo=='bloqueado':
+                query=query.filter_by(activo=0)
+
         return query.limit(conf.maxElementos).offset(page*conf.maxElementos)
 
     

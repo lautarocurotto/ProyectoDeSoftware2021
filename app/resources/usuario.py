@@ -17,7 +17,7 @@ def index():
     conf=Configuracion.getConfigs()
     params=request.args
     currentPage = int(params.get("page", 0))
-    usuariosTotal = Usuario.dame_todo(conf,currentPage,params.get("statusF",None))
+    usuariosTotal = Usuario.dame_todo(conf,currentPage,params.get("statusF",None),params.get("nombreF",None))
     return render_template("usuarios.html", filtroStatus=params.get("statusF",None), usuarios=usuariosTotal, nextPage=currentPage+1, prevPage=currentPage-1, max=conf.maxElementos)
 
 

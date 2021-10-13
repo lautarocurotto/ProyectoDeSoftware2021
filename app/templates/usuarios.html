@@ -1,4 +1,5 @@
 <a href="{{url_for('usuario_index', statusF='activo')}}">Mostrar sólo usuarios activos</a>
+<a href="{{url_for('usuario_index', statusF='bloqueado')}}">Mostrar sólo usuarios bloqueados</a>
 <a href="{{url_for('usuario_index')}}">Mostrar todos los usuarios</a>
 <table>
     <thead>
@@ -114,7 +115,25 @@
     {% endblock %}
     
 </div>
-
+<div class="modal fade" id="search-modal" tabindex="-1" aria-labelledby="search-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="search-modalLabel">Búsqueda de usuarios</h5>
+          
+        <div class="modal-body">
+            <div class="mb-3">
+                <form action="{{url_for('usuario_index')}}">
+                    <label for="nombreF">Nombre del usuario: </label>
+                    <input type="text" name="nombreF" placeholder="Nombre" required >
+                    <input class="btn btn-primary" type="submit" value="Buscar">
+                    <button class="btn btn-secondary" type="reset">Limpiar</button>
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
 
 
 
