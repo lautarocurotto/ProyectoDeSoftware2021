@@ -41,6 +41,8 @@ class Usuario(db.Model):
     @classmethod
     def dame_todo(csl,conf,page,activoo,nombre):
         query=csl.query
+        if conf.criterio_orden == "Alfabetico":
+            query=query.order_by(csl.username)
         if nombre!=None:
             query=query.filter_by(username=nombre)
         if activoo!=None:
