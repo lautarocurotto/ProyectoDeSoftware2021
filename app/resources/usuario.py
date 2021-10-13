@@ -18,7 +18,7 @@ def index():
     params=request.args
     currentPage = int(params.get("page", 0))
     usuariosTotal = Usuario.dame_todo(conf,currentPage,params.get("statusF",None),params.get("nombreF",None))
-    return render_template("usuarios.html", filtroStatus=params.get("statusF",None), usuarios=usuariosTotal, nextPage=currentPage+1, prevPage=currentPage-1, max=conf.maxElementos)
+    return render_template("usuarios/usuarios.html", filtroStatus=params.get("statusF",None), usuarios=usuariosTotal, nextPage=currentPage+1, prevPage=currentPage-1, max=conf.maxElementos)
 
 
 def create():
@@ -58,7 +58,7 @@ def update(id):
         mensaje=ValidarForm(params)
         if mensaje.validate()==False:
             print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
-            return render_template("usuariosupdate.html", usuario=usuario_to_update)
+            return render_template("usuarios/update.html", usuario=usuario_to_update)
         else:
             existeMail=Usuario.existe_mail(params["email"],id)
             existeUsername=Usuario.existe_username(params["username"],id)
@@ -79,9 +79,9 @@ def update(id):
                 if(existeUsername!=0):
                     mensaje="El nombre de usuario ingresado ya existe"
                 flash(mensaje)
-                return render_template("usuariosupdate.html",usuario=usuario_to_update)
+                return render_template("usuarios/update.html",usuario=usuario_to_update)
     else:
-        return render_template("usuariosupdate.html",usuario=usuario_to_update)
+        return render_template("usuarios/update.html",usuario=usuario_to_update)
 
 
 def delete(id):

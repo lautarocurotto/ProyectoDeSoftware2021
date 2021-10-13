@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block title %}Usuario {{usuario.nombre}} - Zonas de inundación{% endblock %}
+
+{% block head %}
+    {{super()}}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h1>Modificando el usuario {{usuario.nombre}}</h1>
+
+    <form action="/usuarios/update/{{usuario.id}}" method="POST">
+        <div class="mb-3">
+            <label for="email">
+                <input class="form-control" type="email" name="email" required placeholder="Email" required value="{{usuario.email}}" >
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="username">
+                <input class="form-control" type="text" name="username" required placeholder="Nombre de usuario" required  value="{{usuario.username}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="password">
+                <input class="form-control" type="password" name="password" required placeholder="Contraseña" required  value="{{usuario.password}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="name">
+                <input class="form-control" type="text" name="name" required placeholder="Nombre" required value="{{usuario.first_name}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="lastname">
+                <input class="form-control" type="text" name="lastname" required placeholder="Apellido" required value="{{usuario.last_name}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="status">
+                <select class="form-control" name="status" id="status" required value="{{usuario.activo}}">
+                    <option value=1>activo</option>
+                    <option value=0>bloqueado</option>
+                </select>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="rol">
+                <select class="form-control" name="rol" id="rol" >
+                    <option value=1>operador</option>
+                    <option value=2>administrador</option>
+                </select>
+            </label>
+        </div>
+        <div class="mb-3">
+            <input type="submit" value="Modificar  usuario">
+            <button type="reset">Limpiar</button>
+        </div>
+        
+    </form>
+
+    <br>
+    <div>
+        {% if (usuario.activo) %}
+        <a class="btn btn-danger" href="/usuario/delete/{{usuario.id}}">Bloquear usuario</a>
+        {% else %}
+        <a class="btn btn-success" href="/usuario/bloquear/{{usuario.id}}">Activar usuario</a>
+        {% endif %}
+    </div>
+
+    <a href="{{url_for('usuario_index')}}">Volver</a>
+</div>
+
+
+{% endblock %}
+{% block menu %}
+
+
+    <div class="modal fade" id="menu" tabindex="-1" aria-labelledby="menuLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="menuLabel">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Inicio</a>
+                </div>
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Usuarios</a>
+                </div>
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Puntos de encuentro</a>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% endblock %}

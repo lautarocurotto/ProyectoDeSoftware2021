@@ -1,0 +1,182 @@
+
+{% extends "layout.html"%}
+{% block title %}Usuarios - Zonas de inundación{% endblock %}
+{% block head %}
+    {{super()}}
+{% endblock %}
+{% block content %}
+  
+
+<div class="container-fluid">
+    <h1>Administración de Usuarios</h1>
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#new-usuario-modal">Nuevo Usuario</button>
+
+    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#search-modal"><i class="fas fa-search"></i> Buscar</button>
+
+    <a href="{{url_for('usuario_index', statusF='activo')}}"><i class="fas fa-user-check"></i> Mostrar sólo usuarios activos</a>
+
+    <a href="{{url_for('usuario_index', statusF='bloqueado')}}"><i class="fas fa-user-check"></i> Mostrar sólo usuarios inactivos</a>
+
+    <a class="btn" href="{{url_for('usuario_index')}}"><i class="fas fa-times"></i> Quitar filtros</a>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Nombre de usuario</td>
+                    <td>Nombre</td>
+                    <td>Apellido</td>
+                    <td>Email</td>
+                    <td>Estado</td>
+                    <td>Roles</td>
+                    <td>Creado</td>
+                    <td>Modificado</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                {%for usuario in usuarios %}
+                <tr>
+                    <td>{{usuario.username}}</td>
+                    <td>{{usuario.first_name}}</td>
+                    <td>{{usuario.last_name}}</td>
+                    <td>{{usuario.email}}</td>
+                    <td>{{usuario.activo}}</td>
+                    <td></td>
+                    <td>{{usuario.created_at}}</td>
+                    <td>{{usuario.updated_at}}</td>
+                    <td>
+                        <a href="/usuarios/update/{{usuario.id}}"><i class="far fa-edit">Editar</i></a>
+                        <a href="/usuarios/delete/{{usuario.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Puntos navigation pages">
+        <ul class="pagination">
+            {% if(not prevPage < 0)%}
+                <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=prevPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}">Anterior</a></li>
+            {% endif %}
+            {% if usuarios.count() == max %}
+                <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=nextPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}">Siguiente</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<!-- modal de busqueda por nombre -->
+<div class="modal fade" id="search-modal" tabindex="-1" aria-labelledby="search-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="search-modalLabel">Búsqueda de Punto de encuentro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <form action="{{url_for('usuario_index')}}">
+                    <label for="nombreF">Nombre del usuario: </label>
+                    <input type="text" name="nombreF" placeholder="Nombre" required >
+                    <input class="btn btn-primary" type="submit" value="Buscar">
+                    <button class="btn btn-secondary" type="reset">Limpiar</button>
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<!-- modal de nuevo usuario  -->
+<div class="modal fade" id="new-usuario-modal" tabindex="-1" aria-labelledby="new-usuario-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="new-usuario-modalLabel">Nuevo Punto de encuentro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{{ url_for('usuario_create') }}" method="POST">
+                <div class="mb-3">
+                    <label for="email">
+                        <input class="form-control" type="email" name="email" required placeholder="Email" required>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="username">
+                        <input class="form-control" type="text" name="username" required placeholder="Nombre de usuario" required>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="password">
+                        <input class="form-control" type="password" name="password" required placeholder="Contraseña" required>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="name">
+                        <input class="form-control" type="text" name="name" required placeholder="Nombre" required>
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="lastname">
+                        <input class="form-control" type="text" name="lastname" required placeholder="Apellido" required>
+                    </label>
+                </div>
+                <div>
+                    <label for="status">
+                        <select class="form-control" name="status" id="status" >
+                            <option value="1">activo</option>
+                            <option value="0">bloqueado</option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label for="rol">
+                        <select class="form-control" name="rol" id="rol" >
+                            <option value="1">operador</option>
+                            <option value="2">administrador</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="input-control">
+                    <input type="submit" value="Crear nuevo usuario">
+                    <button type="reset">Limpiar</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% block menu %}
+
+
+<div class="modal fade" id="menu" tabindex="-1" aria-labelledby="menuLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="menuLabel">Menu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="menu-item">
+                <a href="{{url_for('configuracion')}}">Inicio</a>
+            </div>
+            <div class="menu-item">
+                <a href="{{url_for('configuracion')}}">Usuarios</a>
+            </div>
+            <div class="menu-item">
+                <a href="{{url_for('configuracion')}}">Puntos de encuentro</a>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+{% endblock %}
