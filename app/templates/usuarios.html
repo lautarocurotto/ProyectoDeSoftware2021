@@ -1,0 +1,94 @@
+<a href="{{url_for('usuario_index', statusF='activo')}}">Mostrar sólo usuarios activos</a>
+<a href="{{url_for('usuario_index')}}">Mostrar todos los usuarios</a>
+<table>
+    <thead>
+        <tr>
+            <td>Nombre de usuario</td>
+            <td>Nombre</td>
+            <td>Apellido</td>
+            <td>Email</td>
+            <td>Estado</td>
+            <td>Creado</td>
+            <td>Modificado</td>
+            
+
+        </tr>
+    </thead>
+    <tbody>
+        {%for usuario in usuarios %}
+        <tr>
+            <td>{{usuario.username}}</td>
+            <td>{{usuario.first_name}}</td>
+            <td>{{usuario.last_name}}</td>
+            <td>{{usuario.email}}</td>
+            <td>{{usuario.activo}}</td>
+            <td>{{usuario.created_at}}</td>
+            <td>{{usuario.updated_at}}</td>
+            <td>
+                <a href="/usuarios/update/{{usuario.id}}"><i class="far fa-edit">Editar</i></a>
+                <a href="/usuarios/delete/{{usuario.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="modal" id="new-pto-modal">
+    <div class="modal-content">
+        
+        <h2>Nuevo usuario</h2>
+        <form action="{{ url_for('usuario_create') }}" method="POST">
+            <div class="input-control">
+                <label for="email">
+                    <input type="email" name="email" required placeholder="Email" required>
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="username">
+                    <input type="text" name="username" required placeholder="Nombre de usuario" required>
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="password">
+                    <input type="password" name="password" required placeholder="Contraseña" required>
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="name">
+                    <input type="text" name="name" required placeholder="Nombre" required>
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="lastname">
+                    <input type="text" name="lastname" required placeholder="Apellido" required>
+                </label>
+            </div>
+            <div class="input-control">
+                <input type="submit" value="Crear nuevo usuario">
+                <button type="reset">Limpiar</button>
+            </div>
+        </form>
+        
+    </div>
+</div>
+<div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div >{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+    
+</div>
+
+
+
+
+
+

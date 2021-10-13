@@ -1,0 +1,57 @@
+<h2>Modificando  usuario {{usuario.email}}</h2>
+        <form action="/usuarios/update/{{usuario.id}}" method="POST">
+            <div class="input-control">
+                <label for="email">
+                    <input type="email" name="email" required placeholder="Email" required value="{{usuario.email}}" >
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="username">
+                    <input type="text" name="username" required placeholder="Nombre de usuario" required  value="{{usuario.username}}">
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="password">
+                    <input type="password" name="password" required placeholder="Contraseña" required  value="{{usuario.password}}">
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="name">
+                    <input type="text" name="name" required placeholder="Nombre" required value="{{usuario.first_name}}">
+                </label>
+            </div>
+            <div class="input-control">
+                <label for="lastname">
+                    <input type="text" name="lastname" required placeholder="Apellido" required value="{{usuario.last_name}}">
+                </label>
+            </div>
+            <div>
+                <label for="status">
+                    <select class="form-control" name="status" id="status" required value="{{usuario.activo}}">
+                        <option value=1>activo</option>
+                        <option value=0>bloqueado</option>
+                    </select>
+                </label>
+            </div>
+            <div class="input-control">
+                <input type="submit" value="Modificar  usuario">
+                <button type="reset">Limpiar</button>
+            </div>
+            
+    
+        </form>
+        <div>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                    <div >{{ message }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+        
+            {% block content %}
+            {% endblock %}
+            
+        </div>

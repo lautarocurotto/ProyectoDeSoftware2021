@@ -4,6 +4,7 @@ from config import config
 from app import db
 from app.resources import punto
 from app.resources import configuracion
+from app.resources import usuario
 
 
 
@@ -32,6 +33,10 @@ def create_app(environment="development"):
 
     # Rutas de Consultas
     
+    app.add_url_rule("/usuarios","usuario_index",usuario.index, methods=["POST", "GET"] )
+    app.add_url_rule("/usuarios/nuevo","usuario_create",usuario.create, methods=["POST"] )
+    app.add_url_rule("/usuarios/update/<int:id>","usuario_update",usuario.update, methods=["POST", "GET"] )
+    app.add_url_rule("/usuarios/delete/<int:id>","usuario_delete",usuario.delete)
 
     app.add_url_rule("/puntos","puntos_index",punto.index,methods=["POST", "GET"])
     app.add_url_rule("/puntos/nuevo","puntos_create",punto.create, methods=["POST"] )
