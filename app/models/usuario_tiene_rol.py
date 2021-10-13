@@ -11,7 +11,7 @@ class usuario_tiene_rol(db.Model):
 
     @classmethod
     def find_by_id(cls,id1):
-        return cls.query.filter_by(usuario_id=id1).count()
+        return cls.query.filter_by(usuario_id=id1,rol_id=2).count()
 
     
 
