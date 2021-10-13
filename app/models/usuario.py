@@ -28,13 +28,22 @@ class Usuario(db.Model):
         return cls.query.filter_by(id=id1).one()
 
     @classmethod
-    def dame_todo(csl,activoo):
+    def existe_mail(cls,nombree,idPunto=None):
+            return cls.query.filter(cls.email==nombree,cls.id !=idPunto).count()
+    
+    @classmethod
+    def existe_username(cls,nombre,idPunto=None):
+            return cls.query.filter(cls.username==nombre,cls.id !=idPunto).count()
+
+
+
+
+    @classmethod
+    def dame_todo(csl,conf,page,activoo):
         query=csl.query
         if activoo!=None:
             query=query.filter_by(activo=1)
-        else:
-            query=query.all()
-        return  query
+        return query.limit(conf.maxElementos).offset(page*conf.maxElementos)
 
     
 

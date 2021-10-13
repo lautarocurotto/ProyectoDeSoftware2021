@@ -8,6 +8,7 @@
             <td>Apellido</td>
             <td>Email</td>
             <td>Estado</td>
+            <td>Rol</td>
             <td>Creado</td>
             <td>Modificado</td>
             
@@ -22,6 +23,7 @@
             <td>{{usuario.last_name}}</td>
             <td>{{usuario.email}}</td>
             <td>{{usuario.activo}}</td>
+            <td></td>
             <td>{{usuario.created_at}}</td>
             <td>{{usuario.updated_at}}</td>
             <td>
@@ -33,6 +35,16 @@
         {% endfor %}
     </tbody>
 </table>
+<nav aria-label="Puntos navigation pages">
+    <ul class="pagination">
+        {% if(not prevPage < 0)%}
+            <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=prevPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}">Anterior</a></li>
+        {% endif %}
+        {% if usuarios.count() == max %}
+            <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=nextPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}">Siguiente</a></li>
+        {% endif %}
+    </ul>
+</nav>
 <div class="modal" id="new-pto-modal">
     <div class="modal-content">
         
@@ -61,6 +73,22 @@
             <div class="input-control">
                 <label for="lastname">
                     <input type="text" name="lastname" required placeholder="Apellido" required>
+                </label>
+            </div>
+            <div>
+                <label for="status">
+                    <select class="form-control" name="status" id="status" >
+                        <option value=1>activo</option>
+                        <option value=0>bloqueado</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label for="rol">
+                    <select class="form-control" name="rol" id="rol" >
+                        <option value=1>operador</option>
+                        <option value=2>administrador</option>
+                    </select>
                 </label>
             </div>
             <div class="input-control">
