@@ -51,7 +51,6 @@ def create():
     return redirect(url_for("usuario_index"))
 
 
-
 def update(id):
     usuario_to_update=Usuario.find_by_id(id)
     if request.method == 'POST':
@@ -86,15 +85,17 @@ def update(id):
 
 
 def delete(id):
-    
-    esAdministrador=usuario_tiene_rol.find_by_id(id)
-    if(esAdministrador!=0):
-        mensaje="no se puede eliminar a un usuario administrador"
+    usuario_to_delete=Usuario.find_by_id(id)
+    if(usuario_to_delete.activo==0):
+        mensaje="el usuario ya se encuentra borrado"
     else:
-        usuario_to_delete=Usuario.find_by_id(id)
-        usuario_to_delete.activo=0
-        db.session.commit()
-        mensaje="El usuario se ha eliminado con exito"
+        esAdministrador=usuario_tiene_rol.find_by_id(id)
+        if(esAdministrador!=0):
+            mensaje="no se puede eliminar a un usuario administrador"
+        else:
+            usuario_to_delete.activo=0
+            db.session.commit()
+            mensaje="El usuario se ha eliminado con exito"
     flash(mensaje)
     return redirect(url_for("usuario_index"))
 
