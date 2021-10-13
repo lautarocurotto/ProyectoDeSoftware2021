@@ -50,11 +50,7 @@ def create():
         flash(mensaje)    
     return redirect(url_for("usuario_index"))
 
-def delete(id):
-    usuario_to_delete=Usuario.find_by_id(id)
-    usuario_to_delete.activo=False
-    db.session.commit()
-    return redirect(url_for("puntos_index"))
+
 
 def update(id):
     usuario_to_update=Usuario.find_by_id(id)
