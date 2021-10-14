@@ -5,7 +5,7 @@ from sqlalchemy.sql.expression import true
 from app.db import db
 from app.resources.validadorPuntos import ValidarForm
 
-#from app.helpers.auth import authenticated
+from app.helpers.auth import authenticated
 from app.models.punto import Punto
 from app.models.configuracion import Configuracion
 
@@ -13,8 +13,8 @@ from app.models.configuracion import Configuracion
 
  
 def index():
-    #if not authenticated(session):
-     #   abort(401)
+    if not authenticated(session):
+       abort(401)
     conf=Configuracion.getConfigs()
     params=request.args
     currentPage = int(params.get("page", 0))
@@ -23,8 +23,8 @@ def index():
     
 
 def create():
-    #if not authenticated(session):
-     #   abort(401)
+    if not authenticated(session):
+       abort(401)
     params=request.form
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
@@ -44,8 +44,8 @@ def create():
 
 def update(id):
 
-    #if not authenticated(session):
-     #   abort(401)
+    if not authenticated(session):
+        abort(401)
 
     params=request.form
     punto_to_update=Punto.query.get_or_404(id)
@@ -78,8 +78,8 @@ def update(id):
     
 
 def delete(id):
-    #if not authenticated(session) or not admin(session):
-     #   abort(401)
+    if not authenticated(session):# or not admin(session):
+       abort(401)
 
     punto_to_delete=Punto.query.get_or_404(id)
     try:
@@ -91,8 +91,8 @@ def delete(id):
 
 def show(id):
 
-    #if not authenticated(session) or not admin(session):
-     #   abort(401)
+    if not authenticated(session): #or not admin(session):
+        abort(401)
 
     p=Punto.query.get_or_404(id)
 
