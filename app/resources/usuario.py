@@ -89,20 +89,22 @@ def update(id):
                         db.session.add(rol1)
                         db.session.commit()
                 else:
-                    rol_a_borrar=usuario_tiene_rol.esOperador2(id)
-                    db.session.delete(rol_a_borrar)
-                    db.session.commit()
+                    if(usuario_tiene_rol.find_by_id(id)!=0): #si  es administrador
+                        rol_a_borrar=usuario_tiene_rol.esOperador2(id)
+                        db.session.delete(rol_a_borrar)
+                        db.session.commit()
                           
                 if "ope" in lista:
-                    if(usuario_tiene_rol.find_by_id(id)==0): #si NO es administrador
+                    if(usuario_tiene_rol.find_by_id(id)==0): #si NO es operador
                         rol1=usuario_tiene_rol(usuario_id=id,rol_id=2)
                         print(rol1)
                         db.session.add(rol1)
                         db.session.commit()
                 else:
-                    rol_a_borrar=usuario_tiene_rol.esOperador1(id)
-                    db.session.delete(rol_a_borrar)
-                    db.session.commit() 
+                    if(usuario_tiene_rol.find_by_id(id)==0): #si es operador
+                        rol_a_borrar=usuario_tiene_rol.esOperador1(id)
+                        db.session.delete(rol_a_borrar)
+                        db.session.commit() 
 
                 flash("El usuario se ha modificado con exito")
                 return redirect(url_for("usuario_index"))
