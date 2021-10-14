@@ -18,7 +18,7 @@ def index():
     params=request.args
     currentPage = int(params.get("page", 0))
     usuariosTotal = Usuario.dame_todo(conf,currentPage,params.get("statusF",None),params.get("nombreF",None))
-    return render_template("usuarios.html", filtroStatus=params.get("statusF",None), usuarios=usuariosTotal, nextPage=currentPage+1, prevPage=currentPage-1, max=conf.maxElementos)
+    return render_template("usuarios/usuarios.html", filtroStatus=params.get("statusF",None), usuarios=usuariosTotal, nextPage=currentPage+1, prevPage=currentPage-1, max=conf.maxElementos)
 
 
 def create():
@@ -31,16 +31,22 @@ def create():
     else:
         email=params['email']
         username=params['username']
+        lista=request.form.getlist('checkbox')
         existeMail= Usuario.find_by_email(email)
         existeUserName= Usuario.find_by_username(username)
         now=datetime.now()
         if(existeMail==0 and existeUserName==0):   
-            new_usuario=Usuario(email=params["email"],username=params["username"],password=params["password"],activo=int(params["status"]),updated_at=now,created_at=now,first_name=params["name"],last_name=params["lastname"])
+            new_usuario=Usuario(email=params["email"],username=params["username"],password=params["password"],activo=1,updated_at=now,created_at=now,first_name=params["name"],last_name=params["lastname"])
             db.session.add(new_usuario)
             db.session.commit()
-            rol=usuario_tiene_rol(usuario_id=new_usuario.id,rol_id=int(params["rol"]))
-            db.session.add(rol)
-            db.session.commit()
+            if 'adm' in lista:
+                rol1=usuario_tiene_rol(usuario_id=new_usuario.id,rol_id=2)
+                db.session.add(rol1)
+                db.session.commit()
+            if 'ope' in lista:
+                rol2=usuario_tiene_rol(usuario_id=new_usuario.id,rol_id=1)
+                db.session.add(rol2)
+                db.session.commit()
             mensaje="Se agrego el usuario"
         else:
             if(existeMail!=0):
@@ -52,25 +58,54 @@ def create():
 
 
 def update(id):
+    lista=[]
     usuario_to_update=Usuario.find_by_id(id)
+    roles_usuario_to_update=usuario_tiene_rol.find_by_id_lista(id)
+    rol_to_update=usuario_tiene_rol.find_by_id(id)
+    for rol in roles_usuario_to_update:
+        lista.append(rol.rol_id)
     if request.method == 'POST':
         params=request.form
         mensaje=ValidarForm(params)
         if mensaje.validate()==False:
             print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
-            return render_template("usuariosupdate.html", usuario=usuario_to_update)
+            return render_template("usuarios/update.html", usuario=usuario_to_update)
         else:
             existeMail=Usuario.existe_mail(params["email"],id)
             existeUsername=Usuario.existe_username(params["username"],id)
             if(existeMail==0 and existeUsername==0): 
+                lista=request.form.getlist('checkbox')
                 usuario_to_update.email=params["email"]
                 usuario_to_update.username=params["username"]
                 usuario_to_update.password=params["password"]
                 usuario_to_update.updated_at=datetime.now()
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]
-                usuario_to_update.activo=int(params["status"])
                 db.session.commit()
+                if "adm" in lista:
+                    if(usuario_tiene_rol.find_by_id(id)==0): #si NO es administrador
+                        rol1=usuario_tiene_rol(usuario_id=id,rol_id=2)
+                        print(rol1)
+                        db.session.add(rol1)
+                        db.session.commit()
+                else:
+                    if(usuario_tiene_rol.find_by_id(id)!=0): #si  es administrador
+                        rol_a_borrar=usuario_tiene_rol.esOperador2(id)
+                        db.session.delete(rol_a_borrar)
+                        db.session.commit()
+                          
+                if "ope" in lista:
+                    if(usuario_tiene_rol.find_by_id(id)==0): #si NO es operador
+                        rol1=usuario_tiene_rol(usuario_id=id,rol_id=2)
+                        print(rol1)
+                        db.session.add(rol1)
+                        db.session.commit()
+                else:
+                    if(usuario_tiene_rol.find_by_id(id)==0): #si es operador
+                        rol_a_borrar=usuario_tiene_rol.esOperador1(id)
+                        db.session.delete(rol_a_borrar)
+                        db.session.commit() 
+
                 flash("El usuario se ha modificado con exito")
                 return redirect(url_for("usuario_index"))
             else:
@@ -79,9 +114,9 @@ def update(id):
                 if(existeUsername!=0):
                     mensaje="El nombre de usuario ingresado ya existe"
                 flash(mensaje)
-                return render_template("usuariosupdate.html",usuario=usuario_to_update)
+                return render_template("usuarios/update.html",usuario=usuario_to_update, roles=roles_usuario_to_update)
     else:
-        return render_template("usuariosupdate.html",usuario=usuario_to_update)
+        return render_template("usuarios/update.html",usuario=usuario_to_update, roles=lista)
 
 
 def delete(id):
@@ -98,6 +133,26 @@ def delete(id):
             mensaje="El usuario se ha eliminado con exito"
     flash(mensaje)
     return redirect(url_for("usuario_index"))
+
+def activar(id):
+    usuario_to_activate=Usuario.find_by_id(id)
+    if(usuario_to_activate.activo==1):
+        mensaje="el usuario ya se encuentra borrado"
+    else:
+        usuario_to_activate.activo=1
+        db.session.commit()
+        mensaje="El usuario se ha activado con exito"
+    flash(mensaje)
+    return redirect(url_for("usuario_index"))
+
+def show(id):
+
+    u=Usuario.query.get_or_404(id)
+
+    return render_template("usuarios/show.html", usuario=u)
+
+
+
 
 
     

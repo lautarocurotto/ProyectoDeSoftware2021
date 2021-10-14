@@ -7,46 +7,62 @@
     <title>Iniciar sesión - Zonas de inundación</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/bootstrap.min.css') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap" rel="stylesheet">
 </head>
+
+<style>
+    body, html{
+        height: 100%;
+    }
+</style>
 <body>
-    <nav class="topbar">
-        <div class="title">
-            <h1>Zonas de inundación</h1>
-            <p>App privada</p>
-        </div>
+    <div class="d-flex justify-content-center align-items-center" style="height: 80%">
+        <div class="text-center">
+            <img src="{{ url_for('static', filename='img/laplatacorazon.png') }}" alt="La Plata Corazon" height="50" height="50">
 
-    </nav>
+            <div class="content container-fluid">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="message">
+                        {% for message in messages %}
+                        <div class="alert alert-primary">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endwith %}
+        
+                {% block content %}
+                {% endblock %}
+                
+            </div>
 
-    <div class="content">
-        <div class="login-form">
-            <img src="assets/laplata2.jpg" alt="logo la plata" height="50" width="50">
             <h1>Autenticate</h1>
             <form action="#hacia-url-de-auth">
-                <div class="input-control">
+                <div class="mb-3">
                     <label for="username">
-                        <input type="text" name="username" placeholder="Username" required>
+                        <input class="form-control" type="text" name="username" placeholder="Username" required>
                     </label>
                 </div>
 
-                <div class="input-control">
+                <div class="mb-3">
                     <label for="password">
-                        <input type="password" name="password" placeholder="Clave" required>
+                        <input class="form-control" type="password" name="password" placeholder="Clave" required>
                     </label>
                 </div>
 
-                <input type="submit" value="Ingresar">
+                <input class="btn form-control" type="submit" value="Ingresar">
             </form>
         </div>
     </div>
 
-    <footer>
-        Desarrollado por <a href="mailto:asdasdsadas@ba.gob.ar">nombredeempresa</a>
+    <footer class="footer mt-auto py-3 bg-light text-center">
+        <div class="container">
+          <span class="text-muted">Desarrollado por <a href="#">Grupo #40</a></span>
+        </div>
     </footer>
 </body>
 </html>
