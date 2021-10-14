@@ -31,7 +31,9 @@ def create():
     else:
         email=params['email']
         username=params['username']
-        lista=request.form.getlist('checkbox')
+        #lista=request.form.getlist('checkbox')
+        listaAdm=request.form.getlist('adm')
+        listaOpe=request.form.getlist('ope')
         existeMail= Usuario.find_by_email(email)
         existeUserName= Usuario.find_by_username(username)
         now=datetime.now()
@@ -39,11 +41,11 @@ def create():
             new_usuario=Usuario(email=params["email"],username=params["username"],password=params["password"],activo=1,updated_at=now,created_at=now,first_name=params["name"],last_name=params["lastname"])
             db.session.add(new_usuario)
             db.session.commit()
-            if 'adm' in lista:
+            if 'adm' in listaAdm:
                 rol1=usuario_tiene_rol(usuario_id=new_usuario.id,rol_id=2)
                 db.session.add(rol1)
                 db.session.commit()
-            if 'ope' in lista:
+            if 'ope' in listaOpe:
                 rol2=usuario_tiene_rol(usuario_id=new_usuario.id,rol_id=1)
                 db.session.add(rol2)
                 db.session.commit()
@@ -64,6 +66,7 @@ def update(id):
     rol_to_update=usuario_tiene_rol.find_by_id(id)
     for rol in roles_usuario_to_update:
         lista.append(rol.rol_id)
+    
     if request.method == 'POST':
         params=request.form
         mensaje=ValidarForm(params)
@@ -82,6 +85,7 @@ def update(id):
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]
                 db.session.commit()
+               
                 if "adm" in lista:
                     if(usuario_tiene_rol.find_by_id(id)==0): #si NO es administrador
                         rol1=usuario_tiene_rol(usuario_id=id,rol_id=2)
