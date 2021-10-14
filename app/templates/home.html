@@ -1,4 +1,4 @@
-
+{% extends "layout.html" %}
 {% block title %}Home{% endblock %}
 {% block head %}
  
@@ -7,6 +7,10 @@
   <h1>Inicio</h1>
   <p>Página de inicio de la aplicación</p>
   <a href="/puntos">Puntos</a>
-  
+  {% if not is_authenticated(session) %}
+  <a href="/iniciar_sesion">Iniciar Sesión</a>
+  {% else %}
+  <a href="/cerrar_sesion">Cerrar Sesión</a>
+  {% endif %}
 
 {% endblock %}
