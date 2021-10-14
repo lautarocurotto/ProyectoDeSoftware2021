@@ -28,8 +28,11 @@ class Punto(db.Model):
         return  query.limit(conf.maxElementos).offset(page*conf.maxElementos)
     
     @classmethod
-    def existe_punto(cls,nombree):
-        return cls.query.filter_by(nombre=nombree).count()
+    def existe_punto(cls,nombree, idPunto=None,noContarMismoNombre=False):
+        if noContarMismoNombre:
+            return cls.query.filter(cls.nombre==nombree,cls.id !=idPunto).count()
+        else:
+            return cls.query.filter_by(nombre=nombree).count()
         
 
            
