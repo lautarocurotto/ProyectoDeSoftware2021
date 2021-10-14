@@ -56,16 +56,8 @@ class Usuario(db.Model):
     
     @classmethod
     def find_by_email_and_pass(cls, conn, email, password):
-        sql = """
-            SELECT * FROM usuario AS u
-            WHERE u.email = %s AND u.password = %s
-        """
         
-        cursor = conn.cursor()
-        cursor.execute(sql, (email, password))
-
-        return cursor.fetchone()
-      #  return cls.query.filter_by(email=email,password=password).all()    
+        return cls.query.filter_by(email=email,password=password).first()    
 
 
     def __init__(self,email=None,username=None,password=None,activo=None,updated_at=None,created_at=None,first_name=None,last_name=None):
