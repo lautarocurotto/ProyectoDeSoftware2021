@@ -37,21 +37,19 @@
                 <input class="form-control" type="text" name="lastname" required placeholder="Apellido" required value="{{usuario.last_name}}">
             </label>
         </div>
-        <div class="mb-3">
-            <label for="status">
-                <select class="form-control" name="status" id="status" required value="{{usuario.activo}}">
-                    <option value=1>activo</option>
-                    <option value=0>bloqueado</option>
-                </select>
-            </label>
-        </div>
-        <div class="mb-3">
-            <label for="rol">
-                <select class="form-control" name="rol" id="rol" >
-                    <option value=1>operador</option>
-                    <option value=2>administrador</option>
-                </select>
-            </label>
+        <div>
+            {% if 2 in roles %}
+            <input type="checkbox" name="adm" id="adm" value="adm" checked>
+            {% else %}
+            <input type="checkbox" name="adm" id="adm" value="adm">
+            {% endif %}
+            <label for="adm"> Administrador</label><br>
+            {% if 1 in roles %}
+            <input type="checkbox" name="ope" id="ope" value="ope" checked>
+            {% else %}
+            <input type="checkbox" name="ope" id="ope" value="ope">
+            {% endif %}
+            <label for="ope"> Operador</label><br><br>
         </div>
         <div class="mb-3">
             <input type="submit" value="Modificar  usuario">
@@ -63,9 +61,9 @@
     <br>
     <div>
         {% if (usuario.activo) %}
-        <a class="btn btn-danger" href="/usuario/delete/{{usuario.id}}">Bloquear usuario</a>
+        <a class="btn btn-danger" href="/usuarios/delete/{{usuario.id}}">Bloquear usuario</a>
         {% else %}
-        <a class="btn btn-success" href="/usuario/bloquear/{{usuario.id}}">Activar usuario</a>
+        <a class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
         {% endif %}
     </div>
 

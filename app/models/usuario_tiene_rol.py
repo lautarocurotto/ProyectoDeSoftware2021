@@ -1,4 +1,5 @@
 from re import A
+from sqlalchemy.orm import load_only
 from sqlalchemy.sql.sqltypes import Date
 from app.db import db
 from sqlalchemy import Column,Integer,String,Boolean,DateTime,exists
@@ -10,9 +11,27 @@ class usuario_tiene_rol(db.Model):
     rol_id=Column(Integer,primary_key=True)
 
     @classmethod
-    def find_by_id(cls,id1):
+    def find_by_id(cls,id1): #devuelve la cantidad de administradores de un usuario (0 o 1)
         return cls.query.filter_by(usuario_id=id1,rol_id=2).count()
 
+    @classmethod
+    def find_by_id_lista(cls,id1): #devuelve una lista con todos los roles de un usuario
+        query=cls.query.filter_by(usuario_id=id1).all()
+        return query
+
+    @classmethod
+    def esOperador(cls,id1): #devuelve la cantidad de operadores de un usuario (0 o 1)
+        return cls.query.filter_by(usuario_id=id1,rol_id=1).count()
+    
+    @classmethod
+    def esOperador1(cls,id1):
+        return cls.query.filter_by(usuario_id=id1,rol_id=1).one()
+
+    @classmethod
+    def esOperador2(cls,id1): 
+        return cls.query.filter_by(usuario_id=id1,rol_id=2).one()
+    
+        
     
 
 

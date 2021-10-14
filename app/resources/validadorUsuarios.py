@@ -18,14 +18,7 @@ class ValidarForm(Form):
         validators.Required(message= 'El apellido es requerido'),
         validators.Length(min=1, max=255,message="La longitud debe ser entre 1 y 255 caracteres")
     ])
-    status=StringField('status', [
-        validators.Required(message= 'El estado es requerido'),
-   
-    ])
-    status=StringField('rol', [
-        validators.Required(message= 'El rol es requerido'),
-   
-    ])
+    
     email= EmailField('email',[
         validators.Required(message= 'El email es requerido'),
         validators.Email(message="Ingrese un email valido")])

@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block title %}Usuario {{usuario.email}} -{% endblock %}
+
+{% block head %}
+    {{super()}}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h1>Usuario {{usuario.email}}</h1>
+    <table class="table">
+        <tr>
+            <th>EMAIL:</th>
+            <td>{{usuario.email}}</td>
+        </tr>
+        <tr>
+            <th>USERNAME:</th>
+            <td>{{usuario.username}}</td>
+        </tr>
+        <tr>
+            <th>NOMBRE::</th>
+            <td>{{usuario.first_name}}</td>
+        </tr>
+        <tr>
+            <th>APELLIDO:</th>
+            <td>{{usuario.last_name}}</td>
+        </tr>
+        <tr>
+            <th>ESTADO:</th>
+            <td>{% if (usuario.activo==1) %}
+                activo
+                {% else %}
+                bloqueado
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>CREADO:</th>
+            <td>{{usuario.created_at}}</td>
+        </tr>
+        <tr>
+            <th>MODIFICADO:</th>
+            <td>{{usuario.updated_at}}</td>
+        </tr>
+    </table>
+    <a class="btn btn-secondary" href="/usuarios/update/{{usuario.id}}"><i class="far fa-edit">Editar</i></a>
+    {% if (usuario.activo==1) %}
+    <a href="/usuarios/delete/{{usuario.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+    {% else %}
+    <a class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
+    {% endif %}
+    <a href="{{url_for('usuario_index')}}">Volver</a>
+</div>
+
+{% endblock %}
+
+{% block menu %}
+
+
+    <div class="modal fade" id="menu" tabindex="-1" aria-labelledby="menuLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="menuLabel">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Inicio</a>
+                </div>
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Usuarios</a>
+                </div>
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Puntos de encuentro</a>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% endblock %}

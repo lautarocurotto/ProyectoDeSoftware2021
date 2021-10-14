@@ -24,30 +24,30 @@
             <thead>
                 <tr>
                     <td>Nombre de usuario</td>
-                    <td>Nombre</td>
-                    <td>Apellido</td>
                     <td>Email</td>
                     <td>Estado</td>
-                    <td>Roles</td>
-                    <td>Creado</td>
-                    <td>Modificado</td>
-                    <td></td>
+                    <td>Acciones</td>
                 </tr>
             </thead>
             <tbody>
                 {%for usuario in usuarios %}
                 <tr>
                     <td>{{usuario.username}}</td>
-                    <td>{{usuario.first_name}}</td>
-                    <td>{{usuario.last_name}}</td>
                     <td>{{usuario.email}}</td>
-                    <td>{{usuario.activo}}</td>
-                    <td></td>
-                    <td>{{usuario.created_at}}</td>
-                    <td>{{usuario.updated_at}}</td>
+                    <td>{% if (usuario.activo==1) %}
+                        activo
+                        {% else %}
+                        bloqueado
+                        {% endif %}
+                    </td>
                     <td>
                         <a href="/usuarios/update/{{usuario.id}}"><i class="far fa-edit">Editar</i></a>
+                        {% if (usuario.activo==1) %}
                         <a href="/usuarios/delete/{{usuario.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+                        {% else %}
+                        <a class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
+                        {% endif %}
+                        <a href="/usuarios/show/{{usuario.id}}">Ver</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -123,22 +123,10 @@
                     <label for="lastname">
                         <input class="form-control" type="text" name="lastname" required placeholder="Apellido" required>
                     </label>
-                </div>
+                </div>   
                 <div>
-                    <label for="status">
-                        <select class="form-control" name="status" id="status" >
-                            <option value="1">activo</option>
-                            <option value="0">bloqueado</option>
-                        </select>
-                    </label>
-                </div>
-                <div>
-                    <label for="rol">
-                        <select class="form-control" name="rol" id="rol" >
-                            <option value="1">operador</option>
-                            <option value="2">administrador</option>
-                        </select>
-                    </label>
+                    Admninstrador<input type="checkbox" name="adm" id="adm" value="adm">
+                    Operador<input type="checkbox" name="ope" id="ope" value="ope">
                 </div>
                 <div class="input-control">
                     <input type="submit" value="Crear nuevo usuario">
