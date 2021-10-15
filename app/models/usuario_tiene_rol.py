@@ -13,15 +13,16 @@ class usuario_tiene_rol(db.Model):
     @classmethod
     def find_by_id(cls,id1): #devuelve la cantidad de administradores de un usuario (0 o 1)
         return cls.query.filter_by(usuario_id=id1,rol_id=2).count()
+    
+    @classmethod
+    def find_by_id2(cls,id1): #devuelve la cantidad de operadores de un usuario (0 o 1)
+        return cls.query.filter_by(usuario_id=id1,rol_id=1).count()
 
     @classmethod
     def find_by_id_lista(cls,id1): #devuelve una lista con todos los roles de un usuario
         query=cls.query.filter_by(usuario_id=id1).all()
         return query
 
-    @classmethod
-    def esOperador(cls,id1): #devuelve la cantidad de operadores de un usuario (0 o 1)
-        return cls.query.filter_by(usuario_id=id1,rol_id=1).count()
     
     @classmethod
     def esOperador1(cls,id1):

@@ -31,7 +31,8 @@ def create():
     else:
         email=params['email']
         username=params['username']
-        lista=request.form.getlist('checkbox')
+        listaAdm=request.form.getlist('adm')
+        listaOpe=request.form.getlist('ope')
         existeMail= Usuario.find_by_email(email)
         existeUserName= Usuario.find_by_username(username)
         now=datetime.now()
@@ -39,11 +40,11 @@ def create():
             new_usuario=Usuario(email=params["email"],username=params["username"],password=params["password"],activo=1,updated_at=now,created_at=now,first_name=params["name"],last_name=params["lastname"])
             db.session.add(new_usuario)
             db.session.commit()
-            if 'adm' in lista:
+            if 'adm' in listaAdm:
                 rol1=usuario_tiene_rol(usuario_id=new_usuario.id,rol_id=2)
                 db.session.add(rol1)
                 db.session.commit()
-            if 'ope' in lista:
+            if 'ope' in listaOpe:
                 rol2=usuario_tiene_rol(usuario_id=new_usuario.id,rol_id=1)
                 db.session.add(rol2)
                 db.session.commit()
@@ -59,6 +60,8 @@ def create():
 
 def update(id):
     lista=[]
+    listaAdm=request.form.getlist('adm')
+    listaOpe=request.form.getlist('ope')
     usuario_to_update=Usuario.find_by_id(id)
     roles_usuario_to_update=usuario_tiene_rol.find_by_id_lista(id)
     rol_to_update=usuario_tiene_rol.find_by_id(id)
@@ -82,26 +85,26 @@ def update(id):
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]
                 db.session.commit()
-                if "adm" in lista:
-                    if(usuario_tiene_rol.find_by_id(id)==0): #si NO es administrador
+                if "adm" in listaAdm:
+                    if(usuario_tiene_rol.find_by_id(id)==0): #si NO es administrador 
                         rol1=usuario_tiene_rol(usuario_id=id,rol_id=2)
                         print(rol1)
                         db.session.add(rol1)
                         db.session.commit()
-                else:
+                else: #si se desmarco el admin
                     if(usuario_tiene_rol.find_by_id(id)!=0): #si  es administrador
                         rol_a_borrar=usuario_tiene_rol.esOperador2(id)
                         db.session.delete(rol_a_borrar)
                         db.session.commit()
                           
-                if "ope" in lista:
-                    if(usuario_tiene_rol.find_by_id(id)==0): #si NO es operador
-                        rol1=usuario_tiene_rol(usuario_id=id,rol_id=2)
+                if "ope" in listaOpe:
+                    if(usuario_tiene_rol.find_by_id2(id)==0): #si NO es operador
+                        rol1=usuario_tiene_rol(usuario_id=id,rol_id=1)
                         print(rol1)
                         db.session.add(rol1)
                         db.session.commit()
                 else:
-                    if(usuario_tiene_rol.find_by_id(id)==0): #si es operador
+                    if(usuario_tiene_rol.find_by_id2(id)!=0): #si es operador
                         rol_a_borrar=usuario_tiene_rol.esOperador1(id)
                         db.session.delete(rol_a_borrar)
                         db.session.commit() 
