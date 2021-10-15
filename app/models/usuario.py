@@ -1,7 +1,10 @@
 from re import A
 from sqlalchemy.sql.sqltypes import Date
 from app.db import db
-from sqlalchemy import Column,Integer,String,Boolean,DateTime,exists
+from sqlalchemy import Column,Integer,String,Boolean,DateTime
+from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
+
 
 class Usuario(db.Model):
     __tablename__="Usuario"
@@ -14,6 +17,15 @@ class Usuario(db.Model):
     created_at=Column(DateTime,unique=True)
     first_name=Column(String(255),unique=True)
     last_name=Column(String(255),unique=True)
+
+    @classmethod
+    def create_password(cls,password):
+        return generate_password_hash(password)
+
+    @classmethod
+    def verify_password(cls,password):
+        return check_password_hash(cls.password,password)
+    
 
     @classmethod
     def find_by_email(cls,mail):
@@ -61,7 +73,7 @@ class Usuario(db.Model):
     def __init__(self,email=None,username=None,password=None,activo=None,updated_at=None,created_at=None,first_name=None,last_name=None):
         self.email=email
         self.username=username
-        self.password=password
+        self.password=self.__create_password(password)
         self.activo=activo
         self.updated_at=updated_at
         self.created_at=created_at
