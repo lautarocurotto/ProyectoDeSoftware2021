@@ -1,15 +1,20 @@
-{% extends "layout.html" %}
-{% block title %}Home{% endblock %}
-{% block head %}
- 
-{% endblock %}
-{% block content %}
-  <h1>Inicio</h1>
-  <p>Página de inicio de la aplicación</p>
-  {% if not is_authenticated(session) %}
-  <a href="/iniciar_sesion">Iniciar Sesión</a>
-  {% else %}
-  <a href="/cerrar_sesion">Cerrar Sesión</a>
-  {% endif %}
 
+{% extends "layout.html" %}
+
+{% block title %}Configuración - Zonas de inundación{% endblock %}
+{%block head %}
+    {{ super() }}
 {% endblock %}
+
+{%block topbar %}
+    {{super()}}
+{% endblock %}
+
+{% block message %}
+    {{ super() }}
+{% endblock %}
+
+    {% block content %}
+      <h1>Bienvenido {{session.get("user")}}</h1>
+    
+    {% endblock %}

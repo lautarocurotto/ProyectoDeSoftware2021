@@ -55,29 +55,3 @@
 </div>
 
 {% endblock %}
-
-{% block menu %}
-
-
-    <div class="modal fade" id="menu" tabindex="-1" aria-labelledby="menuLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="menuLabel">Menu</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="menu-item">
-                    <a href="{{url_for('configuracion')}}">Inicio</a>
-                </div>
-                <div class="menu-item">
-                    <a href="{{url_for('configuracion')}}">Usuarios</a>
-                </div>
-                <div class="menu-item">
-                    <a href="{{url_for('configuracion')}}">Puntos de encuentro</a>
-                </div>
-            </div>
-          </div>
-        </div>
-    </div>
-    {% endblock %}
