@@ -123,7 +123,7 @@ def update(id):
                 if(existeUsername!=0):
                     mensaje="El nombre de usuario ingresado ya existe"
                 flash(mensaje)
-                return render_template("usuarios/update.html",usuario=usuario_to_update, roles=roles_usuario_to_update)
+                return render_template("usuarios/update.html",usuario=usuario_to_update, roles=lista)
     else:
         return render_template("usuarios/update.html",usuario=usuario_to_update, roles=lista)
 
@@ -168,6 +168,45 @@ def show(id):
 
     return render_template("usuarios/show.html", usuario=u)
 
+def verPerfil():
+
+    email=session["user"]
+    u=Usuario.find_user_by_email(email)
+    return render_template("usuarios/perfil.html", usuario=u)
+
+
+def updatePerfil(id):
+   
+    usuario_to_update=Usuario.find_by_id(id)
+   
+    if request.method == 'POST':
+        params=request.form
+        mensaje=ValidarForm(params)
+        if mensaje.validate()==False:
+            print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
+            return render_template("usuarios/perfil.html", usuario=usuario_to_update)
+        else:
+            existeMail=Usuario.existe_mail(params["email"],id)
+            existeUsername=Usuario.existe_username(params["username"],id)
+            if(existeMail==0 and existeUsername==0): 
+                usuario_to_update.email=params["email"]
+                usuario_to_update.username=params["username"]
+                usuario_to_update.password=params["password"]
+                usuario_to_update.updated_at=datetime.now()
+                usuario_to_update.first_name=params["name"]
+                usuario_to_update.last_name=params["lastname"]
+                db.session.commit()
+                flash("El usuario se ha modificado con exito")
+                return redirect(url_for("home"))
+            else:
+                if(existeMail!=0):
+                    mensaje="El mail ingresado ya existe"
+                if(existeUsername!=0):
+                    mensaje="El nombre de usuario ingresado ya existe"
+                flash(mensaje)
+                return render_template("usuarios/perfil.html",usuario=usuario_to_update)
+    else:
+        return render_template("usuarios/perfil.html",usuario=usuario_to_update)
 
 
 

@@ -36,6 +36,10 @@ class Usuario(db.Model):
     @classmethod
     def existe_username(cls,nombre,idPunto=None):
             return cls.query.filter(cls.username==nombre,cls.id !=idPunto).count()
+    
+    @classmethod
+    def find_user_by_email(cls,e):
+        return cls.query.filter_by(email=e).one()
 
 
 
