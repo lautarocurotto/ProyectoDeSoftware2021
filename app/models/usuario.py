@@ -80,7 +80,7 @@ class Usuario(db.Model):
     @classmethod
     def has_permission(cls, user_id, permission):
         consulta= select(Usuario,usuario_tiene_rol).join()  
-        return cls.query 
+        return permission in consulta 
 
     def __init__(self,email=None,username=None,password=None,activo=None,updated_at=None,created_at=None,first_name=None,last_name=None):
         self.email=email
