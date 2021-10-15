@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block title %}Usuario {{usuario.nombre}} - Zonas de inundación{% endblock %}
+
+{% block head %}
+    {{super()}}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h1>Modificando el usuario {{usuario.nombre}}</h1>
+
+    <form action="/usuarios/update/{{usuario.id}}" method="POST">
+        <div class="mb-3">
+            <label for="email">
+                <input class="form-control" type="email" name="email" required placeholder="Email" required value="{{usuario.email}}" >
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="username">
+                <input class="form-control" type="text" name="username" required placeholder="Nombre de usuario" required  value="{{usuario.username}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="password">
+                <input class="form-control" type="password" name="password" required placeholder="Contraseña" required  value="{{usuario.password}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="name">
+                <input class="form-control" type="text" name="name" required placeholder="Nombre" required value="{{usuario.first_name}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="lastname">
+                <input class="form-control" type="text" name="lastname" required placeholder="Apellido" required value="{{usuario.last_name}}">
+            </label>
+        </div>
+        <div>
+            {% if 2 in roles %}
+            <input type="checkbox" name="adm" id="adm" value="adm" checked>
+            {% else %}
+            <input type="checkbox" name="adm" id="adm" value="adm">
+            {% endif %}
+            <label for="adm"> Administrador</label><br>
+            
+            {% if 1 in roles %}
+            <input type="checkbox" name="ope" id="ope" value="ope" checked>
+            {% else %}
+            <input type="checkbox" name="ope" id="ope" value="ope">
+            {% endif %}
+            <label for="ope"> Operador</label><br><br>
+        </div>
+        <div class="mb-3">
+            <input type="submit" value="Modificar  usuario">
+            <button type="reset">Limpiar</button>
+        </div>
+        
+    </form>
+
+    <br>
+    <div>
+        {% if (usuario.activo) %}
+        <a class="btn btn-danger" href="/usuarios/delete/{{usuario.id}}">Bloquear usuario</a>
+        {% else %}
+        <a class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
+        {% endif %}
+    </div>
+
+    <a href="{{url_for('usuario_index')}}">Volver</a>
+</div>
+
+
+{% endblock %}
+{% block menu %}
+
+
+    <div class="modal fade" id="menu" tabindex="-1" aria-labelledby="menuLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="menuLabel">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Inicio</a>
+                </div>
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Usuarios</a>
+                </div>
+                <div class="menu-item">
+                    <a href="{{url_for('configuracion')}}">Puntos de encuentro</a>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% endblock %}
