@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}Usuario {{usuario.nombre}} - Zonas de inundación{% endblock %}
+
+{% block head %}
+    {{super()}}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h1>Perfil {{usuario.nombre}}</h1>
+
+    <form action="/usuarios/perfilUpdate/{{usuario.id}}" method="POST">
+        <div class="mb-3">
+            <label for="email">
+                <input class="form-control" type="email" name="email" required placeholder="Email" required value="{{usuario.email}}" >
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="username">
+                <input class="form-control" type="text" name="username" required placeholder="Nombre de usuario" required  value="{{usuario.username}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="password">
+                <input class="form-control" type="password" name="password" required placeholder="Contraseña" required  value="{{usuario.password}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="name">
+                <input class="form-control" type="text" name="name" required placeholder="Nombre" required value="{{usuario.first_name}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="lastname">
+                <input class="form-control" type="text" name="lastname" required placeholder="Apellido" required value="{{usuario.last_name}}">
+            </label>
+        </div>
+       
+        <div class="mb-3">
+            <input type="submit" value="Guardar cambios">
+            <button type="reset">Limpiar</button>
+        </div>
+        
+    </form>
+
+    <br>
+    
+    <a href="{{url_for('home')}}">Volver</a>
+</div>
+
+
+{% endblock %}

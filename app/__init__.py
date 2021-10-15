@@ -46,6 +46,8 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/delete/<int:id>","usuario_delete",usuario.delete)
     app.add_url_rule("/usuarios/activar/<int:id>","usuario_activar",usuario.activar)
     app.add_url_rule("/usuarios/show/<int:id>","usuario_show",usuario.show)
+    app.add_url_rule("/usuarios/perfil","usuario_perfil",usuario.verPerfil)
+    app.add_url_rule("/usuarios/perfilUpdate/<int:id>","usuario_update_perfil",usuario.updatePerfil, methods=["POST", "GET"] )
 
 
     app.add_url_rule("/puntos","puntos_index",punto.index,methods=["POST", "GET"])

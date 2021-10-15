@@ -136,6 +136,8 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
     </div>
 </div>
 
+
+
 {% block menu %}
 
 
@@ -158,6 +160,7 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
             </div>
             <div class="menu-item">
                 {% if is_authenticated(session) %}  
+                    <a href="{{url_for('usuario_perfil')}}">Perfil</a>
                     <a href="/cerrar_sesion">Cerrar Sesión</a>
                 {% endif %}
             </div>
