@@ -5,14 +5,10 @@ from app import db
 from app.resources import punto
 from app.resources import configuracion
 from app.resources import usuario
-<<<<<<< HEAD
-
-=======
 from flask_session import Session
 from app.resources import auth
 from app.helpers import handler
 from app.helpers import auth as helper_auth
->>>>>>> e93223b850ce3ece70da6e35fb64efa8d23ed0b0
 
 
 
@@ -48,12 +44,6 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/nuevo","usuario_create",usuario.create, methods=["POST"] )
     app.add_url_rule("/usuarios/update/<int:id>","usuario_update",usuario.update, methods=["POST", "GET"] )
     app.add_url_rule("/usuarios/delete/<int:id>","usuario_delete",usuario.delete)
-<<<<<<< HEAD
-    app.add_url_rule("/usuarios/activar/<int:id>","usuario_activar",usuario.activar)
-    app.add_url_rule("/usuarios/show/<int:id>","usuario_show",usuario.show)
-=======
-
->>>>>>> e93223b850ce3ece70da6e35fb64efa8d23ed0b0
 
     app.add_url_rule("/puntos","puntos_index",punto.index,methods=["POST", "GET"])
     app.add_url_rule("/puntos/nuevo","puntos_create",punto.create, methods=["POST"] )
