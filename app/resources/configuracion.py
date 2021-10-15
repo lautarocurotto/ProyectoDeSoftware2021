@@ -1,9 +1,13 @@
 from sqlalchemy.sql.functions import current_timestamp
 from app.models.configuracion import Configuracion
-from flask import render_template, request , abort, redirect, url_for, flash
+from flask import render_template, request , abort, redirect, url_for, flash, session
 from app.db import db
+from app.helpers.auth import authenticated
 
 def index():
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     return render_template("configuration.html")
 
 def getConfigs():

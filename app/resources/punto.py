@@ -13,8 +13,9 @@ from app.models.configuracion import Configuracion
 
  
 def index():
-    if not authenticated(session):
-       abort(401)
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     conf=Configuracion.getConfigs()
     params=request.args
     currentPage = int(params.get("page", 0))
@@ -23,8 +24,9 @@ def index():
     
 
 def create():
-    if not authenticated(session):
-       abort(401)
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     params=request.form
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
@@ -44,9 +46,9 @@ def create():
 
 def update(id):
 
-    if not authenticated(session):
-        abort(401)
-
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     params=request.form
     punto_to_update=Punto.query.get_or_404(id)
     if request.method == "POST":
@@ -78,9 +80,10 @@ def update(id):
     
 
 def delete(id):
-    if not authenticated(session):# or not admin(session):
-       abort(401)
-
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
+    #or not admin    
     punto_to_delete=Punto.query.get_or_404(id)
     try:
         db.session.delete(punto_to_delete)
@@ -91,8 +94,10 @@ def delete(id):
 
 def show(id):
 
-    if not authenticated(session): #or not admin(session):
-        abort(401)
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
+    #or not admin    
 
     p=Punto.query.get_or_404(id)
 

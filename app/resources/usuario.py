@@ -4,7 +4,7 @@ from app.db import db
 from datetime import datetime
 
 
-#from app.helpers.auth import authenticated
+from app.helpers.auth import authenticated
 from app.models.usuario import Usuario
 from app.models.usuario_tiene_rol import usuario_tiene_rol
 from app.resources.validadorUsuarios import ValidarForm
@@ -12,8 +12,9 @@ from app.models.configuracion import Configuracion
 
 # Protected resources
 def index():
-    #if not authenticated(session):
-     #   abort(401)
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     conf=Configuracion.getConfigs()
     params=request.args
     currentPage = int(params.get("page", 0))
@@ -22,8 +23,9 @@ def index():
 
 
 def create():
-    #if not authenticated(session):
-     #   abort(401)
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     params=request.form
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
@@ -59,6 +61,9 @@ def create():
 
 
 def update(id):
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     lista=[]
     listaAdm=request.form.getlist('adm')
     listaOpe=request.form.getlist('ope')
@@ -124,6 +129,9 @@ def update(id):
 
 
 def delete(id):
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     usuario_to_delete=Usuario.find_by_id(id)
     if(usuario_to_delete.activo==0):
         mensaje="el usuario ya se encuentra borrado"
@@ -139,6 +147,9 @@ def delete(id):
     return redirect(url_for("usuario_index"))
 
 def activar(id):
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     usuario_to_activate=Usuario.find_by_id(id)
     if(usuario_to_activate.activo==1):
         mensaje="el usuario ya se encuentra borrado"
@@ -150,7 +161,9 @@ def activar(id):
     return redirect(url_for("usuario_index"))
 
 def show(id):
-
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     u=Usuario.query.get_or_404(id)
 
     return render_template("usuarios/show.html", usuario=u)

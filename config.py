@@ -34,6 +34,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI= (
         f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:3306/{DB_NAME}"
     )
+
     
 
 class TestingConfig(Config):
