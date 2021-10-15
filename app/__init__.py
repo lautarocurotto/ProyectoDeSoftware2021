@@ -5,7 +5,14 @@ from app import db
 from app.resources import punto
 from app.resources import configuracion
 from app.resources import usuario
+<<<<<<< HEAD
 
+=======
+from flask_session import Session
+from app.resources import auth
+from app.helpers import handler
+from app.helpers import auth as helper_auth
+>>>>>>> e93223b850ce3ece70da6e35fb64efa8d23ed0b0
 
 
 
@@ -25,11 +32,15 @@ def create_app(environment="development"):
     db.init_app(app)
 
     # Funciones que se exportan al contexto de Jinja2
-    #app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
+    app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
     app.jinja_env.globals.update(configs=configuracion.getConfigs)
 
     # Autenticación
-    
+    app.add_url_rule("/iniciar_sesion", "auth_login", auth.login)
+    app.add_url_rule("/cerrar_sesion", "auth_logout", auth.logout)
+    app.add_url_rule(
+        "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
+    )
 
     # Rutas de Consultas
     
@@ -37,8 +48,12 @@ def create_app(environment="development"):
     app.add_url_rule("/usuarios/nuevo","usuario_create",usuario.create, methods=["POST"] )
     app.add_url_rule("/usuarios/update/<int:id>","usuario_update",usuario.update, methods=["POST", "GET"] )
     app.add_url_rule("/usuarios/delete/<int:id>","usuario_delete",usuario.delete)
+<<<<<<< HEAD
     app.add_url_rule("/usuarios/activar/<int:id>","usuario_activar",usuario.activar)
     app.add_url_rule("/usuarios/show/<int:id>","usuario_show",usuario.show)
+=======
+
+>>>>>>> e93223b850ce3ece70da6e35fb64efa8d23ed0b0
 
     app.add_url_rule("/puntos","puntos_index",punto.index,methods=["POST", "GET"])
     app.add_url_rule("/puntos/nuevo","puntos_create",punto.create, methods=["POST"] )
@@ -63,10 +78,11 @@ def create_app(environment="development"):
 
 
     # Rutas de API-REST (usando Blueprints)
-   
 
     # Handlers
-    
+    app.register_error_handler(404, handler.not_found_error)
+    app.register_error_handler(401, handler.unauthorized_error)
+    # Implementar lo mismo para el error 500    
     
 
     

@@ -76,6 +76,11 @@
                 <div class="menu-item">
                     <a href="{{url_for('configuracion')}}">Puntos de encuentro</a>
                 </div>
+                <div class="menu-item">
+                    {% if is_authenticated(session) %}  
+                        <a href="/cerrar_sesion">Cerrar Sesión</a>
+                    {% endif %}
+                </div>
             </div>
           </div>
         </div>

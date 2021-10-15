@@ -24,15 +24,27 @@
             <thead>
                 <tr>
                     <td>Nombre de usuario</td>
+<<<<<<< HEAD
                     <td>Email</td>
                     <td>Estado</td>
                     <td>Acciones</td>
+=======
+                    <td>Nombre</td>
+                    <td>Apellido</td>
+                    <td>Email</td>
+                    <td>Estado</td>
+                    <td>Roles</td>
+                    <td>Creado</td>
+                    <td>Modificado</td>
+                    <td></td>
+>>>>>>> e93223b850ce3ece70da6e35fb64efa8d23ed0b0
                 </tr>
             </thead>
             <tbody>
                 {%for usuario in usuarios %}
                 <tr>
                     <td>{{usuario.username}}</td>
+<<<<<<< HEAD
                     <td>{{usuario.email}}</td>
                     <td>{% if (usuario.activo==1) %}
                         activo
@@ -48,6 +60,18 @@
                         <a class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
                         {% endif %}
                         <a href="/usuarios/show/{{usuario.id}}">Ver</a>
+=======
+                    <td>{{usuario.first_name}}</td>
+                    <td>{{usuario.last_name}}</td>
+                    <td>{{usuario.email}}</td>
+                    <td>{{usuario.activo}}</td>
+                    <td></td>
+                    <td>{{usuario.created_at}}</td>
+                    <td>{{usuario.updated_at}}</td>
+                    <td>
+                        <a href="/usuarios/update/{{usuario.id}}"><i class="far fa-edit">Editar</i></a>
+                        <a href="/usuarios/delete/{{usuario.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+>>>>>>> e93223b850ce3ece70da6e35fb64efa8d23ed0b0
                     </td>
                 </tr>
                 {% endfor %}
@@ -123,10 +147,29 @@
                     <label for="lastname">
                         <input class="form-control" type="text" name="lastname" required placeholder="Apellido" required>
                     </label>
+<<<<<<< HEAD
                 </div>   
                 <div>
                     Admninstrador<input type="checkbox" value="adm" name="adm" >
                     Operador<input type="checkbox" value="ope" name="ope" >
+=======
+                </div>
+                <div>
+                    <label for="status">
+                        <select class="form-control" name="status" id="status" >
+                            <option value="1">activo</option>
+                            <option value="0">bloqueado</option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label for="rol">
+                        <select class="form-control" name="rol" id="rol" >
+                            <option value="1">operador</option>
+                            <option value="2">administrador</option>
+                        </select>
+                    </label>
+>>>>>>> e93223b850ce3ece70da6e35fb64efa8d23ed0b0
                 </div>
                 <div class="input-control">
                     <input type="submit" value="Crear nuevo usuario">
