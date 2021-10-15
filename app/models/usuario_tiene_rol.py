@@ -33,8 +33,6 @@ class usuario_tiene_rol(db.Model):
         return cls.query.filter_by(usuario_id=id1,rol_id=2).one()
     
         
-    
-
 
 def __init__(self,usuario_id=None,rol_id=None):
         self.usuario_id=usuario_id
