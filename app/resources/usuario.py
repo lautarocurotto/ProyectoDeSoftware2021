@@ -118,7 +118,7 @@ def update(id):
                 if(existeUsername!=0):
                     mensaje="El nombre de usuario ingresado ya existe"
                 flash(mensaje)
-                return render_template("usuarios/update.html",usuario=usuario_to_update, roles=roles_usuario_to_update)
+                return render_template("usuarios/update.html",usuario=usuario_to_update, roles=lista)
     else:
         return render_template("usuarios/update.html",usuario=usuario_to_update, roles=lista)
 
