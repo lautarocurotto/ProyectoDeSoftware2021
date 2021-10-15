@@ -37,7 +37,6 @@
                 <input class="form-control" type="text" name="lastname" required placeholder="Apellido" required value="{{usuario.last_name}}">
             </label>
         </div>
-<<<<<<< HEAD
         <div>
             {% if 2 in roles %}
             <input type="checkbox" name="adm" id="adm" value="adm" checked>
@@ -52,23 +51,6 @@
             <input type="checkbox" name="ope" id="ope" value="ope">
             {% endif %}
             <label for="ope"> Operador</label><br><br>
-=======
-        <div class="mb-3">
-            <label for="status">
-                <select class="form-control" name="status" id="status" required value="{{usuario.activo}}">
-                    <option value=1>activo</option>
-                    <option value=0>bloqueado</option>
-                </select>
-            </label>
-        </div>
-        <div class="mb-3">
-            <label for="rol">
-                <select class="form-control" name="rol" id="rol" >
-                    <option value=1>operador</option>
-                    <option value=2>administrador</option>
-                </select>
-            </label>
->>>>>>> e93223b850ce3ece70da6e35fb64efa8d23ed0b0
         </div>
         <div class="mb-3">
             <input type="submit" value="Modificar  usuario">
@@ -80,15 +62,9 @@
     <br>
     <div>
         {% if (usuario.activo) %}
-<<<<<<< HEAD
         <a class="btn btn-danger" href="/usuarios/delete/{{usuario.id}}">Bloquear usuario</a>
         {% else %}
         <a class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
-=======
-        <a class="btn btn-danger" href="/usuario/delete/{{usuario.id}}">Bloquear usuario</a>
-        {% else %}
-        <a class="btn btn-success" href="/usuario/bloquear/{{usuario.id}}">Activar usuario</a>
->>>>>>> e93223b850ce3ece70da6e35fb64efa8d23ed0b0
         {% endif %}
     </div>
 
