@@ -19,10 +19,10 @@ class Config(object):
 class ProductionConfig(Config):
     """Production configuration."""
 
-    DB_HOST = environ.get("DB_HOST")
-    DB_USER = environ.get("DB_USER")
-    DB_PASS = environ.get("DB_PASS")
-    DB_NAME = environ.get("DB_NAME")
+    DB_HOST = environ.get("localhost")
+    DB_USER = environ.get("grupo40")
+    DB_PASS = environ.get("NjcyZTg2NmM5ODNi")
+    DB_NAME = environ.get("grupo40")
 
 class DevelopmentConfig(Config):
     """Development configuration."""
