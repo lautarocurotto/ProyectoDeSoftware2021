@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}Punto {{punto.nombre}} - Zonas de inundación{% endblock %}
+
+{% block head %}
+    {{super()}}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h1>Punto de encuentro {{punto.nombre}}</h1>
+    <table class="table">
+        <tr>
+            <th>NOMBRE:</th>
+            <td>{{punto.nombre}}</td>
+        </tr>
+        <tr>
+            <th>DIRECCIÓN:</th>
+            <td>{{punto.direccion}}</td>
+        </tr>
+        <tr>
+            <th>COORDENADAS:</th>
+            <td>{{punto.coordenadas}}</td>
+        </tr>
+        <tr>
+            <th>ESTADO:</th>
+            <td>{{punto.estado}}</td>
+        </tr>
+        <tr>
+            <th>TELEFONO:</th>
+            <td>{{punto.telefono}}</td>
+        </tr>
+        <tr>
+            <th>EMAIL:</th>
+            <td>{{punto.email}}</td>
+        </tr>
+    </table>
+    <a class="btn btn-secondary" href="/puntos/update/{{punto.id}}"><i class="far fa-edit">Editar</i></a>
+    <a class="btn btn-danger" href="/puntos/delete/{{punto.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+    <a href="{{url_for('puntos_index')}}">Volver</a>
+</div>
+
+{% endblock %}
