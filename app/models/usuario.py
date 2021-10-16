@@ -79,7 +79,7 @@ class Usuario(db.Model):
     def __init__(self,email=None,username=None,password=None,activo=None,updated_at=None,created_at=None,first_name=None,last_name=None):
         self.email=email
         self.username=username
-        self.password=self.__create_password(password)
+        self.password=self.create_password(password)
         self.activo=activo
         self.updated_at=updated_at
         self.created_at=created_at
