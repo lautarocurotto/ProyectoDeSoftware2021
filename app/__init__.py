@@ -1,5 +1,5 @@
 from os import environ
-from flask import Flask, render_template,redirect,url_for,request
+from flask import Flask, render_template,redirect,url_for,request, session
 from config import config
 from app import db
 from app.resources import punto
@@ -65,8 +65,10 @@ def create_app(environment="development"):
     # Ruta para el Home (usando decorator)
     @app.route("/")
     def home():
-        return render_template("home.html")
-    
+        if(helper_auth.authenticated(session)):
+            return render_template("home.html")
+        else:
+            return render_template("auth/login.html")
 
 
     # Rutas de API-REST (usando Blueprints)
