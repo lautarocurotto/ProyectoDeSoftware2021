@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `proyS`
+-- Base de datos: `grupo40`
 --
 
 -- --------------------------------------------------------
@@ -57,7 +57,7 @@ CREATE TABLE `Configuracion` (
 --
 
 INSERT INTO `Configuracion` (`id`, `color1Privada`, `color2Privada`, `color3Privada`, `color1Publica`, `color2Publica`, `color3Publica`, `maxElementos`, `criterio_orden`, `sitio_en_mantenimiento`) VALUES
-(2, '#FFAAFF', '#EA3711', '#EA2011', '#C8F2D2', '#C7F1D1', '#C6FFD3', 2, 'Alfabetico', 0);
+(2, '#3d3d3d', '#001b6b', '#333333', '#3d3d3d', '#001b6b', '#333333', 2, 'Alfabetico', 0);
 
 -- --------------------------------------------------------
 
