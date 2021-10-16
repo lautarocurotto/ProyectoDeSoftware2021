@@ -1,5 +1,5 @@
 from os import environ
-from flask import Flask, render_template,redirect,url_for,request
+from flask import Flask, render_template,redirect,url_for,request, session
 from config import config
 from app import db
 from app.resources import punto
@@ -9,7 +9,7 @@ from flask_session import Session
 from app.resources import auth
 from app.helpers import handler
 from app.helpers import auth as helper_auth
-
+from app.helpers.auth import authenticated, check_permission
 
 
 def create_app(environment="development"):
@@ -31,6 +31,7 @@ def create_app(environment="development"):
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
     app.jinja_env.globals.update(isAdmin=helper_auth.isAdmin)
     app.jinja_env.globals.update(configs=configuracion.getConfigs)
+    app.jinja_env.globals.update(tiene_permiso=helper_auth.check_permission)
 
     # Autenticación
     app.add_url_rule("/iniciar_sesion", "auth_login", auth.login)
@@ -65,6 +66,9 @@ def create_app(environment="development"):
     # Ruta para el Home (usando decorator)
     @app.route("/")
     def home():
+        user = authenticated(session)
+        if (not user):
+            return redirect(url_for("auth_login"))
         return render_template("home.html")
     
 

@@ -50,7 +50,9 @@
         
     </form>
     <br>
+    {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
     <a class="btn btn-danger" href="/puntos/delete/{{punto_to_update.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+    {% endif %}
     <a href="{{url_for('puntos_index')}}">Volver</a>
 </div>
 

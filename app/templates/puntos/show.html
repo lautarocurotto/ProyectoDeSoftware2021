@@ -37,7 +37,9 @@
         </tr>
     </table>
     <a class="btn btn-secondary" href="/puntos/update/{{punto.id}}"><i class="far fa-edit">Editar</i></a>
+    {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
     <a class="btn btn-danger" href="/puntos/delete/{{punto.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+    {% endif %}
     <a href="{{url_for('puntos_index')}}">Volver</a>
 </div>
 

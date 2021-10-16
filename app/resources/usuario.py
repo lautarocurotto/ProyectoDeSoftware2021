@@ -3,18 +3,19 @@ from flask import redirect, render_template, request, url_for, session, abort, f
 from app.db import db
 from datetime import datetime
 
-
-from app.helpers.auth import authenticated
 from app.models.usuario import Usuario
 from app.models.usuario_tiene_rol import usuario_tiene_rol
 from app.resources.validadorUsuarios import ValidarForm
 from app.models.configuracion import Configuracion
+from app.helpers.auth import authenticated, check_permission
 
 # Protected resources
 def index():
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_index")):
+       abort(401)
     conf=Configuracion.getConfigs()
     params=request.args
     currentPage = int(params.get("page", 0))
@@ -26,6 +27,8 @@ def create():
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_new")):
+       abort(401)
     params=request.form
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
@@ -64,6 +67,8 @@ def update(id):
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_update")):
+       abort(401)
     lista=[]
     listaAdm=request.form.getlist('adm')
     listaOpe=request.form.getlist('ope')
@@ -132,6 +137,8 @@ def delete(id):
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_destroy")):
+       abort(401)
     usuario_to_delete=Usuario.find_by_id(id)
     if(usuario_to_delete.activo==0):
         mensaje="el usuario ya se encuentra borrado"
@@ -150,6 +157,7 @@ def activar(id):
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
+    
     usuario_to_activate=Usuario.find_by_id(id)
     if(usuario_to_activate.activo==1):
         mensaje="el usuario ya se encuentra borrado"
@@ -164,19 +172,25 @@ def show(id):
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_show")):
+       abort(401)
     u=Usuario.query.get_or_404(id)
 
     return render_template("usuarios/show.html", usuario=u)
 
 def verPerfil():
-
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     email=session["user"]
     u=Usuario.find_user_by_email(email)
     return render_template("usuarios/perfil.html", usuario=u)
 
 
 def updatePerfil(id):
-   
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     usuario_to_update=Usuario.find_by_id(id)
    
     if request.method == 'POST':

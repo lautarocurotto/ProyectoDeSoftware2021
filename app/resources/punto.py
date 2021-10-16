@@ -3,9 +3,10 @@ import flask
 from flask.helpers import flash
 from sqlalchemy.sql.expression import true
 from app.db import db
+from app.db import connection
 from app.resources.validadorPuntos import ValidarForm
 
-from app.helpers.auth import authenticated
+from app.helpers.auth import authenticated, check_permission
 from app.models.punto import Punto
 from app.models.configuracion import Configuracion
 
@@ -16,6 +17,8 @@ def index():
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"punto_encuentro_index")):
+       abort(401)
     conf=Configuracion.getConfigs()
     params=request.args
     currentPage = int(params.get("page", 0))
@@ -27,6 +30,8 @@ def create():
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"punto_encuentro_new")):
+       abort(401)    
     params=request.form
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
@@ -49,6 +54,8 @@ def update(id):
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"punto_encuentro_update")):
+       abort(401)
     params=request.form
     punto_to_update=Punto.query.get_or_404(id)
     if request.method == "POST":
@@ -82,8 +89,9 @@ def update(id):
 def delete(id):
     user = authenticated(session)
     if (not user):
-        return redirect(url_for("auth_login"))
-    #or not admin    
+        return redirect(url_for("auth_login")) 
+    if (not check_permission(session["id"],"punto_encuentro_destroy")):
+       abort(401) 
     punto_to_delete=Punto.query.get_or_404(id)
     try:
         db.session.delete(punto_to_delete)
@@ -97,8 +105,8 @@ def show(id):
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
-    #or not admin    
-
+    if (not check_permission(session["id"],"punto_encuentro_show")):
+       abort(401)
     p=Punto.query.get_or_404(id)
 
     return render_template("puntos/show.html", punto=p)

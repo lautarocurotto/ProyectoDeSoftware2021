@@ -20,6 +20,6 @@ def unauthorized_error(e):
 def forbidden_error(e):
     kwargs = {
         "error_name": "403 Forbidden Error",
-        "error_description": "No tiene una sesión activa para acceder a la url",
+        "error_description": "Se ha denegado su solicitud",
     }
     return render_template("error.html", **kwargs), 403    
