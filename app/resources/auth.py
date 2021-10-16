@@ -18,6 +18,7 @@ def authenticate():
         return redirect(url_for("auth_login"))
 
     session["user"] = user.email
+    session["id"] = user.id
     flash("La sesión se inició correctamente.")
 
     return redirect(url_for("puntos_index"))

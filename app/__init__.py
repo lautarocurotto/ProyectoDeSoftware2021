@@ -29,6 +29,7 @@ def create_app(environment="development"):
 
     # Funciones que se exportan al contexto de Jinja2
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
+    app.jinja_env.globals.update(isAdmin=helper_auth.isAdmin)
     app.jinja_env.globals.update(configs=configuracion.getConfigs)
 
     # Autenticación
@@ -57,12 +58,8 @@ def create_app(environment="development"):
     app.add_url_rule("/puntos/show/<int:id>","puntos_show",punto.show)
 
     app.add_url_rule("/configuracion", "configuracion", configuracion.index)
-    app.add_url_rule("/configuracion/set/color1", "config_set_color1", configuracion.setColor1, methods=["POST"])
-    app.add_url_rule("/configuracion/set/color2", "config_set_color2", configuracion.setColor2, methods=["POST"])
-    app.add_url_rule("/configuracion/set/color3", "config_set_color3", configuracion.setColor3, methods=["POST"])
-    app.add_url_rule("/configuracion/set/criterio", "config_set_criterio_orden", configuracion.setCriterioOrden, methods=["POST"])
-    app.add_url_rule("/configuracion/set/max-elementos", "config_set_max_elementos", configuracion.setMaxElementos, methods=["POST"])
     app.add_url_rule("/configuracion/set/mantenimiento", "config_toggle_mantenimiento", configuracion.toggleMaintenance)
+    app.add_url_rule("/configuracion/set_configs", "set_configs", configuracion.setConfigs,  methods=["POST"])
     
 
     # Ruta para el Home (usando decorator)
