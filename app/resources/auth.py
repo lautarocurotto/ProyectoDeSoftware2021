@@ -13,18 +13,25 @@ def login():
 def authenticate():
     conn = connection()
     params = request.form
-
-    user = Usuario.find_by_email_and_pass(conn, params["email"], params["password"])
-
-    if not user:
-        flash("Usuario o clave incorrecto.")
+    email=params['email']
+    password=params['password']
+    user=Usuario.find_user_by_email(email)
+    if user and user.verify_password(user,password):
+        #sesion iniciada correctamente
+        print("funciono")
+        session["user"]=user.email
+        session["id"]=user.id
+        flash("la sesion se inicio correctamente")
+        return redirect(url_for("home"))
+    else:
+        #mail o contraseña invalidos
+        print("no funciono")
+        flash("usuario o clave incorrectos")
         return redirect(url_for("auth_login"))
+       
+    
 
-    session["user"] = user.email
-    session["id"] = user.id
-    flash("La sesión se inició correctamente.")
-
-    return redirect(url_for("home"))
+    
 
 
 def logout():

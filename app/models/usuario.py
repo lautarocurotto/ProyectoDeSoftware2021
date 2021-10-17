@@ -26,13 +26,14 @@ class Usuario(db.Model):
     last_name=Column(String(255),unique=True)
 
     @classmethod
+    def verify_password(cls,user,password):
+        query= check_password_hash(user.password,password)
+        return query
+    
+    @classmethod
     def create_password(cls,password):
         return generate_password_hash(password)
 
-    @classmethod
-    def verify_password(cls,password):
-        return check_password_hash(cls.password,password)
-    
 
     @classmethod
     def find_by_email(cls,mail):
