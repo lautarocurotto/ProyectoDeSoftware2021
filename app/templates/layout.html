@@ -15,23 +15,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap" rel="stylesheet">
+    <style>
+        .color1{
+            background-color: {{configs().color1Privada}};
+        }
+        .color2{
+            color: {{configs().color2Privada}};
+        }
+        h1, h2, h3, h4, h5{
+            color: {{configs().color2Privada}};
+        }
+        a, a:visited{
+            color: {{configs().color3Privada}};
+        }
+    </style>
     {% endblock %}
 </head>
 
-<style>
-    .color1{
-        background-color: {{configs().color1Privada}};
-    }
-    .color2{
-        color: {{configs().color2Privada}};
-    }
-    h1, h2, h3, h4, h5{
-        color: {{configs().color2Privada}};
-    }
-    a, a:visited{
-        color: {{configs().color3Privada}};
-    }
-</style>
+
 
 <body class="h-100">
     {% block topbar %}
