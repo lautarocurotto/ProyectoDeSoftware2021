@@ -1,14 +1,14 @@
 https://validator.w3.org/ nos marco los siguientes errores:
 
 HTML de login:
-- Hay una atributo height duplicado 
-- Falta un ID para los inputs del login que matcheen con el valor del atributo for correspondiente a los tags label padre
+- Hay una atributo height duplicado.
+- Falta un ID para los inputs del login que matcheen con el valor del atributo for correspondiente a los tags label padre.
 - El valor del atributo for de los tag label deben ser el id de un control de formulario no oculto.
 
-- Para las demas paginas html no se pueden verificar porque no tiene los permisos necesarios
+- Para las demas paginas html no se pueden verificar porque no tiene los permisos necesarios.
 
 https://jigsaw.w3.org/css-validator/ nos marco los siguientes errores:
 
-- Para animation-delay no es valido usar el valor 0
-- Para transform:rotate no es valido usar None
-- Para las demas paginas html no se pueden verificar porque no tiene los permisos necesarios
+- Para animation-delay no es valido usar el valor 0.
+- Para transform:rotate no es valido usar None.
+- Para las demas paginas html no se pueden verificar porque no tiene los permisos necesarios.
