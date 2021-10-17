@@ -91,7 +91,8 @@ def update(id):
                 lista=request.form.getlist('checkbox')
                 usuario_to_update.email=params["email"]
                 usuario_to_update.username=params["username"]
-                usuario_to_update.password=usuario_to_update.create_password(params["password"])
+                if  usuario_to_update.password != params["password"]:
+                    usuario_to_update.password=usuario_to_update.create_password(params["password"])
                 usuario_to_update.updated_at=datetime.now()
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]
@@ -205,7 +206,8 @@ def updatePerfil(id):
             if(existeMail==0 and existeUsername==0): 
                 usuario_to_update.email=params["email"]
                 usuario_to_update.username=params["username"]
-                usuario_to_update.password=usuario_to_update.create_password(params["password"])
+                if  usuario_to_update.password != params["password"]:
+                    usuario_to_update.password=usuario_to_update.create_password(params["password"])
                 usuario_to_update.updated_at=datetime.now()
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]
