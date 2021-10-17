@@ -11,6 +11,9 @@ class rol_tiene_permiso(db.Model):
     permiso_id=Column(Integer,primary_key=True)
 
 
+<<<<<<< HEAD
 def __init__(self,rol_id=None,permiso_id=None):
         self.rol_id=rol_id
         self.permiso_id=permiso_id
+=======
+>>>>>>> 7e6fa4e3dc0677d902e6c0d0879391d37eb95de2

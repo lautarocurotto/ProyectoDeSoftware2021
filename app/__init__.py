@@ -66,11 +66,18 @@ def create_app(environment="development"):
     # Ruta para el Home (usando decorator)
     @app.route("/")
     def home():
+<<<<<<< HEAD
         user = authenticated(session)
         if (not user):
             return redirect(url_for("auth_login"))
         return render_template("home.html")
     
+=======
+        if(helper_auth.authenticated(session)):
+            return render_template("home.html")
+        else:
+            return render_template("auth/login.html")
+>>>>>>> 7e6fa4e3dc0677d902e6c0d0879391d37eb95de2
 
 
     # Rutas de API-REST (usando Blueprints)
