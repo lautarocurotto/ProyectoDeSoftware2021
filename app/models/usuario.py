@@ -1,10 +1,17 @@
 from re import A
+from sqlalchemy.sql.expression import select
 from sqlalchemy.sql.sqltypes import Date
 from app.db import db
+from sqlalchemy import Column,Integer,String,Boolean,DateTime,exists
+from app.models import usuario_tiene_rol
 from sqlalchemy import Column,Integer,String,Boolean,DateTime
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 
+from app.models.permiso import Permiso 
+from app.models.rol_tiene_permiso import rol_tiene_permiso
+from app.models.usuario_tiene_rol import usuario_tiene_rol
+from app.models.roles import Rol
 
 class Usuario(db.Model):
     __tablename__="Usuario"
@@ -72,10 +79,13 @@ class Usuario(db.Model):
 
     
     @classmethod
-    def find_by_email_and_pass(cls, conn, email, password):
-        
-        return cls.query.filter_by(email=email,password=password).first()
+    def find_by_email_and_pass(cls,conn, email, password):
+      return cls.query.filter_by(email=email,password=password).first()   
 
+    @classmethod
+    def has_permission(cls, aUserID, aPermission):
+        consulta=cls.query.join(usuario_tiene_rol, usuario_tiene_rol.usuario_id == Usuario.id).join(rol_tiene_permiso, usuario_tiene_rol.rol_id == rol_tiene_permiso.rol_id).join(Permiso, rol_tiene_permiso.permiso_id == Permiso.id).filter(Usuario.id==aUserID).filter(Permiso.nombre == aPermission)
+        return (consulta.count() > 0)
 
     def __init__(self,email=None,username=None,password=None,activo=None,updated_at=None,created_at=None,first_name=None,last_name=None):
         self.email=email
