@@ -1,7 +1,11 @@
 https://validator.w3.org/ nos marco los siguientes errores:
 
-- Hay un elemento style entre tag head y el tag body y que eso provoco un error fatal que impide recuperarse para poder seguir verificando errores, o sea que si hay mas los ignora
--Para las demas paginas html no se pueden verificar porque no tiene los permisos necesarios
+HTML de login:
+- Hay una atributo height duplicado 
+- Falta un ID para los inputs del login que matcheen con el valor del atributo for correspondiente a los tags label padre
+- El valor del atributo for de los tag label deben ser el id de un control de formulario no oculto.
+
+- Para las demas paginas html no se pueden verificar porque no tiene los permisos necesarios
 
 https://jigsaw.w3.org/css-validator/ nos marco los siguientes errores:
 
