@@ -1,0 +1,10 @@
+https://validator.w3.org/ nos marco los siguientes errores:
+
+- Hay un elemento style entre tag head y el tag body y que eso provoco un error fatal que impide recuperarse para poder seguir verificando errores, o sea que si hay mas los ignora
+-Para las demas paginas html no se pueden verificar porque no tiene los permisos necesarios
+
+https://jigsaw.w3.org/css-validator/ nos marco los siguientes errores:
+
+- Para animation-delay no es valido usar el valor 0
+- Para transform:rotate no es valido usar None
+- Para las demas paginas html no se pueden verificar porque no tiene los permisos necesarios
