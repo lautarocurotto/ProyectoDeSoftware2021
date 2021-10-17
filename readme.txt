@@ -1,0 +1,1 @@
+Para entrar como administrador el email es admin@gmail.com y la contraseña es admin123

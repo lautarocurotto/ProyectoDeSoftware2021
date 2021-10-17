@@ -39,6 +39,9 @@ class DevelopmentConfig(Config):
     )
     
 
+
+    
+
 class TestingConfig(Config):
     """Testing configuration."""
 

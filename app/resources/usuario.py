@@ -3,17 +3,19 @@ from flask import redirect, render_template, request, url_for, session, abort, f
 from app.db import db
 from datetime import datetime
 
-
-#from app.helpers.auth import authenticated
 from app.models.usuario import Usuario
 from app.models.usuario_tiene_rol import usuario_tiene_rol
 from app.resources.validadorUsuarios import ValidarForm
 from app.models.configuracion import Configuracion
+from app.helpers.auth import authenticated, check_permission
 
 # Protected resources
 def index():
-    #if not authenticated(session):
-     #   abort(401)
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_index")):
+       abort(401)
     conf=Configuracion.getConfigs()
     params=request.args
     currentPage = int(params.get("page", 0))
@@ -22,8 +24,11 @@ def index():
 
 
 def create():
-    #if not authenticated(session):
-     #   abort(401)
+    user = authenticated(session)
+    if (not user):
+       return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_new")):
+      abort(401)
     params=request.form
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
@@ -59,6 +64,11 @@ def create():
 
 
 def update(id):
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_update")):
+       abort(401)
     lista=[]
     listaAdm=request.form.getlist('adm')
     listaOpe=request.form.getlist('ope')
@@ -81,7 +91,7 @@ def update(id):
                 lista=request.form.getlist('checkbox')
                 usuario_to_update.email=params["email"]
                 usuario_to_update.username=params["username"]
-                usuario_to_update.password=params["password"]
+                usuario_to_update.password=usuario_to_update.create_password(params["password"])
                 usuario_to_update.updated_at=datetime.now()
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]
@@ -124,6 +134,11 @@ def update(id):
 
 
 def delete(id):
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_destroy")):
+       abort(401)
     usuario_to_delete=Usuario.find_by_id(id)
     if(usuario_to_delete.activo==0):
         mensaje="el usuario ya se encuentra borrado"
@@ -139,6 +154,10 @@ def delete(id):
     return redirect(url_for("usuario_index"))
 
 def activar(id):
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
+    
     usuario_to_activate=Usuario.find_by_id(id)
     if(usuario_to_activate.activo==1):
         mensaje="el usuario ya se encuentra borrado"
@@ -150,20 +169,28 @@ def activar(id):
     return redirect(url_for("usuario_index"))
 
 def show(id):
-
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_show")):
+       abort(401)
     u=Usuario.query.get_or_404(id)
 
     return render_template("usuarios/show.html", usuario=u)
 
 def verPerfil():
-
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     email=session["user"]
     u=Usuario.find_user_by_email(email)
     return render_template("usuarios/perfil.html", usuario=u)
 
 
 def updatePerfil(id):
-   
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
     usuario_to_update=Usuario.find_by_id(id)
    
     if request.method == 'POST':
@@ -178,7 +205,7 @@ def updatePerfil(id):
             if(existeMail==0 and existeUsername==0): 
                 usuario_to_update.email=params["email"]
                 usuario_to_update.username=params["username"]
-                usuario_to_update.password=params["password"]
+                usuario_to_update.password=usuario_to_update.create_password(params["password"])
                 usuario_to_update.updated_at=datetime.now()
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]
