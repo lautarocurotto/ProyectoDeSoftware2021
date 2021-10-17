@@ -26,9 +26,9 @@ def index():
 def create():
     user = authenticated(session)
     if (not user):
-        return redirect(url_for("auth_login"))
+       return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"usuario_new")):
-       abort(401)
+      abort(401)
     params=request.form
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
@@ -205,7 +205,7 @@ def updatePerfil(id):
             if(existeMail==0 and existeUsername==0): 
                 usuario_to_update.email=params["email"]
                 usuario_to_update.username=params["username"]
-                usuario_to_update.password=params["password"]
+                usuario_to_update.password=usuario_to_update.create_password(params["password"])
                 usuario_to_update.updated_at=datetime.now()
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]
