@@ -16,7 +16,7 @@ class Punto(db.Model):
     email=Column(String(255),unique=True)
 
     @classmethod
-    def dame_todo(csl,conf,nombree,estadoo, page):
+    def dame_todo(csl,conf,nombree,estadoo):
         query=csl.query
         if conf.criterio_orden == "Alfabetico":
             query=query.order_by(csl.nombre)
@@ -25,7 +25,8 @@ class Punto(db.Model):
         if estadoo!=None:
                 query=query.filter_by(estado=estadoo)
                 
-        return  query.limit(conf.maxElementos).offset(page*conf.maxElementos)
+        return query
+        # return  query.limit(conf.maxElementos).offset(page*conf.maxElementos)
     
     @classmethod
     def existe_punto(cls,nombree, idPunto=None,noContarMismoNombre=False):
@@ -33,14 +34,3 @@ class Punto(db.Model):
             return cls.query.filter(cls.nombre==nombree,cls.id !=idPunto).count()
         else:
             return cls.query.filter_by(nombre=nombree).count()
-        
-
-           
-
-    def __init__(self,nombre=None,direccion=None,coordenadas=None,estado=None,telefono=None,email=None):
-        self.nombre=nombre
-        self.direccion=direccion
-        self.coordenadas=coordenadas
-        self.estado=estado
-        self.telefono=telefono
-        self.email=email
