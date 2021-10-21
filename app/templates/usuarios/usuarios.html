@@ -59,7 +59,7 @@
             {% if(not prevPage < 0)%}
                 <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=prevPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}{{ '&nombreF=' + request.args.get('nombreF') if request.args.get('nombreF') != None}}">Anterior</a></li>
             {% endif %}
-            {% if true %}
+            {% if hasNextPage %}
                 <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=nextPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}{{ '&nombreF=' + request.args.get('nombreF') if request.args.get('nombreF') != None}}">Siguiente</a></li>
             {% endif %}
         </ul>
