@@ -11,33 +11,45 @@
 <div class="container-fluid">
     <h1>Modificando el usuario {{usuario.nombre}}</h1>
 
+    <div class="mb-3">
+        <a class="btn btn-outline-secondary" href="{{url_for('usuario_index')}}">Volver</a>
+        {% if (usuario.activo) %}
+        <a class="btn btn-outline-danger" href="/usuarios/delete/{{usuario.id}}">Bloquear usuario</a>
+        {% else %}
+        <a class="btn btn-outline-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
+        {% endif %}
+        
+    </div>
+
     <form action="/usuarios/update/{{usuario.id}}" method="POST">
         <div class="mb-3">
-            <label for="email">
+            <label for="email">Email
                 <input class="form-control" type="email" name="email" required placeholder="Email" required value="{{usuario.email}}" >
             </label>
         </div>
         <div class="mb-3">
-            <label for="username">
+            <label for="username">Nombre de usuario
                 <input class="form-control" type="text" name="username" required placeholder="Nombre de usuario" required  value="{{usuario.username}}">
             </label>
         </div>
         <div class="mb-3">
-            <label for="password">
+            <label for="password">Clave
                 <input class="form-control" type="password" name="password" required placeholder="Contraseña" required  value="{{usuario.password}}">
             </label>
         </div>
         <div class="mb-3">
-            <label for="name">
+            <label for="name">Nombre
                 <input class="form-control" type="text" name="name" required placeholder="Nombre" required value="{{usuario.first_name}}">
             </label>
         </div>
         <div class="mb-3">
-            <label for="lastname">
+            <label for="lastname">Apellido
                 <input class="form-control" type="text" name="lastname" required placeholder="Apellido" required value="{{usuario.last_name}}">
             </label>
         </div>
-        <div>
+        <hr class="my-4"></div>
+        <div class="mb-3">
+            <h5>Roles de {{usuario.first_name}}</h5>
             {% if 2 in roles %}
             <input type="checkbox" name="adm" id="adm" value="adm" checked>
             {% else %}
@@ -53,22 +65,12 @@
             <label for="ope"> Operador</label><br><br>
         </div>
         <div class="mb-3">
-            <input type="submit" value="Modificar  usuario">
-            <button type="reset">Limpiar</button>
+            <input class="btn btn-success btn-lg" type="submit" value="Modificar  usuario">
+            <button type="reset" class="btn btn-secondary">Limpiar</button>
         </div>
         
     </form>
 
-    <br>
-    <div>
-        {% if (usuario.activo) %}
-        <a class="btn btn-danger" href="/usuarios/delete/{{usuario.id}}">Bloquear usuario</a>
-        {% else %}
-        <a class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
-        {% endif %}
-    </div>
-
-    <a href="{{url_for('usuario_index')}}">Volver</a>
 </div>
 
 

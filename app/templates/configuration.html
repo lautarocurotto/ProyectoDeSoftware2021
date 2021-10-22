@@ -16,61 +16,68 @@
 
     {% block content %}
     <h1>Configuraciones del sistema</h1>
+    
     <form action="{{url_for('set_configs')}}" method="post">
         <div class="mb-3">
-            <label for="max-elementos">Elementos por página</label>
-            <input type="number" name="max-elementos" id="max-elementos" value="{{configs().maxElementos}}" min="1">
+            <input type="submit" value="Guardar Preferencias" class="btn btn-success">
         </div>
         <div class="mb-3">
-            <label for="criterio-orden">Criterio de ordenación</label>
-            <select name="criterio" id="criterio">
+            <label for="max-elementos">Elementos por página</label>
+            <input class="form-control" type="number" name="max-elementos" id="max-elementos" value="{{configs().maxElementos}}" min="1">
+        </div>
+        <div class="mb-3">
+            <label for="criterio">Criterio de ordenación</label>
+            <select class="form-control" name="criterio" id="criterio">
                 <option value=""> </option>
                 <option value="Alfabetico" {{ "selected" if "Alfabetico" == configs().criterio_orden}}>Alfabético (nombre)</option>
             </select>
         </div>
 
-        <h3>Paleta de colores de aplicación privada</h3>
-        <p>Podrá seleccionar tres colores.</p>
-        <div class="mb-3">
-            <label for="color1">Color #1</label>
-            <input type="color" name="color1" id="color1"  value="{{configs().color1Privada}}">
-        </div>
-        <div class="mb-3">
-            <label for="color2">Color #2</label>
-            <input type="color" name="color2" id="color2"  value="{{configs().color2Privada}}">
-        </div>
-        <div class="mb-3">
-            <label for="color3">Color #3</label>
-            <input type="color" name="color3" id="color3"  value="{{configs().color3Privada}}">
-        </div>
-
-        <div class="mb-3">
-            <input type="submit" value="Guardar Preferencias" class="btn btn-success">
+        <hr class="my-4"></hr>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <h3>Paleta de colores de aplicación privada</h3>
+                <p>Podrá seleccionar tres colores.</p>
+                <div class="mb-3">
+                    <label for="color1">Color #1</label>
+                    <input class="form-control" type="color" name="color1" id="color1"  value="{{configs().color1Privada}}">
+                </div>
+                <div class="mb-3">
+                    <label for="color2">Color #2</label>
+                    <input class="form-control" type="color" name="color2" id="color2"  value="{{configs().color2Privada}}">
+                </div>
+                <div class="mb-3">
+                    <label for="color3">Color #3</label>
+                    <input class="form-control" type="color" name="color3" id="color3"  value="{{configs().color3Privada}}">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <h3>Paleta de colores de aplicación pública</h3>
+                <p>Podrá seleccionar tres colores.</p>
+                <div class="mb-3">
+                    <label for="public-color1">Color #1</label>
+                    <input class="form-control" type="color" name="public-color1" id="public-color1" value="{{configs().color1Publica}}">
+                </div>
+                <div class="mb-3">
+                    <label for="public-color2">Color #1</label>
+                    <input class="form-control" type="color" name="public-color2" id="public-color2" value="{{configs().color2Publica}}">
+                </div>
+                <div class="mb-3">
+                    <label for="public-color3">Color #1</label>
+                    <input class="form-control" type="color" name="public-color3" id="public-color3" value="{{configs().color3Publica}}">
+                </div>
+            </div>
         </div>
     </form>
 
+    <hr class="my-4"></hr>
     <div class="mb-3">
         {% if (configs().sitio_en_mantenimiento) %}
         <a class="btn btn-success" href="{{url_for('config_toggle_mantenimiento')}}">Activar sitio</a>
         {% else %}
         <a class="btn btn-danger" href="{{url_for('config_toggle_mantenimiento')}}">Desactivar sitio</a>
         {% endif %}
-    </div>
-
-
-    <h3>Paleta de colores de aplicación pública</h3>
-    <p>Podrá seleccionar tres colores.</p>
-    <div class="mb-3">
-        <label for="color1">Color #1</label>
-        <input type="color" name="color1" id="public-color1" value="{{configs().color1}}">
-    </div>
-    <div class="mb-3">
-        <label for="color2">Color #1</label>
-        <input type="color" name="color2" id="public-color2" value="{{configs().color2}}">
-    </div>
-    <div class="mb-3">
-        <label for="color3">Color #1</label>
-        <input type="color" name="color3" id="public-color3" value="{{configs().color3}}">
+        <p>Se aplicará esta condición a la aplicación pública</p>
     </div>
 
     {% endblock %}
