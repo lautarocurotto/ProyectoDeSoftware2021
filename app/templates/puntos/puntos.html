@@ -17,9 +17,9 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 
     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#search-modal"><i class="fas fa-search"></i> Buscar</button>
 
-    <a href="{{url_for('puntos_index', statusF='publicado')}}{{ '&nombreF=' + request.args.get('nombreF') if request.args.get('nombreF') != None}}{{ '&page=' + request.args.get('page') if request.args.get('page') != None}}"><i class="fas fa-user-check"></i> Mostrar sólo publicados</a>
+    <a href="{{url_for('puntos_index', statusF='publicado')}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'statusF'}}{% endfor %}"><i class="fas fa-user-check"></i> Mostrar sólo publicados</a>
 
-    <a href="{{url_for('puntos_index',statusF='despublicado')}}{{ '&nombreF=' + request.args.get('nombreF') if request.args.get('nombreF') != None}}{{ '&page=' + request.args.get('page') if request.args.get('page') != None}}"><i class="fas fa-user-check"></i> Mostrar sólo despublicados</a>
+    <a href="{{url_for('puntos_index',statusF='despublicado')}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'statusF'}}{% endfor %}"><i class="fas fa-user-check"></i> Mostrar sólo despublicados</a>
 
     <a class="btn" href="{{url_for('puntos_index')}}"><i class="fas fa-times"></i> Quitar filtros</a>
 
@@ -52,10 +52,10 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
     <nav aria-label="Puntos navigation pages">
         <ul class="pagination">
             {% if(not prevPage < 0)%}
-                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=prevPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}{{ '&nombreF=' + request.args.get('nombreF') if request.args.get('nombreF') != None}}">Anterior</a></li>
+                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=prevPage)}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Anterior</a></li>
             {% endif %}
             {% if hasNextPage %}
-                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=nextPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}{{ '&nombreF=' + request.args.get('nombreF') if request.args.get('nombreF') != None}}">Siguiente</a></li>
+                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=nextPage)}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Siguiente</a></li>
             {% endif %}
         </ul>
     </nav>
