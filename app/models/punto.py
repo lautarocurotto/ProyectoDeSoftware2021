@@ -26,7 +26,6 @@ class Punto(db.Model):
                 query=query.filter_by(estado=estadoo)
                 
         return query
-        # return  query.limit(conf.maxElementos).offset(page*conf.maxElementos)
     
     @classmethod
     def existe_punto(cls,nombree, idPunto=None,noContarMismoNombre=False):
