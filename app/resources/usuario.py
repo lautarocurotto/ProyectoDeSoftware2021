@@ -8,7 +8,7 @@ from app.models.usuario_tiene_rol import usuario_tiene_rol
 from app.resources.validadorUsuarios import ValidarForm
 from app.models.configuracion import Configuracion
 from app.helpers.auth import authenticated, check_permission
-from app.helpers.paginator import hasNextPage, applyLimit
+from app.helpers.paginator import Paginator
 
 # Protected resources
 def index():
@@ -23,7 +23,7 @@ def index():
 
     usuariosTotal = Usuario.dame_todo(conf,currentPage,params.get("statusF",None),params.get("nombreF",None))
 
-    return render_template("usuarios/usuarios.html", filtroStatus=params.get("statusF",None), usuarios=applyLimit(usuariosTotal, currentPage, conf.maxElementos) , nextPage=currentPage+1, prevPage=currentPage-1, hasNextPage=hasNextPage(usuariosTotal, currentPage, conf.maxElementos))
+    return render_template("usuarios/usuarios.html", paginator=Paginator(usuariosTotal, conf.maxElementos, currentPage))
 
 
 def create():
