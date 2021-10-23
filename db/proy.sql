@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 23-10-2021 a las 17:49:00
+-- Tiempo de generación: 23-10-2021 a las 17:54:11
 -- Versión del servidor: 8.0.26-0ubuntu0.20.04.2
 -- Versión de PHP: 7.4.3
 
@@ -123,15 +123,7 @@ CREATE TABLE `Punto_encuentro` (
 --
 
 INSERT INTO `Punto_encuentro` (`id`, `nombre`, `direccion`, `coordenadas`, `estado`, `telefono`, `email`) VALUES
-(22, 'zzzz', 'zzzzzz', 'zzzzz', 'publicado', 'zzzzzzzz', 'z@gmail.com'),
-(26, 'hdsh', 'dfhs', 'dfh', 'publicado', 'dfhdfh', 'agshad@gmail.com'),
-(27, 'c', 'c', 'c', 'publicado', 'c', 'aaa@gmail.com'),
-(30, 'bb', 'b', 'bbb', 'despublicado', 'bb', 'bb@gmail.com'),
-(31, 'nnn', 'nnn', 'nnn', 'publicado', 'nnn', 'n@gmail.com'),
-(32, 'g', 'gg', 'gg', 'publicado', 'ggg', 'gas@thth.com'),
-(34, 'vvv', 'vvv', 'vvv', 'publicado', 'v', 'v@gmail.com'),
-(35, 'aaa', 'asasas', 'aaaa', 'despublicado', 'aaa', 'agsh@gmail.com'),
-(36, 'd', 'sgsg', 'sgds', 'despublicado', 'dasf', 'a@gmail.com');
+(22, 'zzzz', 'zzzzzz', 'zzzzz', 'publicado', 'zzzzzzzz', 'z@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -153,11 +145,6 @@ CREATE TABLE `Recorrido` (
 --
 
 INSERT INTO `Recorrido` (`id`, `nombre`, `descripcion`, `lat`, `lng`, `estado`) VALUES
-(1, 'aaaa', 'a', 'a', 'a', 'despublicado'),
-(2, 'bb', 'b', 'b', 'b', 'publicado'),
-(3, 'c', 'c', 'c', 'c', 'publicado'),
-(4, 'd', 'd', 'd', 'd', 'publicado'),
-(5, 'e', 'e', 'e', 'e', 'publicado'),
 (6, 'hdsh', 'h', 'h', 'h', 'despublicado');
 
 -- --------------------------------------------------------
