@@ -149,7 +149,7 @@ def delete(id):
     else:
         esAdministrador=usuario_tiene_rol.find_by_id(id)
         if(esAdministrador!=0):
-            mensaje="no se puede eliminar a un usuario administrador"
+            mensaje="No se puede eliminar a un usuario administrador"
         else:
             usuario_to_delete.activo=0
             db.session.commit()

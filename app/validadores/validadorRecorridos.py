@@ -6,8 +6,8 @@ class ValidarForm(Form):
         validators.Required(message= 'El nombre es requerido'),
         validators.Length(min=1, max=255,message="La longitud debe ser entre 1 y 255 caracteres")
     ])
-    direccion=StringField('direccion', [
-        validators.Required(message= 'La direccion es requerida'),
+    descripcion=StringField('descripcion', [
+        validators.Required(message= 'La descripcion es requerida'),
         validators.Length(min=1, max=255,message="La longitud debe ser entre 1 y 255 caracteres")
     ])
     lat=StringField('lat', [

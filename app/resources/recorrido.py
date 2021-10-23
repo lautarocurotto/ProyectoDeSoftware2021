@@ -38,6 +38,7 @@ def create():
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
         print("Hay algo mal en el formulario")
+        
     else:
         print("Los campos estan validados")
         cant_puntos=Recorrido.existe_recorrido(params["nombre"]) 
@@ -67,7 +68,7 @@ def update(id):
             return render_template("puntos/update.html", recorrido_to_update=recorrido_to_update)
         else:
             print("Los campos estan validados")
-            cant_puntos=Recorrido.existe_punto(params["nombre"],id,True)
+            cant_puntos=Recorrido.existe_recorrido(params["nombre"],id,True)
             if (cant_puntos==0):
                 recorrido_to_update.nombre=params["nombre"]
                 recorrido_to_update.descripcion=params["descripcion"]
@@ -110,4 +111,4 @@ def show(id):
        abort(401)
     r=Recorrido.query.get_or_404(id)
 
-    return render_template("puntos/show.html", recorrido=r)
+    return render_template("recorridos/show.html", recorrido=r)
