@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 05-10-2021 a las 11:48:33
+-- Tiempo de generación: 23-10-2021 a las 16:16:58
 -- Versión del servidor: 8.0.26-0ubuntu0.20.04.2
 -- Versión de PHP: 7.4.3
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `grupo40`
+-- Base de datos: `proyS`
 --
 
 -- --------------------------------------------------------
@@ -57,7 +57,7 @@ CREATE TABLE `Configuracion` (
 --
 
 INSERT INTO `Configuracion` (`id`, `color1Privada`, `color2Privada`, `color3Privada`, `color1Publica`, `color2Publica`, `color3Publica`, `maxElementos`, `criterio_orden`, `sitio_en_mantenimiento`) VALUES
-(2, '#3d3d3d', '#001b6b', '#333333', '#3d3d3d', '#001b6b', '#333333', 2, 'Alfabetico', 0);
+(2, '#a40000', '#4e9a06', '#75507b', '#C8F2D2', '#C7F1D1', '#C6FFD3', 4, 'Alfabetico', 0);
 
 -- --------------------------------------------------------
 
@@ -95,7 +95,12 @@ INSERT INTO `Permiso` (`id`, `nombre`) VALUES
 (19, 'permiso_destroy'),
 (20, 'permiso_update'),
 (21, 'permiso_show'),
-(22, 'configuracion_update');
+(22, 'configuracion_update'),
+(23, 'recorrido_index'),
+(24, 'recorrido_new'),
+(25, 'recorrido_destroy'),
+(26, 'recorrido_update'),
+(27, 'recorrido_show');
 
 -- --------------------------------------------------------
 
@@ -118,8 +123,30 @@ CREATE TABLE `Punto_encuentro` (
 --
 
 INSERT INTO `Punto_encuentro` (`id`, `nombre`, `direccion`, `coordenadas`, `estado`, `telefono`, `email`) VALUES
-(3, 'puntolp', '45 8 y 11', '11 222 43', 'publicado', '1122233', 'agshad@gmail.com'),
-(5, 'sfgsg', 'sgsfg', 'sfgsfg', 'despublicado', 'sgsg', 'sdgsdg@yahoo.com.ar');
+(22, 'zzzz', 'zzzzzz', 'zzzzz', 'publicado', 'zzzzzzzz', 'z@gmail.com'),
+(26, 'hdsh', 'dfhs', 'dfh', 'publicado', 'dfhdfh', 'agshad@gmail.com'),
+(27, 'c', 'c', 'c', 'publicado', 'c', 'aaa@gmail.com'),
+(30, 'bb', 'b', 'bbb', 'despublicado', 'bb', 'bb@gmail.com'),
+(31, 'nnn', 'nnn', 'nnn', 'publicado', 'nnn', 'n@gmail.com'),
+(32, 'g', 'gg', 'gg', 'publicado', 'ggg', 'gas@thth.com'),
+(34, 'vvv', 'vvv', 'vvv', 'publicado', 'v', 'v@gmail.com'),
+(35, 'aaa', 'asasas', 'aaaa', 'despublicado', 'aaa', 'agsh@gmail.com'),
+(36, 'd', 'sgsg', 'sgds', 'despublicado', 'dasf', 'a@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Recorrido`
+--
+
+CREATE TABLE `Recorrido` (
+  `id` int NOT NULL,
+  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `descripcion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `lat` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `lng` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `estado` varchar(255) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -180,7 +207,16 @@ INSERT INTO `rol_tiene_permiso` (`rol_id`, `permiso_id`) VALUES
 (2, 19),
 (2, 20),
 (2, 21),
-(2, 22);
+(2, 22),
+(1, 23),
+(2, 23),
+(1, 24),
+(2, 24),
+(2, 25),
+(1, 26),
+(2, 26),
+(1, 27),
+(2, 27);
 
 -- --------------------------------------------------------
 
@@ -200,6 +236,17 @@ CREATE TABLE `Usuario` (
   `last_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='Tabla para almacenar los usuarios registrados en la pagina';
 
+--
+-- Volcado de datos para la tabla `Usuario`
+--
+
+INSERT INTO `Usuario` (`id`, `email`, `username`, `password`, `activo`, `updated_at`, `created_at`, `first_name`, `last_name`) VALUES
+(1, 'gastonciancio@gmail.com', 'gciancio', 'pbkdf2:sha256:260000$5VWrriAIKIIziY9Z$e28f7c2af21cf06cb2011e86ff23c5900a886d6e6e4083fb079f8910ce1365fa', 1, '2021-10-17 14:55:53', '2021-10-13 16:39:57', 'gaston', 'ciancio'),
+(13, 'a@gmail.com', 'a', 'pbkdf2:sha256:260000$CDiXyD3EauZPWaD1$6537c7497da55e60077a85d816fc32f7a94e1f422dc45a9d095f84fc58dad4cb', 1, '2021-10-17 15:24:06', '2021-10-17 13:21:22', 'aaaa', 'a'),
+(14, 'bb@gmail.com', 'bb', 'pbkdf2:sha256:260000$YUUo7wF8blWWkXKG$265cfc6c671379305d4167c985344ace2d46177265f81dd5a708da342af8a5ad', 1, '2021-10-17 13:26:02', '2021-10-17 13:26:02', 'b', 'b'),
+(15, 'c@gmail.com', 'c', 'pbkdf2:sha256:260000$SBNB6yH9rL9AtaoJ$65a2ece9ce85d31b7d386387baeb051aec0cdb9c94bad59c8b22c82ae24e2b5a', 1, '2021-10-17 13:34:27', '2021-10-17 13:26:32', 'c', 'ciancio'),
+(16, 'v@gmail.com', 'v', 'pbkdf2:sha256:260000$KBRbQw16OhTV59FJ$44ae635d50c7b034abcc312b1f0d992c5a3cda2f9840fd26b7bf4c46ecd9d29a', 1, '2021-10-17 13:53:10', '2021-10-17 13:53:10', 'v', 'v');
+
 -- --------------------------------------------------------
 
 --
@@ -210,6 +257,18 @@ CREATE TABLE `usuario_tiene_rol` (
   `usuario_id` int NOT NULL,
   `rol_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='tabla de la relacion entre usuario y rol';
+
+--
+-- Volcado de datos para la tabla `usuario_tiene_rol`
+--
+
+INSERT INTO `usuario_tiene_rol` (`usuario_id`, `rol_id`) VALUES
+(1, 1),
+(13, 1),
+(14, 1),
+(15, 1),
+(16, 1),
+(1, 2);
 
 --
 -- Índices para tablas volcadas
@@ -231,6 +290,12 @@ ALTER TABLE `Permiso`
 -- Indices de la tabla `Punto_encuentro`
 --
 ALTER TABLE `Punto_encuentro`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `Recorrido`
+--
+ALTER TABLE `Recorrido`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -273,13 +338,19 @@ ALTER TABLE `Configuracion`
 -- AUTO_INCREMENT de la tabla `Permiso`
 --
 ALTER TABLE `Permiso`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `Punto_encuentro`
 --
 ALTER TABLE `Punto_encuentro`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT de la tabla `Recorrido`
+--
+ALTER TABLE `Recorrido`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `Rol`
@@ -291,7 +362,7 @@ ALTER TABLE `Rol`
 -- AUTO_INCREMENT de la tabla `Usuario`
 --
 ALTER TABLE `Usuario`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Restricciones para tablas volcadas
