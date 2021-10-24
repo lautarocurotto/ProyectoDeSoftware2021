@@ -3,6 +3,7 @@ from flask import Flask, render_template,redirect,url_for,request, session
 from config import config
 from app import db
 from app.resources import punto
+from app.resources import recorrido
 from app.resources import configuracion
 from app.resources import usuario
 from flask_session import Session
@@ -57,6 +58,12 @@ def create_app(environment="development"):
     app.add_url_rule("/puntos/update/<int:id>","puntos_update",punto.update, methods=["POST", "GET"] )
     app.add_url_rule("/puntos/delete/<int:id>","puntos_delete",punto.delete)
     app.add_url_rule("/puntos/show/<int:id>","puntos_show",punto.show)
+
+    app.add_url_rule("/recorridos","recorridos_index",recorrido.index,methods=["POST", "GET"])
+    app.add_url_rule("/recorridos/nuevo","recorridos_create",recorrido.create, methods=["POST"] )
+    app.add_url_rule("/recorridos/update/<int:id>","recorridos_update",recorrido.update, methods=["POST", "GET"] )
+    app.add_url_rule("/recorridos/delete/<int:id>","recorridos_delete",recorrido.delete)
+    app.add_url_rule("/recorridos/show/<int:id>","recorridos_show",recorrido.show)
 
     app.add_url_rule("/configuracion", "configuracion", configuracion.index)
     app.add_url_rule("/configuracion/set/mantenimiento", "config_toggle_mantenimiento", configuracion.toggleMaintenance)
