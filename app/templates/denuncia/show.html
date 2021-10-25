@@ -1,0 +1,87 @@
+
+{% extends "layout.html"%}
+{% block title %}Denuncias - Zonas de inundación{% endblock %}
+{% block head %}
+    {{super()}}
+{% endblock %}
+{% block content %}
+  
+
+<div class="container-fluid">
+    <div class="mb-3">
+       <h1>Denuncia #{{denuncia.id}} - {{denuncia.title}}</h1> 
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="mb-3">
+                <small class="{{'alert-success' if denuncia.status != 'CLOSED' else 'alert-danger'}}">Denuncia <strong>{{"abierta" if denuncia.status != "CLOSED"}}</strong> - Status actual: <strong>{{denuncia.status}}</strong></small>
+                {% if denuncia.status == "CLOSED" %}
+                    <small class="alert-danger">Cerrada el {{denuncia.closed_at}}</small>
+                {% endif %}
+                <small class="alert-primary">{{denuncia.category_id}}</small>
+            </div>
+
+            <div class="mb-3">
+                <div class="accordion" id="accordionDenunciante">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingDenunciante">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDenunciante" aria-expanded="true" aria-controls="collapseDenunciante">
+                            <i class="far fa-user-circle"></i> Datos del denunciante
+                        </button>
+                      </h2>
+                      <div id="collapseDenunciante" class="accordion-collapse collapse" aria-labelledby="headingDenunciante" data-bs-parent="#accordionDenunciante">
+                        <div class="accordion-body">
+                            <div class="mb-3">
+                                <h5>Nombre</h5>
+                                <p>{{denuncia.denunciante_name}}</p>
+                                <h5>Apellido</h5>
+                                <p>{{denuncia.denunciante_last_name}}</p>
+                                <h5>Número de teléfono</h5>
+                                <p><a href="phone:{{denuncia.denunciante_phone}}">{{denuncia.denunciante_phone}}</a></p>
+                                <h5>Email</h5>
+                                <p><a href="mailto:{{denuncia.denunciante_email}}">{{denuncia.denunciante_email}}</a></p>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <!-- end datos del denunciante -->
+
+            </div>
+
+        </div>
+        <div class="col-md-6">
+
+            <div class="mb-3">
+                <form action="{{url_for('denuncia_set_status')}}" method="POST">
+                    <input type="hidden" name="id" value="{{denuncia.id}}">
+                    <label for="status">Estado de la denuncia</label>
+                    <select class="form-control" name="status" id="status" value="{{denuncia.status}}">
+                        <option value="UNCONFIRMED" {{"selected" if denuncia.status == "UNCONFIRMED"}}>Sin confirmar</option>
+                        <option value="IN_PROGRESS" {{"selected" if denuncia.status == "IN_PROGRESS"}}>En curso</option>
+                        <option value="RESOLVED" {{"selected" if denuncia.status == "RESOLVED"}}>Resuelta</option>
+                        <option value="CLOSED" {{"selected" if denuncia.status == "CLOSED"}}>Cerrada</option>
+                    </select>
+                    <input type="submit" value="Actualizar estado" class="btn btn-outline-success">
+                </form>
+            </div>
+            
+
+        </div>
+    </div>
+    
+    
+    <div class="container">
+        <small class="alert-primary">Fecha de creación: {{denuncia.created_at}}</small>
+        <p>{{denuncia.description}}</p>
+        <p><i class="fas fa-globe-americas"></i> {{denuncia.coordenates}}</p>
+        <h5>Mapa de prueba</h5>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3891.1691199275774!2d-57.93729828924487!3d-34.9046886813331!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a2e66a8fcdf951%3A0x9191a5ff1fbbe5d5!2sUNLP%20-%20Facultad%20de%20Inform%C3%A1tica!5e0!3m2!1ses!2sar!4v1635162701341!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+    
+    
+</div>
+
+{% endblock %}

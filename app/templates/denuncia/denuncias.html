@@ -1,0 +1,110 @@
+
+{% extends "layout.html"%}
+{% block title %}Denuncias - Zonas de inundación{% endblock %}
+{% block head %}
+    {{super()}}
+{% endblock %}
+{% block content %}
+  
+
+<div class="container-fluid">
+    <h1>Administración de denuncias</h1>
+
+    <div class="accordion" id="accordionFilters">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingFilters">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
+              <i class="fas fa-sliders-h"></i> Filtros de búsqueda
+            </button>
+          </h2>
+          <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="headingFilters" data-bs-parent="#accordionFilters">
+            <div class="accordion-body">
+                <form action="{{url_for('denuncias')}}" method="GET">
+
+                    <div class="mb-3">
+                        <label for="query-title">Búsqueda por título: </label>
+                        <input class="form-control" type="text" id="query-title" name="query-title" placeholder="Título" value="{{request.args.get('query-title') if request.args.get('query-title') != None}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="query-status">Búsqueda por estado:</label>
+                        <select class="form-control" name="query-status" id="status-query" value="{{request.args.get('query-status') if request.args.get('query-status') != None}}">
+                            <option value=""></option>
+                            <option value="UNCONFIRMED">Sin confirmar</option>
+                            <option value="IN_PROGRESS">En curso</option>
+                            <option value="RESOLVED">Resuelta</option>
+                            <option value="CLOSED">Cerrada</option>
+                        </select>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <p>Filtrar por fecha de creación de la denuncia</p>
+                    <div class="mb-3">
+                        <label for="query-datefrom">Desde</label>
+                        <input class="form-control" type="date" name="query-datefrom" id="query-datefrom" value="{{request.args.get('query-datefrom') if request.args.get('query-datefrom') != None}}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="query-dateuntil">Hasta</label>
+                        <input class="form-control" type="date" name="query-dateuntil" id="query-dateuntil" value="{{request.args.get('query-dateuntil') if request.args.get('query-dateuntil') != None}}">
+                    </div>
+                    <script>
+                        document.getElementById("query-dateuntil").value = new Date();
+                    </script>
+                    
+                    <input type="submit" value="Filtrar" class="btn btn-outline-primary form-control">
+                </form>
+
+                <div class="mb-3">
+                    <a class="btn btn-outline-warning" class="btn" href="{{url_for('denuncias')}}"><i class="fas fa-times"></i> Quitar filtros</a>
+                </div>
+                
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- end filters -->
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Título</td>
+                    <td>Fecha creación</td>
+                    <td>Estado</td>
+                    <td>Telf. denunciante</td>
+                    <td>Email denunciante</td>
+                </tr>
+            </thead>
+            <tbody>
+                {%for denuncia in paginator.get_page() %}
+                
+                    <tr>
+                        <td><a href="{{url_for('denuncia_show', id=denuncia.id)}}">{{denuncia.title}}</a></td>
+                        <td>{{denuncia.created_at}}</td>
+                        <td>{{denuncia.status}}</td>
+                        <td>{{denuncia.denunciante_phone}}</td>
+                        <td>{{denuncia.denunciante_email}}</td>
+                    </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- end table -->
+
+    <nav aria-label="Puntos navigation pages">
+        <ul class="pagination">
+            {% if(not paginator.prev_page() < 0)%}
+                <li class="page-item"><a class="page-link" href="{{url_for('denuncias', page=paginator.prev_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Anterior</a></li>
+            {% endif %}
+            {% if paginator.has_next_page() %}
+                <li class="page-item"><a class="page-link" href="{{url_for('denuncias', page=paginator.next_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Siguiente</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+</div>
+
+{% endblock %}

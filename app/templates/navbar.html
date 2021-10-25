@@ -21,6 +21,11 @@
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'puntos_index'}}" href="{{url_for('puntos_index')}}">Puntos de encuentro</a>
                     </li>
+                    {% if tiene_permiso(session["id"], "denuncia_index") %}
+                    <li class="nav-item">
+                        <a class="nav-link {{'active' if request.endpoint == 'denuncias'}}" href="{{url_for('denuncias')}}">Denuncias</a>
+                    </li>
+                    {% endif %}
                     {% if tiene_permiso(session["id"],"usuario_index") %}
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'usuario_index'}}" href="{{url_for('usuario_index')}}">Usuarios</a>
