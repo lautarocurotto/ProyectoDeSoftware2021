@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 23-10-2021 a las 17:54:11
--- Versión del servidor: 8.0.26-0ubuntu0.20.04.2
+-- Tiempo de generación: 25-10-2021 a las 12:42:51
+-- Versión del servidor: 8.0.27-0ubuntu0.20.04.1
 -- Versión de PHP: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -112,18 +112,12 @@ CREATE TABLE `Punto_encuentro` (
   `id` int NOT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `direccion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `coordenadas` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `lat` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `lng` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `estado` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `telefono` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='Tabla para guardar los puntos de encuentro';
-
---
--- Volcado de datos para la tabla `Punto_encuentro`
---
-
-INSERT INTO `Punto_encuentro` (`id`, `nombre`, `direccion`, `coordenadas`, `estado`, `telefono`, `email`) VALUES
-(22, 'zzzz', 'zzzzzz', 'zzzzz', 'publicado', 'zzzzzzzz', 'z@gmail.com');
 
 -- --------------------------------------------------------
 
