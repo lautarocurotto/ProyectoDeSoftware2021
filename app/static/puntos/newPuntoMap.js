@@ -13,10 +13,18 @@ const submitHandler = (event,map) => {
     }
 }
 
+const resetHandler = (event,map) => {
+
+    if (map.marker){
+        map.marker.remove();
+    }
+}
+
 window.onload = () => {
     
-    const map = new Map({selector:'mapid'});
+    let map = new Map({selector:'mapid'});
     let form = document.getElementById('create-punto-form');
     form.addEventListener('submit', (event)=> submitHandler(event,map));
+    form.addEventListener('reset', (event)=> resetHandler(event,map));
 
 }

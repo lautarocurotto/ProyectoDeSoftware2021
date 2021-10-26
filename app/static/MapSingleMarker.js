@@ -21,6 +21,7 @@ export function Map ({selector}){
         
     };
 
+
     map.addEventListener('click', (e)=> {addMarker(e.latlng)});
 
     

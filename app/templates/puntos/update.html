@@ -10,6 +10,8 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
+    <script type="module" src="/../static/puntos/newPuntoMap.js"></script>
+    
 {% endblock %}
 
 {% block content %}
@@ -18,15 +20,7 @@
 
     <h1>Modificando Punto de encuentro {{punto_to_update.nombre}}</h1>
 
-    <div class="mb-3">
-        <a class="btn btn-outline-secondary" href="{{url_for('puntos_index')}}">Volver</a>
-        {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
-        <a class="btn btn-outline-danger" href="/puntos/delete/{{punto_to_update.id}}">Borrar</a>
-        {% endif %}
-    </div>
     
-    
-
     <form action="/puntos/update/{{punto_to_update.id}}" method="POST">
         <div class="mb-3">
             <label for="nombre">Nombre de punto de encuentro
@@ -38,16 +32,7 @@
                 <input class="form-control" type="text" name="direccion" required placeholder="Direccion" required value="{{punto_to_update.direccion}}">  
             </label>
         </div>
-        <div class="mb-3">
-            <label for="lat">lat
-                <input class="form-control" type="text" name="lat" required placeholder="lat" required value="{{punto_to_update.lat}}">
-            </label>
-        </div>
-        <div class="mb-3">
-            <label for="lng">lng
-                <input class="form-control" type="text" name="lng" required placeholder="lng" required value="{{punto_to_update.lng}}">
-            </label>
-        </div>
+        
         <div class="mb-3">
             <label for="status">Estado
                 <select class="form-control" name="status" id="status" required value="{{punto_to_update.status}}">
@@ -66,9 +51,18 @@
                 <input class="form-control" type="email" name="email" required placeholder="Email" required value="{{punto_to_update.email}}">
             </label>
         </div>
+
+        <input style="display: none" id="lat" value="{{punto_to_update.lat}}">
+        <input style="display: none" id="lng" value="{{punto_to_update.lng}}">
+        <div id="mapid"></div>
         
-        <input class="btn btn-success btn-lg" type="submit" value="Modificar punto de encuentro">
-        
+        <input class="btn btn-success" type="submit" value="Modificar punto de encuentro">
+        <div class="mb-3">
+            <a class="btn btn-outline-secondary" href="{{url_for('puntos_index')}}">Volver</a>
+            {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
+            <a class="btn btn-outline-danger" href="/puntos/delete/{{punto_to_update.id}}">Borrar</a>
+            {% endif %}
+        </div>
     </form>
 
 </div>
