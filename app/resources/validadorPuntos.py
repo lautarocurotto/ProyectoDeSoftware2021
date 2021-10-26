@@ -12,11 +12,11 @@ class ValidarForm(Form):
         validators.Length(min=1, max=255,message="La longitud debe ser entre 1 y 255 caracteres")
     ])
     lat=StringField('lat', [
-        validators.Required(message= 'Las coordenadas de latitud son requeridas'),
-        validators.Length(min=1, max=255,message="La longitud debe ser entre 1 y 255 caracteres")
+       validators.Required(message= 'Las coordenadas de latitud son requeridas'),
+       validators.Length(min=1, max=255,message="La longitud debe ser entre 1 y 255 caracteres")
     ])
     lng=StringField('lng', [
-        validators.Required(message= 'Las coordenadas de longitud son requeridas'),
+       validators.Required(message= 'Las coordenadas de longitud son requeridas'),
         validators.Length(min=1, max=255,message="La longitud debe ser entre 1 y 255 caracteres")
     ])
     status=StringField('status', [

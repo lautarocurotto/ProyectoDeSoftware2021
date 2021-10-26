@@ -8,12 +8,12 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 {% block head %}
     {{super()}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-        crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-        crossorigin=""></script>
-    <script src="/../static/puntos/newPuntoMap.js"></script>
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+  <script type="module" src="/../static/puntos/newPuntoMap.js"></script>
 {% endblock %}
 {% block content %}
   
@@ -132,18 +132,16 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
                 </div>
                 <div class="mb-3">
                     <label for="lat">
-                        <input class="form-control"  required type="text" name="lat" placeholder="lat" id='lat' >
+                        <input class="form-control" style="display: none"   type="text" name="lat" placeholder="lat" id='lat' >
                     </label>
                 </div>
                 <div class="mb-3">
                     <label for="lng">
-                        <input class="form-control"  required type="text" name="lng" placeholder="lng" id='lng' >
+                        <input class="form-control"  style="display: none"  type="text" name="lng" placeholder="lng" id='lng' >
                     </label>
                 </div>
                 
-                <div class="map-container">
-                    <div id="mapid"></div>
-                </div>
+                <div id="mapid"></div>
 
                 <div class="mb-3">
                     <input class="btn btn-success" type="submit" value="Crear punto de encuentro">
