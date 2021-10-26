@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
-    <script type="module" src="/../static/puntos/newPuntoMap.js"></script>
+    <script type="module" src="/../static/puntos/updatePuntoMap.js"></script>
     
 {% endblock %}
 
@@ -21,7 +21,7 @@
     <h1>Modificando Punto de encuentro {{punto_to_update.nombre}}</h1>
 
     
-    <form action="/puntos/update/{{punto_to_update.id}}" method="POST">
+    <form action="/puntos/update/{{punto_to_update.id}}" method="POST" id="formulario-update">
         <div class="mb-3">
             <label for="nombre">Nombre de punto de encuentro
                 <input class="form-control" type="text" name="nombre" required placeholder="Nombre" required value="{{punto_to_update.nombre}}">
@@ -63,6 +63,7 @@
             <a class="btn btn-outline-danger" href="/puntos/delete/{{punto_to_update.id}}">Borrar</a>
             {% endif %}
         </div>
+       
     </form>
 
 </div>

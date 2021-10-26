@@ -1,4 +1,4 @@
-import { Map } from '../MapSingleMarker.js';
+import { Map } from '../MapSingleMarkerUpdate.js';
 
 const submitHandler = (event,map) => {
 
@@ -26,7 +26,7 @@ window.onload = () => {
     let latitud = document.getElementById('lat');
     let longitud = document.getElementById('lng');
     let map = new Map('mapid',latitud.getAttribute('value'), longitud.getAttribute('value'));
-    let form = document.getElementById('create-punto-form');
+    let form = document.getElementById('formulario-update');
     let res=form.addEventListener('submit', (event)=> submitHandler(event,map));
     let res2=form.addEventListener('reset', (event)=> resetHandler(event,map));
 

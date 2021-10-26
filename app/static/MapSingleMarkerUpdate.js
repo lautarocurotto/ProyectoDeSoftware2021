@@ -10,6 +10,7 @@ export function Map (selector,lati,longi){
     function initializeMap(selector){
         map = L.map(selector).setView([initialLat,initialLng],13);
         L.tileLayer(mapLayerUrl).addTo(map);
+        marker = L.marker([parseFloat(lati),parseFloat(longi)]).addTo(map);
     };
     initializeMap(selector);
 
