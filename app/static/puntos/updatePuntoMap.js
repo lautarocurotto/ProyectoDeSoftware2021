@@ -1,4 +1,4 @@
-import { Map } from '../MapSingleMarkerUpdate.js';
+import { Map } from './MapSingleMarkerUpdate.js';
 
 const submitHandler = (event,map) => {
 

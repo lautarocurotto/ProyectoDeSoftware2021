@@ -1,4 +1,4 @@
-import { Map } from '../MapSingleMarkerShow.js';
+import { Map } from './MapSingleMarkerShow.js';
 
 
 
