@@ -73,6 +73,11 @@ def create_app(environment="development"):
     app.add_url_rule("/denuncias", "denuncias", denuncia.index)
     app.add_url_rule("/denuncia/<int:id>", "denuncia_show", denuncia.show)
     app.add_url_rule("/denuncia/set-status", "denuncia_set_status", denuncia.set_status, methods=["POST"])
+    app.add_url_rule("/denuncia/update-seguimiento", "denuncia_update_seguimiento", denuncia.update_seguimiento, methods=["POST"])
+
+    # APIs
+
+    app.add_url_rule("/api/denuncias", "api_denuncias", denuncia.new_denuncia, methods=["POST"])
 
     # Ruta para el Home (usando decorator)
     @app.route("/")

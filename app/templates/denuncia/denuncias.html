@@ -13,7 +13,7 @@
     <div class="accordion" id="accordionFilters">
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingFilters">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
               <i class="fas fa-sliders-h"></i> Filtros de búsqueda
             </button>
           </h2>
@@ -49,9 +49,6 @@
                         <label for="query-dateuntil">Hasta</label>
                         <input class="form-control" type="date" name="query-dateuntil" id="query-dateuntil" value="{{request.args.get('query-dateuntil') if request.args.get('query-dateuntil') != None}}">
                     </div>
-                    <script>
-                        document.getElementById("query-dateuntil").value = new Date();
-                    </script>
                     
                     <input type="submit" value="Filtrar" class="btn btn-outline-primary form-control">
                 </form>
