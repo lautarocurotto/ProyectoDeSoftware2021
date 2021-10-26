@@ -5,15 +5,15 @@ from sqlalchemy import Column,Integer,String,exists
 
 
 
-class Punto(db.Model):
-    __tablename__="Punto_encuentro"
+class Recorrido(db.Model):
+    __tablename__="Recorrido"
     id=Column(Integer,primary_key=True)
     nombre=Column(String(255),unique=True)
-    direccion=Column(String(255),unique=True)
-    coordenadas=Column(String(255),unique=True)
+    descripcion=Column(String(255),unique=True)
+    lat=Column(String(255),unique=True)
+    lng=Column(String(255),unique=True)
     estado=Column(String(255),unique=True)
-    telefono=Column(String(255),unique=True)
-    email=Column(String(255),unique=True)
+   
 
     @classmethod
     def dame_todo(csl,conf,nombree,estadoo):
@@ -28,8 +28,8 @@ class Punto(db.Model):
         return query
     
     @classmethod
-    def existe_punto(cls,nombree, idPunto=None,noContarMismoNombre=False):
+    def existe_recorrido(cls,nombree, idReco=None,noContarMismoNombre=False):
         if noContarMismoNombre:
-            return cls.query.filter(cls.nombre==nombree,cls.id !=idPunto).count()
+            return cls.query.filter(cls.nombre==nombree,cls.id !=idReco).count()
         else:
             return cls.query.filter_by(nombre=nombree).count()

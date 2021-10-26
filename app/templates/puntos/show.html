@@ -36,11 +36,11 @@
             <td>{{punto.email}}</td>
         </tr>
     </table>
-    <a class="btn btn-secondary" href="/puntos/update/{{punto.id}}"><i class="far fa-edit">Editar</i></a>
+    <a class="btn btn-outline-primary" href="/puntos/update/{{punto.id}}">Editar</a>
     {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
-    <a class="btn btn-danger" href="/puntos/delete/{{punto.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+    <a class="btn btn-outline-danger" href="/puntos/delete/{{punto.id}}">Borrar</a>
     {% endif %}
-    <a href="{{url_for('puntos_index')}}">Volver</a>
+    <a class="btn btn-outline-secondary" href="{{url_for('puntos_index')}}">Volver</a>
 </div>
 
 {% endblock %}

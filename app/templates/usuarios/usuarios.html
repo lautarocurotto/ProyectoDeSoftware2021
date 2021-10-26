@@ -11,13 +11,13 @@
     <h1>Administración de Usuarios</h1>
     <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#new-usuario-modal">Nuevo Usuario</button>
 
-    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#search-modal"><i class="fas fa-search"></i> Buscar</button>
+    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#search-modal"><i class="fas fa-search"></i> Buscar</button>
 
-    <a href="{{url_for('usuario_index', statusF='activo')}}"><i class="fas fa-user-check"></i> Mostrar sólo usuarios activos</a>
+    <a class="btn btn-outline-primary {{'active' if request.args.get('statusF') == 'activo'}}" href="{{url_for('usuario_index', statusF='activo')}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'statusF'}}{% endfor %}"><i class="fas fa-user-check"></i> Mostrar sólo usuarios activos</a>
 
-    <a href="{{url_for('usuario_index', statusF='bloqueado')}}"><i class="fas fa-user-check"></i> Mostrar sólo usuarios inactivos</a>
+    <a class="btn btn-outline-primary {{'active' if request.args.get('statusF') == 'bloqueado'}}" href="{{url_for('usuario_index', statusF='bloqueado')}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'statusF'}}{% endfor %}"><i class="fas fa-user-check"></i> Mostrar sólo usuarios inactivos</a>
 
-    <a class="btn" href="{{url_for('usuario_index')}}"><i class="fas fa-times"></i> Quitar filtros</a>
+    <a class="btn btn-outline-secondary" class="btn" href="{{url_for('usuario_index')}}"><i class="fas fa-times"></i> Quitar filtros</a>
 
     <div class="table-responsive">
         <table class="table">
@@ -30,7 +30,7 @@
                 </tr>
             </thead>
             <tbody>
-                {%for usuario in usuarios %}
+                {%for usuario in paginator.get_page() %}
                 <tr>
                     <td>{{usuario.username}}</td>
                     <td>{{usuario.email}}</td>
@@ -41,13 +41,13 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="/usuarios/update/{{usuario.id}}"><i class="far fa-edit">Editar</i></a>
+                        <a class="btn btn-outline-secondary" href="/usuarios/update/{{usuario.id}}">Editar</a>
                         {% if (usuario.activo==1) %}
-                        <a href="/usuarios/delete/{{usuario.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+                        <a class="btn btn-outline-danger" href="/usuarios/delete/{{usuario.id}}">Borrar</a>
                         {% else %}
-                        <a class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
+                        <a class="btn btn-outline-success" class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
                         {% endif %}
-                        <a href="/usuarios/show/{{usuario.id}}">Ver</a> 
+                        <a class="btn btn-outline-secondary" href="/usuarios/show/{{usuario.id}}">Ver</a> 
                     </td>
                 </tr>
                 {% endfor %}
@@ -56,11 +56,11 @@
     </div>
     <nav aria-label="Puntos navigation pages">
         <ul class="pagination">
-            {% if(not prevPage < 0)%}
-                <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=prevPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}">Anterior</a></li>
+            {% if(not paginator.prev_page() < 0)%}
+                <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=paginator.prev_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Anterior</a></li>
             {% endif %}
-            {% if usuarios.count() == max %}
-                <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=nextPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}">Siguiente</a></li>
+            {% if paginator.has_next_page() %}
+                <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=paginator.next_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Siguiente</a></li>
             {% endif %}
         </ul>
     </nav>
