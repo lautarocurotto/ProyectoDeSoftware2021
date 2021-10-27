@@ -20,7 +20,7 @@
                 {% if denuncia.status == "CLOSED" %}
                     <small class="alert-danger">Cerrada el {{denuncia.closed_at}}</small>
                 {% endif %}
-                <small class="alert-primary">{{denuncia.category_id}}</small>
+                <small class="alert-primary"><strong>Categoría</strong> {{denuncia.category_id}}</small>
             </div>
 
             <div class="mb-3">
@@ -55,17 +55,6 @@
         <div class="col-md-6">
 
             <div class="mb-3">
-                <!-- <form action="{{url_for('denuncia_set_status')}}" method="POST">
-                    <input type="hidden" name="id" value="{{denuncia.id}}">
-                    <label for="status">Estado de la denuncia</label>
-                    <select class="form-control" name="status" id="status" value="{{denuncia.status}}">
-                        <option value="UNCONFIRMED" {{"selected" if denuncia.status == "UNCONFIRMED"}}>Sin confirmar</option>
-                        <option value="IN_PROGRESS" {{"selected" if denuncia.status == "IN_PROGRESS"}}>En curso</option>
-                        <option value="RESOLVED" {{"selected" if denuncia.status == "RESOLVED"}}>Resuelta</option>
-                        <option value="CLOSED" {{"selected" if denuncia.status == "CLOSED"}}>Cerrada</option>
-                    </select>
-                    <input type="submit" value="Actualizar estado" class="btn btn-outline-success">
-                </form> -->
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                       <button class="nav-link active" id="pills-estado-tab" data-bs-toggle="pill" data-bs-target="#pills-estado" type="button" role="tab" aria-controls="pills-estado" aria-selected="true">Estado de denuncia</button>
@@ -76,7 +65,7 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-estado" role="tabpanel" aria-labelledby="pills-estado-tab">
-                        <form action="{{url_for('denuncia_set_status')}}" method="POST">
+                        <form action="{{url_for('denuncia_set_status')}}" method="POST" onchange="enablebtn(this);">
                             <input type="hidden" name="id" value="{{denuncia.id}}">
                             <label for="status">Estado de la denuncia</label>
                             <select class="form-control" name="status" id="status" value="{{denuncia.status}}">
@@ -85,7 +74,7 @@
                                 <option value="RESOLVED" {{"selected" if denuncia.status == "RESOLVED"}}>Resuelta</option>
                                 <option value="CLOSED" {{"selected" if denuncia.status == "CLOSED"}}>Cerrada</option>
                             </select>
-                            <input type="submit" value="Actualizar estado" class="btn btn-outline-success">
+                            <input type="submit" value="Actualizar estado" class="btn btn-outline-success" disabled>
                         </form>
                     </div>
                     <div class="tab-pane fade" id="pills-seguimiento" role="tabpanel" aria-labelledby="pills-seguimiento-tab">
@@ -112,6 +101,13 @@
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3891.1691199275774!2d-57.93729828924487!3d-34.9046886813331!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a2e66a8fcdf951%3A0x9191a5ff1fbbe5d5!2sUNLP%20-%20Facultad%20de%20Inform%C3%A1tica!5e0!3m2!1ses!2sar!4v1635162701341!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
     </div>
     
+    {% block jsimport %}
+    <script>
+        function enablebtn(evt){
+            evt.getElementsByClassName("btn")[0].disabled = false;
+        }
+    </script>
+    {% endblock %}
     
 </div>
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-10-2021 a las 20:39:56
+-- Tiempo de generación: 27-10-2021 a las 15:41:34
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -86,7 +86,7 @@ CREATE TABLE `denuncia` (
 --
 
 INSERT INTO `denuncia` (`id`, `title`, `category_id`, `created_at`, `closed_at`, `description`, `coordenates`, `status`, `operator_id`, `denunciante_name`, `denunciante_last_name`, `denunciante_phone`, `denunciante_email`, `seguimiento`) VALUES
-(1, 'Alcantarilla defectuosa frente a Teatro Argentino', 1, '2021-10-24', '2021-10-24', 'Hay una alcantarilla defectuosa. Not much to say. Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus voluptas culpa soluta quibusdam non veritatis eligendi neque, maxime dolores, animi illum distinctio. Sunt explicabo modi vel saepe? Accusantium, vero voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus vero ipsam impedit officiis doloribus delectus consequuntur. Sapiente mollitia, unde aliquid nam distinctio praesentium nemo aspernatur voluptas facilis? Consectetur, id earum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus quasi ipsa nobis nesciunt nulla, ab voluptatibus sapiente perferendis amet harum atque, voluptate numquam quaerat. Minima soluta iure maiores vitae animi.', '33.4444, -66.000', 'RESOLVED', 18, 'Juan', 'Perez', '2215555555', 'juanperez@gmail.com', 'asd'),
+(1, 'Alcantarilla defectuosa frente a Teatro Argentino', 1, '2021-10-24', '2021-10-27', 'Hay una alcantarilla defectuosa. Not much to say. Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus voluptas culpa soluta quibusdam non veritatis eligendi neque, maxime dolores, animi illum distinctio. Sunt explicabo modi vel saepe? Accusantium, vero voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus vero ipsam impedit officiis doloribus delectus consequuntur. Sapiente mollitia, unde aliquid nam distinctio praesentium nemo aspernatur voluptas facilis? Consectetur, id earum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus quasi ipsa nobis nesciunt nulla, ab voluptatibus sapiente perferendis amet harum atque, voluptate numquam quaerat. Minima soluta iure maiores vitae animi.', '33.4444, -66.000', 'CLOSED', 18, 'Juan', 'Perez', '2215555555', 'juanperez@gmail.com', 'asd'),
 (2, 'Alcantarilla tapada', 2, '2021-10-26', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non erat non ligula efficitur tincidunt eu ac justo. Donec eu nunc purus. Mauris commodo lacus ex, vitae vehicula dui pellentesque at. Nam sollicitudin ut nunc eu imperdiet. Donec in elit fringilla, molestie ligula at, commodo massa. Curabitur quis erat nec odio fringilla hendrerit. Morbi in malesuada dolor, quis auctor nisi.', '41.40338, 2.18403', 'UNCONFIRMED', NULL, 'Cosme', 'Fulanito', '221-8436754', 'juan.perez@gmail.com', NULL);
 
 -- --------------------------------------------------------

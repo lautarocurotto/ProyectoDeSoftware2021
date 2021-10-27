@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import redirect, render_template, request, url_for, session, abort, flash
 from werkzeug.wrappers import response
 from app.models.denuncia import Denuncia
@@ -32,6 +33,14 @@ def set_status():
         abort(500)
 
     Denuncia.query.get_or_404(request.form["id"]).status = request.form["status"]
+
+    # En caso de que se re-abra la denuncia, borrar la fecha de clsed_at
+    if(request.form["status"] == "CLOSED"):
+        Denuncia.query.get_or_404(request.form["id"]).closed_at = datetime.now()
+    else:
+        Denuncia.query.get_or_404(request.form["id"]).closed_at = ""
+    
+
     try:
         db.session.commit()
         flash("Estado de denuncia actualizado")
@@ -44,6 +53,10 @@ def set_status():
 def update_seguimiento():
     if not authenticated(session) or not check_permission(session["id"], "denuncia_update") and (request.form["seguimientos"] == '' and request.form["id"] == ''):
         abort(401)
+
+    if Denuncia.query.get_or_404(request.form["id"]).status == "CLOSED":
+        flash("Esta denuncia está cerrada. Debe reabrirla para poder gestionarla.")
+        return redirect(url_for("denuncia_show", id = request.form["id"]))
 
     Denuncia.query.get_or_404(request.form["id"]).seguimiento = request.form["seguimiento"]
 

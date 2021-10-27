@@ -11,7 +11,7 @@ class Denuncia(db.Model):
     closed_at = Column(DateTime)
     description = Column(String)
 
-    coordenates = Column(String) # No deberían ser un conjunto de puntos? Lats & alts ?
+    coordenates = Column(String)
 
     status = Column(String, server_default=text('UNCONFIRMED'))
     operator_id = Column(Integer)
@@ -28,15 +28,12 @@ class Denuncia(db.Model):
         query = cls.query
 
         if(query_args.get("query-title") != None and query_args.get("query-title") != ''):
-            print("Se filtro titutlo")
             query = query.filter(cls.title.like("%" + query_args.get("query-title") + "%"))
 
         if(query_args.get("query-status") != None and query_args.get("query-status") != ''):
-            print("Se filtro status")
             query = query.filter_by(status = query_args.get("query-status"))
         
         if(query_args.get("query-datefrom") != None and query_args.get("query-datefrom") != ''):
-            # print("query-datefrom: " + cls.created_at)
             query = query.filter(cls.created_at >= query_args.get("query-datefrom"))
 
         if(query_args.get("query-dateuntil") != None and query_args.get("query-dateuntil") != ''):
