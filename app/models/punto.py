@@ -6,12 +6,12 @@ class Punto(db.Model):
     __tablename__="Punto_encuentro"
     id=Column(Integer,primary_key=True)
     nombre=Column(String(255),unique=True)
-    direccion=Column(String(255),unique=True)
-    lat=Column(String(255),unique=True)
-    lng=Column(String(255),unique=True)
-    estado=Column(String(255),unique=True)
-    telefono=Column(String(255),unique=True)
-    email=Column(String(255),unique=True)
+    direccion=Column(String(255))
+    lat=Column(String(255))
+    lng=Column(String(255))
+    estado=Column(String(255))
+    telefono=Column(String(255))
+    email=Column(String(255))
 
     @classmethod
     def dame_todo(csl,conf,nombree,estadoo):

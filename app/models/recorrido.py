@@ -1,15 +1,15 @@
 from app.db import db
 from sqlalchemy import Column,Integer,String
+from sqlalchemy.orm import relationship
 
 class Recorrido(db.Model):
     __tablename__="Recorrido"
     id=Column(Integer,primary_key=True)
     nombre=Column(String(255),unique=True)
     descripcion=Column(String(255))
-    lat=Column(String(255))
-    lng=Column(String(255))
     estado=Column(String(255))
-   
+    puntos=relationship("Coordenadas",cascade="all, delete")
+
 
     @classmethod
     def dame_todo(csl,conf,nombree,estadoo):

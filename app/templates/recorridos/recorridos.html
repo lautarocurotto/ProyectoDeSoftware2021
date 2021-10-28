@@ -7,6 +7,13 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
 {% block title %}Recorridos de evacuacion{% endblock %}
 {% block head %}
     {{super()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <script type="module" src="../../static/recorridos/newRecorridoMap.js"></script>
 {% endblock %}
 {% block content %}
   
@@ -93,7 +100,7 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{{ url_for('recorridos_create') }}" method="POST">
+            <form action="{{ url_for('recorridos_create') }}" id="create-recorrido-form" method="POST">
                 <div class="mb-3">
                     <label for="nombre">
                         <input class="form-control" required type="text" name="nombre" placeholder="Nombre" >

@@ -7,7 +7,7 @@ from sqlalchemy import Column,Integer,String,Boolean,DateTime,exists
 class Rol(db.Model):
     __tablename__="Rol"
     id=Column(Integer,primary_key=True)
-    nombre=Column(Integer,unique=True)
+    nombre=Column(String(255),unique=True)
 
 
     
