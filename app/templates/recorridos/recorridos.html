@@ -105,17 +105,6 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
                     </label>
                 </div>
                 <div class="mb-3">
-                    <label for="lat">
-                        <input class="form-control" required type="text" name="lat" placeholder="Lat" >
-                    </label>
-                </div>
-                <div class="mb-3">
-                    <label for="lng">
-                        <input class="form-control" type="text" name="lng" required placeholder="Lng" >
-                    </label>
-                </div>
-
-                <div class="mb-3">
                     <label for="status">
                         <select class="form-control" required name="status" id="status" >
                             <option value="publicado">publicado</option>
@@ -123,6 +112,18 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
                         </select>
                     </label>
                 </div>
+
+                <div class="mb-3">
+                    <label for="lat">
+                        <input id="lat" class="form-control" required type="text" name="lat" placeholder="Lat" >
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="lng">
+                        <input id="lng" class="form-control" type="text" name="lng" required placeholder="Lng" >
+                    </label>
+                </div>
+                <div id="mapid"></div>
                
                 <div class="mb-3">
                     <input class="btn btn-success" type="submit" value="Crear recorrido de evacuacion">

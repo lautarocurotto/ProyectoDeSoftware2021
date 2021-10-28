@@ -11,3 +11,7 @@
 }
 
 #mapid { height: 280px; }
+
+#lat { display: none;}
+
+#lng { display: none;}
