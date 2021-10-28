@@ -1,18 +1,14 @@
 from app.db import db
-from sqlalchemy import Column,Integer,String,exists
-
-
-
-
+from sqlalchemy import Column,Integer,String
 
 class Recorrido(db.Model):
     __tablename__="Recorrido"
     id=Column(Integer,primary_key=True)
     nombre=Column(String(255),unique=True)
-    descripcion=Column(String(255),unique=True)
-    lat=Column(String(255),unique=True)
-    lng=Column(String(255),unique=True)
-    estado=Column(String(255),unique=True)
+    descripcion=Column(String(255))
+    lat=Column(String(255))
+    lng=Column(String(255))
+    estado=Column(String(255))
    
 
     @classmethod
