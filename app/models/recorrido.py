@@ -1,6 +1,7 @@
 from app.db import db
 from sqlalchemy import Column,Integer,String
 from sqlalchemy.orm import relationship
+from app.models.coordenadas import Coordenadas
 
 class Recorrido(db.Model):
     __tablename__="Recorrido"
@@ -8,7 +9,7 @@ class Recorrido(db.Model):
     nombre=Column(String(255),unique=True)
     descripcion=Column(String(255))
     estado=Column(String(255))
-    puntos=relationship("Coordenadas",cascade="all, delete")
+    puntos=relationship(Coordenadas,cascade="all, delete")
 
 
     @classmethod

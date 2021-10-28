@@ -7,15 +7,10 @@ class Coordenadas(db.Model):
     lat=Column(String(255))
     lng=Column(String(255))
 
-    recorrido_id=Column(Integer,ForeignKey('Recorrido.id'), nullable=True)
-    
-    
-    @classmethod
-    def getAll(csl):
-        return  csl.query.all()
+    recorrido_id=Column(Integer,ForeignKey('Recorrido.id'))
 
 
-    def __init__(self,lat=None,lng=None):
-        self.lat=lat
-        self.lng=lng
+    def __init__(self,lati=None,lngg=None):
+        self.lat=lati
+        self.lng=lngg
         
