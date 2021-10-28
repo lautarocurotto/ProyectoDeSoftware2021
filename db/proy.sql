@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 25-10-2021 a las 12:42:51
+-- Tiempo de generación: 28-10-2021 a las 14:49:14
 -- Versión del servidor: 8.0.27-0ubuntu0.20.04.1
 -- Versión de PHP: 7.4.3
 
@@ -58,6 +58,18 @@ CREATE TABLE `Configuracion` (
 
 INSERT INTO `Configuracion` (`id`, `color1Privada`, `color2Privada`, `color3Privada`, `color1Publica`, `color2Publica`, `color3Publica`, `maxElementos`, `criterio_orden`, `sitio_en_mantenimiento`) VALUES
 (2, '#a40000', '#4e9a06', '#75507b', '#C8F2D2', '#C7F1D1', '#C6FFD3', 4, 'Alfabetico', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Coordenadas`
+--
+
+CREATE TABLE `Coordenadas` (
+  `id` int NOT NULL,
+  `lat` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `lng` varchar(255) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -118,6 +130,14 @@ CREATE TABLE `Punto_encuentro` (
   `telefono` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='Tabla para guardar los puntos de encuentro';
+
+--
+-- Volcado de datos para la tabla `Punto_encuentro`
+--
+
+INSERT INTO `Punto_encuentro` (`id`, `nombre`, `direccion`, `lat`, `lng`, `estado`, `telefono`, `email`) VALUES
+(49, 'aaa', 'a', '-34.91591853170241', '-57.94755935668946', 'publicado', 'aaa', 'a@gmail.com'),
+(50, 'f', 'f', '-34.917326130709455', '-57.9745101928711', 'despublicado', 'f', 'v@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -270,6 +290,12 @@ ALTER TABLE `Configuracion`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `Coordenadas`
+--
+ALTER TABLE `Coordenadas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `Permiso`
 --
 ALTER TABLE `Permiso`
@@ -324,6 +350,12 @@ ALTER TABLE `Configuracion`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT de la tabla `Coordenadas`
+--
+ALTER TABLE `Coordenadas`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `Permiso`
 --
 ALTER TABLE `Permiso`
@@ -333,7 +365,7 @@ ALTER TABLE `Permiso`
 -- AUTO_INCREMENT de la tabla `Punto_encuentro`
 --
 ALTER TABLE `Punto_encuentro`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `Recorrido`
