@@ -75,7 +75,7 @@ class Usuario(db.Model):
             if activoo=='bloqueado':
                 query=query.filter_by(activo=0)
 
-        return query.limit(conf.maxElementos).offset(page*conf.maxElementos)
+        return query
 
     
     @classmethod

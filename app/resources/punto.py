@@ -7,6 +7,7 @@ from app.db import connection
 from app.resources.validadorPuntos import ValidarForm
 
 from app.helpers.auth import authenticated, check_permission
+from app.helpers.paginator import Paginator
 from app.models.punto import Punto
 from app.models.configuracion import Configuracion
 
@@ -22,8 +23,10 @@ def index():
     conf=Configuracion.getConfigs()
     params=request.args
     currentPage = int(params.get("page", 0))
-    puntosTotal = Punto.dame_todo(conf,params.get("nombreF",None),params.get("statusF",None), currentPage)
-    return render_template("puntos/puntos.html", filtroStatus=params.get("statusF",None), puntos=puntosTotal, nextPage=currentPage+1, prevPage=currentPage-1, max=conf.maxElementos)
+
+    puntosTotal = Punto.dame_todo(conf,params.get("nombreF",None),params.get("statusF",None))
+
+    return render_template("puntos/puntos.html", paginator=Paginator(puntosTotal, conf.maxElementos, currentPage))
     
 
 def create():
