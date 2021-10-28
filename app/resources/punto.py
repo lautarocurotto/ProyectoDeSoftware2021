@@ -43,7 +43,7 @@ def create():
         print("Los campos estan validados")
         cant_puntos=Punto.existe_punto(params["nombre"]) # Me fijo si ya existe un punto con ese nombre
         if (cant_puntos==0): #si la cantidad es 0 es porque no hay ninguna tupla en la base de datos con ese nombre, o sea que no existe 
-            new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],coordenadas=params["coordenadas"],estado=params["status"],telefono=params["telefono"],email=params["email"])
+            new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],lat=params["lat"],lng=params["lng"],estado=params["status"],telefono=params["telefono"],email=params["email"])
             db.session.add(new_punto)
             db.session.commit()
             mensaje="Se agrego el punto"
@@ -72,7 +72,8 @@ def update(id):
             if (cant_puntos==0):
                 punto_to_update.nombre=params["nombre"]
                 punto_to_update.direccion=params["direccion"]
-                punto_to_update.coordenadas=params["coordenadas"]
+                punto_to_update.lat=params["lat"]
+                punto_to_update.lng=params["lng"]
                 punto_to_update.estado=params["status"]
                 punto_to_update.telefono=params["telefono"]
                 punto_to_update.email=params["email"]

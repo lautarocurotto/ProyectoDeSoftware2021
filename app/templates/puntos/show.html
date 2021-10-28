@@ -4,6 +4,13 @@
 
 {% block head %}
     {{super()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <script type="module" src="/../static/puntos/showPuntoMap.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -20,10 +27,6 @@
             <td>{{punto.direccion}}</td>
         </tr>
         <tr>
-            <th>COORDENADAS:</th>
-            <td>{{punto.coordenadas}}</td>
-        </tr>
-        <tr>
             <th>ESTADO:</th>
             <td>{{punto.estado}}</td>
         </tr>
@@ -31,16 +34,21 @@
             <th>TELEFONO:</th>
             <td>{{punto.telefono}}</td>
         </tr>
+       
         <tr>
             <th>EMAIL:</th>
             <td>{{punto.email}}</td>
         </tr>
+        <input style="display: none" id="lat" value="{{punto.lat}}">
+        <input style="display: none" id="lng" value="{{punto.lng}}">
+        <div id="mapid"></div>
     </table>
     <a class="btn btn-outline-primary" href="/puntos/update/{{punto.id}}">Editar</a>
     {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
     <a class="btn btn-outline-danger" href="/puntos/delete/{{punto.id}}">Borrar</a>
     {% endif %}
     <a class="btn btn-outline-secondary" href="{{url_for('puntos_index')}}">Volver</a>
+   
 </div>
 
 {% endblock %}
