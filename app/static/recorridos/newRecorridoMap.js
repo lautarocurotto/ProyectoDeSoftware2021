@@ -1,7 +1,7 @@
 import { Map } from './MapMultipleMarker.js';
 
 const submitHandler = (event,map) => {
-
+   
     if (map.marker.length<3){
         event.preventDefault();
         alert('Selecciona minimo 3 puntos para aceptar el recorrido');
@@ -14,7 +14,7 @@ const submitHandler = (event,map) => {
             "document.getElementById('lat').setAttribute('value',latlng.lat);"
             "document.getElementById('lng').setAttribute('value',latlng.lng);"
         }
-        event.preventDefault();
+      
     }
 }
 

@@ -14,9 +14,7 @@ export function Map (selector){
     initializeMap(selector);
 
     function addMarker({lat,lng}){
-
         marker.push(L.marker([lat,lng]).addTo(map));
-        
     };
 
     map.addEventListener('click', (e)=> {addMarker(e.latlng)});
