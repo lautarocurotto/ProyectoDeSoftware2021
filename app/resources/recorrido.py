@@ -4,6 +4,7 @@ from flask.helpers import flash
 from sqlalchemy.sql.expression import true
 from app.db import db
 from app.validadores.validadorRecorridos import ValidarForm
+from app.models.coordenadas import Coordenadas
 
 from app.helpers.auth import authenticated, check_permission
 from app.helpers.paginator import Paginator
@@ -42,8 +43,10 @@ def create():
     else:
         print("Los campos estan validados")
         cant_puntos=Recorrido.existe_recorrido(params["nombre"]) 
-        if (cant_puntos==0): #si la cantidad es 0 es porque no hay ninguna tupla en la base de datos con ese nombre, o sea que no existe 
-            new_recorrido=Recorrido(nombre=params["nombre"],descripcion=params["descripcion"],lat=params["lat"],estado=params["status"],lng=params["lng"])
+        if (cant_puntos==0):
+            new_recorrido=Recorrido(nombre=params["nombre"],descripcion=params["descripcion"],estado=params["status"])
+            new_coordenada=Coordenadas(lat=params["lat"],lng=params["lng"])
+            new_recorrido.puntos.append(new_coordenada)
             db.session.add(new_recorrido)
             db.session.commit()
             mensaje="Se agrego el recorrido"
@@ -53,7 +56,7 @@ def create():
     return redirect(url_for("recorridos_index"))
 
 def update(id):
-
+    print("entre al update")
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
@@ -72,9 +75,9 @@ def update(id):
             if (cant_puntos==0):
                 recorrido_to_update.nombre=params["nombre"]
                 recorrido_to_update.descripcion=params["descripcion"]
-                recorrido_to_update.lat=params["lat"]
+                recorrido_to_update.puntos[0].lat=params["lat"]
                 recorrido_to_update.estado=params["status"]
-                recorrido_to_update.lng=params["lng"]
+                recorrido_to_update.puntos[0].lng=params["lng"]
                 try:
                     db.session.commit()
                     return redirect(url_for("recorridos_index"))

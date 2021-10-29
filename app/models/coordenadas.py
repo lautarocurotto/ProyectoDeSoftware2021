@@ -10,7 +10,7 @@ class Coordenadas(db.Model):
     recorrido_id=Column(Integer,ForeignKey('Recorrido.id'))
 
 
-    def __init__(self,lati=None,lngg=None):
-        self.lat=lati
-        self.lng=lngg
+    def __init__(self,lat=None,lng=None):
+        self.lat=lat
+        self.lng=lng
         

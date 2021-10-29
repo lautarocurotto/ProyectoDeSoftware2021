@@ -4,6 +4,13 @@
 
 {% block head %}
     {{super()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <script type="module" src="/../static/puntos/showPuntoMap.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -20,18 +27,12 @@
             <td>{{recorrido.descripcion}}</td>
         </tr>
         <tr>
-            <th>Lat:</th>
-            <td>{{recorrido.lat}}</td>
-        </tr>
-        <tr>
-            <th>Lng:</th>
-            <td>{{recorrido.lng}}</td>
-        </tr>
-        <tr>
             <th>ESTADO:</th>
             <td>{{recorrido.estado}}</td>
         </tr>
-        
+        <input style="display: none" id="lat" value="{{recorrido.puntos[0].lat}}">
+        <input style="display: none" id="lng" value="{{recorrido.puntos[0].lng}}">
+        <div id="mapid"></div>
         
     </table>
     <a class="btn btn-outline-primary" href="/recorridos/update/{{recorrido.id}}">Editar</a>
