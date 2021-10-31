@@ -6,12 +6,15 @@ from app.helpers.paginator import Paginator
 from app.models.configuracion import Configuracion
 from app.helpers.auth import authenticated, check_permission
 from email_validator import validate_email, EmailNotValidError
+from app.models.seguimiento import Seguimiento
+from app.models.categoria import Categoria
 
 from app.db import db
 
 status_names = ["UNCONFIRMED", "IN_PROGRESS", "RESOLVED", "CLOSED"]
 
 def index():
+    """Obtener y mostrar todas las denuncias"""
 
     if not authenticated(session) or not check_permission(session["id"], "denuncia_index"):
         abort(401)
@@ -19,26 +22,29 @@ def index():
     return render_template("denuncia/denuncias.html", paginator=Paginator(Denuncia.get_all(request.args), Configuracion.getConfigs().maxElementos, request.args.get("page", 0)))
 
 def show(id):
+    """Obtener y mostrar una denuncia para gestionar"""
     if not authenticated(session) or not check_permission(session["id"], "denuncia_update"):
         abort(401)
 
     return render_template("denuncia/show.html", denuncia=Denuncia.query.get_or_404(id))
 
 def set_status():
-
+    """Método para setear un estado a la denuncia"""
     if not authenticated(session) or not check_permission(session["id"], "denuncia_update") and (request.form["status"] == '' and request.form["id"] == ''):
         abort(401)
 
     if not request.form["status"] in status_names:
         abort(500)
 
-    Denuncia.query.get_or_404(request.form["id"]).status = request.form["status"]
+    denuncia = Denuncia.query.get_or_404(request.form["id"])
+    
+    denuncia.status = request.form["status"]
 
     # En caso de que se re-abra la denuncia, borrar la fecha de clsed_at
     if(request.form["status"] == "CLOSED"):
-        Denuncia.query.get_or_404(request.form["id"]).closed_at = datetime.now()
+        denuncia.closed_at = datetime.now()
     else:
-        Denuncia.query.get_or_404(request.form["id"]).closed_at = ""
+        denuncia.closed_at = ""
     
 
     try:
@@ -54,22 +60,32 @@ def update_seguimiento():
     if not authenticated(session) or not check_permission(session["id"], "denuncia_update") and (request.form["seguimientos"] == '' and request.form["id"] == ''):
         abort(401)
 
-    if Denuncia.query.get_or_404(request.form["id"]).status == "CLOSED":
+    denuncia = Denuncia.query.get_or_404(request.form["id"])
+
+    if denuncia.status == "CLOSED":
         flash("Esta denuncia está cerrada. Debe reabrirla para poder gestionarla.")
         return redirect(url_for("denuncia_show", id = request.form["id"]))
 
-    Denuncia.query.get_or_404(request.form["id"]).seguimiento = request.form["seguimiento"]
+    db.session.add(
+        Seguimiento(
+            denuncia_id = denuncia.id,
+            author_id = session["id"],
+            created_at = datetime.now(),
+            description = request.form["seguimiento"]
+        )
+    )
 
     try:
         db.session.commit()
         flash("Seguimiento de denuncia actualizado")
-    except:
-        print("Error @ denuncia#update_seguimiento()")
+    except Exception as e:
+        print(e)
         flash("Error")
 
     return redirect(url_for('denuncia_show', id = request.form["id"]))
 
 def new_denuncia():
+    """Método para usar en la API"""
     postdata = request.get_json()
 
     try:
@@ -81,24 +97,26 @@ def new_denuncia():
         int(postdata["categoria_id"])
     except:
         return "ID de categoría inválido"
+    
+    Categoria.query.get_or_404(postdata["categoria_id"])
 
     if postdata["coordenadas"] == '':
-        return return_missing_field_error("unas coordenadas")
+        return response.Response(status=500)
 
     if postdata["apellido_denunciante"] == '':
-        return return_missing_field_error("su apellido")
+        return response.Response(status=500)
 
     if postdata["nombre_denunciante"] == '':
-        return return_missing_field_error("su nombre")
+        return response.Response(status=500)
 
     if postdata["telcel_denunciante"] == '':
-        return return_missing_field_error("su número telefónico")
+        return response.Response(status=500)
 
     if postdata["titulo"] == '':
-        return return_missing_field_error("un título")
+        return response.Response(status=500)
 
     if postdata["descripcion"] == '':
-        return return_missing_field_error("una descripcion")
+        return response.Response(status=500)
 
     db.session.add(
         Denuncia(
@@ -119,5 +137,3 @@ def new_denuncia():
         
     return response.Response(status=201)
 
-def return_missing_field_error(fieldname):
-    return "Debe introducir " + fieldname

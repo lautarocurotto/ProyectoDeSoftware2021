@@ -1,4 +1,5 @@
 from re import A
+from sqlalchemy.orm import backref, relationship
 from sqlalchemy.sql.expression import select
 from sqlalchemy.sql.sqltypes import Date
 from app.db import db
@@ -24,6 +25,9 @@ class Usuario(db.Model):
     created_at=Column(DateTime,unique=True)
     first_name=Column(String(255),unique=True)
     last_name=Column(String(255),unique=True)
+
+    seguimientos = relationship('Seguimiento', backref='author')
+
 
     @classmethod
     def verify_password(cls,user,password):
