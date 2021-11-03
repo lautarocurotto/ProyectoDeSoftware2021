@@ -19,7 +19,7 @@ def index():
         return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"recorrido_index")):
        abort(401)
-    conf=Configuracion.getConfigs()
+    conf=Configuracion.get_configs()
     params=request.args
     currentPage = int(params.get("page", 0))
 
