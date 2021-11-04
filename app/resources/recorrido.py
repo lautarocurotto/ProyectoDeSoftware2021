@@ -37,33 +37,25 @@ def create():
        abort(401)    
     
     contenido=request.get_json()
+    nombree=contenido["name"]
+    descripcionn=contenido["description"]
+    estadoo=contenido["status"]
     coordendas=contenido["coodinates"]
-    for coordenada in coordendas:
-        print(coordenada["lat"])
-
-    
-    
+    print(len(coordendas))
     
 
-    
-
-    
     return redirect(url_for("recorridos_index"))
-
-
-    """
-    params=request.form
-    mensaje=ValidarForm(params)
-    if mensaje.validate()==False:
+   
+    if(nombree=="" or descripcionn=="" or estadoo=="" or len(coordendas)<3):
         print("Hay algo mal en el formulario")
-        
     else:
         print("Los campos estan validados")
-        cant_puntos=Recorrido.existe_recorrido(params["nombre"]) 
+        cant_puntos=Recorrido.existe_recorrido(nombree) 
         if (cant_puntos==0):
-            new_recorrido=Recorrido(nombre=params["nombre"],descripcion=params["descripcion"],estado=params["status"])
-            new_coordenada=Coordenadas(lat=params["lat"],lng=params["lng"])
-            new_recorrido.puntos.append(new_coordenada)
+            new_recorrido=Recorrido(nombre=nombree,descripcion=descripcionn,estado=estadoo)
+            for c in coordendas:
+                new_coordenada=Coordenadas(lat=c["lat"],lng=c["lng"])
+                new_recorrido.puntos.append(new_coordenada)
             db.session.add(new_recorrido)
             db.session.commit()
             mensaje="Se agrego el recorrido"
@@ -71,7 +63,7 @@ def create():
             mensaje="El recorrido ya existe por favor elija otro nombre"
         flash(mensaje)
     return redirect(url_for("recorridos_index"))
-    """
+
 
 def update(id):
     print("entre al update")

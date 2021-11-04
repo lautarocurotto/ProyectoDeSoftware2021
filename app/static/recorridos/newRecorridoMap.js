@@ -15,6 +15,8 @@ const submitHandler = (event,map) => {
             return {lat:coordinate.lat ,lng:coordinate.lng }
         });
 
+        console.log(coodinates);
+
     
       
         fetch('/recorridos/nuevo', {
