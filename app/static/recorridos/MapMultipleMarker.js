@@ -77,6 +77,7 @@ export class Map{
         return this.createControlsToolbar ||= new L.Control.Draw({
             draw:{
                 circle:false,
+                circlemarker:false,
                 marker:false,
                 polyline: this.crearPoli,
                 rectangle: this.crearRecta,

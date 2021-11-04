@@ -41,13 +41,9 @@ def create():
     descripcionn=contenido["description"]
     estadoo=contenido["status"]
     coordendas=contenido["coodinates"]
-    print(len(coordendas))
-    
-
-    return redirect(url_for("recorridos_index"))
    
     if(nombree=="" or descripcionn=="" or estadoo=="" or len(coordendas)<3):
-        print("Hay algo mal en el formulario")
+         mensaje="Formulario mal"
     else:
         print("Los campos estan validados")
         cant_puntos=Recorrido.existe_recorrido(nombree) 
@@ -61,8 +57,8 @@ def create():
             mensaje="Se agrego el recorrido"
         else:
             mensaje="El recorrido ya existe por favor elija otro nombre"
-        flash(mensaje)
-    return redirect(url_for("recorridos_index"))
+    flash(mensaje)
+    return mensaje
 
 
 def update(id):

@@ -26,7 +26,7 @@ const submitHandler = (event,map) => {
                 'Content-Type':'application/json'
             }
 
-        })
+        }).then(data => location.reload());
       
     }
 }
