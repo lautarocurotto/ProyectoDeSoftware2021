@@ -30,8 +30,8 @@ def create_app(environment="development"):
 
     # Funciones que se exportan al contexto de Jinja2
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
-    app.jinja_env.globals.update(isAdmin=helper_auth.isAdmin)
-    app.jinja_env.globals.update(configs=configuracion.getConfigs)
+    # app.jinja_env.globals.update(isAdmin=helper_auth.isAdmin)
+    app.jinja_env.globals.update(configs=configuracion.get_configs)
     app.jinja_env.globals.update(tiene_permiso=helper_auth.check_permission)
 
     # Autenticación
@@ -67,7 +67,7 @@ def create_app(environment="development"):
 
     app.add_url_rule("/configuracion", "configuracion", configuracion.index)
     app.add_url_rule("/configuracion/set/mantenimiento", "config_toggle_mantenimiento", configuracion.toggleMaintenance)
-    app.add_url_rule("/configuracion/set_configs", "set_configs", configuracion.setConfigs,  methods=["POST"])
+    app.add_url_rule("/configuracion/set_configs", "set_configs", configuracion.set_configs,  methods=["POST"])
     
 
     # Ruta para el Home (usando decorator)
