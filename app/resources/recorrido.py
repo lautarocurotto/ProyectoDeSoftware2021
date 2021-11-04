@@ -35,6 +35,10 @@ def create():
         return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"recorrido_new")):
        abort(401)    
+    
+    print(request.form.to_dict())
+
+    """
     params=request.form
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
@@ -54,6 +58,7 @@ def create():
             mensaje="El recorrido ya existe por favor elija otro nombre"
         flash(mensaje)
     return redirect(url_for("recorridos_index"))
+    """
 
 def update(id):
     print("entre al update")

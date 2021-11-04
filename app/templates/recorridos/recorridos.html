@@ -13,7 +13,9 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
-    <script type="module" src="../../static/puntos/newPuntoMap.js"></script>
+    <script type="module" src="../../static/recorridos/newRecorridoMap.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 {% endblock %}
 {% block content %}
   
@@ -100,7 +102,7 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{{ url_for('recorridos_create') }}" method="POST" id='create-punto-form'>
+            <form action="{{ url_for('recorridos_create') }}" method="POST" id='create-recorrido-form'>
                 <div class="mb-3">
                     <label for="nombre">
                         <input class="form-control" required type="text" name="nombre" placeholder="Nombre" >
@@ -120,16 +122,7 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
                     </label>
                 </div>
 
-                <div class="mb-3">
-                    <label for="lat">
-                        <input class="form-control" type="text" name="lat" placeholder="lat" id='lat' >
-                    </label>
-                </div>
-                <div class="mb-3">
-                    <label for="lng">
-                        <input class="form-control" type="text" name="lng" placeholder="lng" id='lng' >
-                    </label>
-                </div>
+               
                 <div id="mapid"></div>
                
                 <div class="mb-3">
