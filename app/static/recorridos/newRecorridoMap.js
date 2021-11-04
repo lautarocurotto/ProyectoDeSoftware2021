@@ -30,7 +30,11 @@ window.onload = () => {
     
     
     let map = new Map({
-        selector:'mapid'
+        selector:'mapid',
+        crearRectangle:false,
+        crearPolyline:true,
+        crearPoligono:false
+
     })
     let form = document.getElementById('create-recorrido-form');
     let res=form.addEventListener('submit', (event)=> submitHandler(event,map));
