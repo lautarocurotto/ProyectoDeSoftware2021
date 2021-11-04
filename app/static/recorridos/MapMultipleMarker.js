@@ -12,28 +12,27 @@ export class Map{
 
     constructor({selector,crearPolyline,crearRectangle, crearPoligono}){
         this.#drawItems = new L.FeatureGroup();
+
         this.crearPoli = crearPolyline;
         this.crearRecta = crearRectangle;
         this.crearPoligono = crearPoligono;
 
-    
+        this.#initializeMap(selector);
 
-    this.#initializeMap(selector);
-
-    this.map.on(L.Draw.Event.CREATED,(e)=>{
-        this.#eventHandler(e,this.map,this.#drawItems,this.editControls,this.createControls)
-    });
-    this.map.on('draw:deleted',()=>{
-        this.#deleteHandler(this.map,this.editControls,this.createControls)
-    });
-   
-}
+        this.map.on(L.Draw.Event.CREATED,(e)=>{
+            this.#eventHandler(e,this.map,this.#drawItems,this.editControls,this.createControls)
+        });
+        this.map.on('draw:deleted',()=>{
+            this.#deleteHandler(this.map,this.editControls,this.createControls)
+        });
+    }
 
     #initializeMap(selector){
         this.map = L.map(selector).setView([initialLat,initialLng],13);
         L.tileLayer(mapLayerUrl).addTo(this.map);
         
         this.map.addLayer(this.#drawItems);
+
         this.map.addControl(this.createControls);
     };
 

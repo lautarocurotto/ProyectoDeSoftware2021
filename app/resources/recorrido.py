@@ -36,7 +36,20 @@ def create():
     if (not check_permission(session["id"],"recorrido_new")):
        abort(401)    
     
-    print(request.form.to_dict())
+    contenido=request.get_json()
+    coordendas=contenido["coodinates"]
+    for coordenada in coordendas:
+        print(coordenada["lat"])
+
+    
+    
+    
+
+    
+
+    
+    return redirect(url_for("recorridos_index"))
+
 
     """
     params=request.form
