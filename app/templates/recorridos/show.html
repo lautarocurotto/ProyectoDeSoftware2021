@@ -10,13 +10,16 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
-    <script type="module" src="/../static/puntos/showPuntoMap.js"></script>
+    <script type="module" src="../../static/recorridos/showRecorridoMap.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 {% endblock %}
 
 {% block content %}
 
 <div class="container-fluid">
-    <h1>recorrido de evacuacion {{recorrido.nombre}}</h1>
+    <h1>Recorrido de evacuacion {{recorrido.nombre}}</h1>
     <table class="table">
         <tr>
             <th>NOMBRE:</th>
@@ -30,8 +33,13 @@
             <th>ESTADO:</th>
             <td>{{recorrido.estado}}</td>
         </tr>
-        <input style="display: none" id="lat" value="{{recorrido.puntos[0].lat}}">
-        <input style="display: none" id="lng" value="{{recorrido.puntos[0].lng}}">
+        {%for coordenada in recorrido.puntos %}
+       
+          <input style="display: none;" name="lat" value="{{coordenada.lat}}">
+          <input style="display: none;" name="lng" value="{{coordenada.lng}}">
+
+        {% endfor %}
+       
         <div id="mapid"></div>
         
     </table>
