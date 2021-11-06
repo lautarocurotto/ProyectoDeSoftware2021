@@ -50,7 +50,7 @@ def create():
         if (cant_puntos==0):
             new_recorrido=Recorrido(nombre=nombree,descripcion=descripcionn,estado=estadoo)
             for c in coordendas:
-                new_coordenada=Coordenadas(lat=c["lat"],lng=c["lng"])
+                new_coordenada=Coordenadas(lat=c["lat"],lng=c["lng"],tipo="recorrido")
                 new_recorrido.puntos.append(new_coordenada)
             db.session.add(new_recorrido)
             db.session.commit()
