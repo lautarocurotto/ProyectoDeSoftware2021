@@ -14,35 +14,38 @@ def index():
     return render_template("configuration.html")
  
         
-def getConfigs():
-    return Configuracion.getConfigs()
+def get_configs():
+    return Configuracion.get_configs()
 
-def setConfigs():
+def set_configs():
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"usuario_show")):
        abort(401)
     postdata = request.form
+
+    current_configs = Configuracion.get_configs()
+
     if(postdata["color1"] != None):
-        Configuracion.getConfigs().color1Privada = postdata["color1"]
+        current_configs.color1Privada = postdata["color1"]
         
     if(not postdata["color2"] == None):
-        Configuracion.getConfigs().color2Privada = postdata["color2"]
+        current_configs.color2Privada = postdata["color2"]
         
     if(not postdata["color3"] == None):
-        Configuracion.getConfigs().color3Privada = postdata["color3"]
+        current_configs.color3Privada = postdata["color3"]
 
     if(not postdata["max-elementos"] == None):
         try:
-            newMaxElementos = int(postdata["max-elementos"])
-            Configuracion.getConfigs().maxElementos = newMaxElementos
+            new_max_elementos = int(postdata["max-elementos"])
+            current_configs.maxElementos = new_max_elementos
         except:
             flash("Cantidad de elementos inválida")
             abort(500)
 
     if(not postdata["criterio"] == None):
-        Configuracion.getConfigs().criterio_orden = postdata["criterio"]
+        current_configs.criterio_orden = postdata["criterio"]
 
     try:
         db.session.commit()
@@ -58,8 +61,10 @@ def toggleMaintenance():
         return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"usuario_show")):
        abort(401)
-    current_mantenimiento = Configuracion.getConfigs().sitio_en_mantenimiento
-    Configuracion.getConfigs().sitio_en_mantenimiento = not (current_mantenimiento)
+
+    current_configs = Configuracion.get_configs()
+    current_mantenimiento = current_configs.sitio_en_mantenimiento
+    current_configs.sitio_en_mantenimiento = not (current_mantenimiento)
     try:
         db.session.commit()
         if(current_mantenimiento):
