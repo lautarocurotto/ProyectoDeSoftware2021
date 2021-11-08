@@ -18,12 +18,12 @@ class Usuario(db.Model):
     id=Column(Integer,primary_key=True)
     email=Column(String(255),unique=True)
     username=Column(String(255),unique=True)
-    password=Column(String(255),unique=True)
-    activo=Column(Boolean,unique=True)
-    updated_at=Column(DateTime,unique=True)
-    created_at=Column(DateTime,unique=True)
-    first_name=Column(String(255),unique=True)
-    last_name=Column(String(255),unique=True)
+    password=Column(String(255))
+    activo=Column(Boolean)
+    updated_at=Column(DateTime)
+    created_at=Column(DateTime)
+    first_name=Column(String(255))
+    last_name=Column(String(255))
 
     @classmethod
     def verify_password(cls,user,password):

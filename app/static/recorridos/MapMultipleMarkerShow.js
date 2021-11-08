@@ -5,19 +5,13 @@ const mapLayerUrl =  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 export class Map{
 
     #drawItems;
-    #crearPoli;
-    #crearRecta;
-    #crearPoligono;
+ 
 
 
-    constructor({selector,crearPolyline,crearRectangle, crearPoligono}){
+    constructor({selector,longitudes,latitudes}){
         this.#drawItems = new L.FeatureGroup();
 
-        this.crearPoli = crearPolyline;
-        this.crearRecta = crearRectangle;
-        this.crearPoligono = crearPoligono;
-
-        this.#initializeMap(selector);
+        this.#initializeMap(selector,longitudes,latitudes);
 
         this.map.on(L.Draw.Event.CREATED,(e)=>{
             this.#eventHandler(e,this.map,this.#drawItems,this.editControls,this.createControls)
@@ -27,13 +21,20 @@ export class Map{
         });
     }
 
-    #initializeMap(selector){
+    #initializeMap(selector,longitudes,latitudes){
         this.map = L.map(selector).setView([initialLat,initialLng],13);
         L.tileLayer(mapLayerUrl).addTo(this.map);
         
         this.map.addLayer(this.#drawItems);
 
         this.map.addControl(this.createControls);
+        let latlngs=[];
+        for (let i=0;i<longitudes.length;i++){
+               let lalg=[latitudes[i].value,longitudes[i].value];
+                latlngs.push(lalg);
+        }
+        console.log(latlngs);
+        var polyline=L.polyline(latlngs,{color:'red'}).addTo(this.map);
     };
 
     #eventHandler(e,map,drawItems,editControls,createControls){
@@ -52,8 +53,7 @@ export class Map{
     };
 
     #deleteHandler(map,editControls,createControls){
-        createControls.addTo(map);
-        editControls.remove();
+       
     }   
     
     hasValidZone(){
@@ -67,23 +67,14 @@ export class Map{
     get editControls(){
         return this.editControlsToolbar ||= new L.Control.Draw({
             draw:false,
-            edit:{
-                featureGroup: this.#drawItems
-            }
+            edit:false
         });
     }
 
     get createControls(){
         return this.createControlsToolbar ||= new L.Control.Draw({
-            draw:{
-                circle:false,
-                circlemarker:false,
-                marker:false,
-                polyline: this.crearPoli,
-                rectangle: this.crearRecta,
-                polygon: this.crearPoligono
-
-            }
+            draw:false,
+            edit:false
         });
     }
 }

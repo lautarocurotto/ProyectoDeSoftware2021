@@ -7,6 +7,15 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
 {% block title %}Recorridos de evacuacion{% endblock %}
 {% block head %}
     {{super()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <script type="module" src="../../static/recorridos/newRecorridoMap.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {% endblock %}
 {% block content %}
   
@@ -84,7 +93,7 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
 </div>
 
 
-<!-- modal de nuevo punto  -->
+<!-- modal de nuevo recorrido  -->
 <div class="modal fade" id="new-pto-modal" tabindex="-1" aria-labelledby="new-pto-modalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -93,15 +102,15 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{{ url_for('recorridos_create') }}" method="POST">
+            <form action="{{ url_for('recorridos_create') }}" method="POST" id='create-recorrido-form'>
                 <div class="mb-3">
                     <label for="nombre">
-                        <input class="form-control" required type="text" name="nombre" placeholder="Nombre" >
+                        <input class="form-control" required type="text" id="nombre" name="nombre" placeholder="Nombre" >
                     </label>
                 </div>
                 <div class="mb-3">
                     <label for="descripcion">
-                        <input class="form-control" required type="text" name="descripcion"  placeholder="Descripcion" >
+                        <input class="form-control" required type="text" id="descripcion" name="descripcion"  placeholder="Descripcion" >
                     </label>
                 </div>
                 <div class="mb-3">
@@ -113,16 +122,7 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
                     </label>
                 </div>
 
-                <div class="mb-3">
-                    <label for="lat">
-                        <input id="lat" class="form-control" required type="text" name="lat" placeholder="Lat" >
-                    </label>
-                </div>
-                <div class="mb-3">
-                    <label for="lng">
-                        <input id="lng" class="form-control" type="text" name="lng" required placeholder="Lng" >
-                    </label>
-                </div>
+               
                 <div id="mapid"></div>
                
                 <div class="mb-3">

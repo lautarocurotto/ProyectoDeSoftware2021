@@ -158,8 +158,7 @@ CREATE TABLE `Recorrido` (
 -- Volcado de datos para la tabla `Recorrido`
 --
 
-INSERT INTO `Recorrido` (`id`, `nombre`, `descripcion`, `lat`, `lng`, `estado`) VALUES
-(6, 'hdsh', 'h', 'h', 'h', 'despublicado');
+
 
 -- --------------------------------------------------------
 

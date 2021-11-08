@@ -8,6 +8,7 @@ const submitHandler = (event,map) => {
     }
     else {
         let latlng= map.marker.getLatLng();
+        console.log(latlng.lat);
         document.getElementById('lat').setAttribute('value',latlng.lat);
         document.getElementById('lng').setAttribute('value',latlng.lng);
     }
