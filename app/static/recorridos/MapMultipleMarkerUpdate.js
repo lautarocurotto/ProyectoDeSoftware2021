@@ -5,11 +5,12 @@ const mapLayerUrl =  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 export class Map{
 
     #drawItems;
+ 
 
     constructor({selector,longitudes,latitudes}){
         this.#drawItems = new L.FeatureGroup();
 
-        this.#initializeMap(selector,longitudes,latitudes);
+        this.#initializeMap(selector,longitudes,latitudes,this.#drawItems);
 
         this.map.on(L.Draw.Event.CREATED,(e)=>{
             this.#eventHandler(e,this.map,this.#drawItems,this.editControls,this.createControls)
@@ -19,7 +20,7 @@ export class Map{
         });
     }
 
-    #initializeMap(selector,longitudes,latitudes){
+    #initializeMap(selector,longitudes,latitudes,drawnItems){
         this.map = L.map(selector).setView([initialLat,initialLng],13);
         L.tileLayer(mapLayerUrl).addTo(this.map);
         
@@ -33,14 +34,17 @@ export class Map{
                 latlngs.push(lalg);
         }
         
-        L.polyline(latlngs,{color:'red'}).addTo(this.map);
+        let poli= L.polyline(latlngs,{color:'red'}).addTo(this.map);
+       
+      
+        
     };
 
     #eventHandler(e,map,drawItems,editControls,createControls){
         const existingZones= Object.values(drawItems._layers);
 
         if (existingZones.length == 0){
-            const type=e.layerType;
+            
             const layer= e.layer;
 
             layer.editing.enable();
