@@ -10,6 +10,7 @@ from app.helpers.auth import authenticated, check_permission
 from app.helpers.paginator import Paginator
 from app.models.punto import Punto
 from app.models.configuracion import Configuracion
+from email_validator import validate_email, EmailNotValidError
 
 # Protected resources
 
@@ -40,6 +41,11 @@ def create():
     if mensaje.validate()==False:
         print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
     else:
+        try:
+            valid = validate_email(params["email"])
+        except EmailNotValidError as e:
+            print(str(e))
+            return redirect(url_for("puntos_index"))
         print("Los campos estan validados")
         cant_puntos=Punto.existe_punto(params["nombre"]) # Me fijo si ya existe un punto con ese nombre
         if (cant_puntos==0): #si la cantidad es 0 es porque no hay ninguna tupla en la base de datos con ese nombre, o sea que no existe 
