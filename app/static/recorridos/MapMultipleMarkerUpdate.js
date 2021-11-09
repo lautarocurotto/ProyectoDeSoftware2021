@@ -10,17 +10,12 @@ export class Map{
     constructor({selector,longitudes,latitudes}){
         this.#drawItems = new L.FeatureGroup();
 
-        this.#initializeMap(selector,longitudes,latitudes,this.#drawItems);
+        this.#initializeMap(selector,longitudes,latitudes);
 
-        this.map.on(L.Draw.Event.CREATED,(e)=>{
-            this.#eventHandler(e,this.map,this.#drawItems,this.editControls,this.createControls)
-        });
-        this.map.on('draw:deleted',()=>{
-            this.#deleteHandler(this.map,this.editControls,this.createControls)
-        });
+      
     }
 
-    #initializeMap(selector,longitudes,latitudes,drawnItems){
+    #initializeMap(selector,longitudes,latitudes){
         this.map = L.map(selector).setView([initialLat,initialLng],13);
         L.tileLayer(mapLayerUrl).addTo(this.map);
         
@@ -39,29 +34,9 @@ export class Map{
         this.#drawItems.addLayer(poli);
         
        
-      
-        
     };
 
-    #eventHandler(e,map,drawItems,editControls,createControls){
-        const existingZones= Object.values(drawItems._layers);
-
-        if (existingZones.length == 0){
-            
-            const layer= e.layer;
-            
-            layer.editing.enable();
-            drawItems.addLayer(layer);
-            editControls.addTo(map);
-            createControls.remove();
-        }
-
-    };
-
-    #deleteHandler(map,editControls,createControls){
-        createControls.addTo(map);
-        editControls.remove();
-    }   
+    
     
     hasValidZone(){
         return this.drawnlayers.length ===1;

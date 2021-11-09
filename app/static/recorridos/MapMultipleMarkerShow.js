@@ -13,12 +13,8 @@ export class Map{
 
         this.#initializeMap(selector,longitudes,latitudes);
 
-        this.map.on(L.Draw.Event.CREATED,(e)=>{
-            this.#eventHandler(e,this.map,this.#drawItems,this.editControls,this.createControls)
-        });
-        this.map.on('draw:deleted',()=>{
-            this.#deleteHandler(this.map,this.editControls,this.createControls)
-        });
+      
+        
     }
 
     #initializeMap(selector,longitudes,latitudes){
@@ -33,28 +29,11 @@ export class Map{
                let lalg=[latitudes[i].value,longitudes[i].value];
                 latlngs.push(lalg);
         }
-        console.log(latlngs);
+     
         var polyline=L.polyline(latlngs,{color:'red'}).addTo(this.map);
     };
 
-    #eventHandler(e,map,drawItems,editControls,createControls){
-        const existingZones= Object.values(drawItems._layers);
-
-        if (existingZones.length == 0){
-            const type=e.layerType;
-            const layer= e.layer;
-
-            layer.editing.enable();
-            drawItems.addLayer(layer);
-            editControls.addTo(map);
-            createControls.remove();
-        }
-
-    };
-
-    #deleteHandler(map,editControls,createControls){
-       
-    }   
+    
     
     hasValidZone(){
         return this.drawnlayers.length ===1;
