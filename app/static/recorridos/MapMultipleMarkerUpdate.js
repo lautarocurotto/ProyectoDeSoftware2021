@@ -1,7 +1,7 @@
 const initialLat = -34.9187;
 const initialLng = -57.956;
 const mapLayerUrl =  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-
+ 
 export class Map{
 
     #drawItems;
@@ -35,6 +35,9 @@ export class Map{
         }
         
         let poli= L.polyline(latlngs,{color:'red'}).addTo(this.map);
+        poli.editing.enable();
+        this.#drawItems.addLayer(poli);
+        
        
       
         
@@ -46,7 +49,7 @@ export class Map{
         if (existingZones.length == 0){
             
             const layer= e.layer;
-
+            
             layer.editing.enable();
             drawItems.addLayer(layer);
             editControls.addTo(map);

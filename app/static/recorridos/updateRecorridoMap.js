@@ -1,6 +1,6 @@
 import { Map } from './MapMultipleMarkerUpdate.js';
 
-
+ 
 const submitHandler = (event,map) => {
     event.preventDefault();
     if (!map.hasValidZone()){

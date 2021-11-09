@@ -34,12 +34,12 @@
     <form action="/recorridos/update/{{recorrido_to_update.id}}" method="POST" id="formulario-update">
         <div class="mb-3">
             <label for="nombre">Nombre de recorrido
-                <input class="form-control" type="text" name="nombre" required placeholder="Nombre" required value="{{recorrido_to_update.nombre}}">
+                <input class="form-control" type="text" id="nombre" name="nombre" required placeholder="Nombre" required value="{{recorrido_to_update.nombre}}">
             </label>
         </div>
         <div class="mb-3">
             <label for="descripcion">Descripcion
-                <input class="form-control" type="text" name="descripcion" required placeholder="Descripcion" required value="{{recorrido_to_update.descripcion}}">  
+                <input class="form-control" type="text" id="descripcion" name="descripcion" required placeholder="Descripcion" required value="{{recorrido_to_update.descripcion}}">  
             </label>
         </div>
        

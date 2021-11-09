@@ -40,9 +40,9 @@ export class Map{
         const existingZones= Object.values(drawItems._layers);
 
         if (existingZones.length == 0){
-            const type=e.layerType;
+            
             const layer= e.layer;
-
+            
             layer.editing.enable();
             drawItems.addLayer(layer);
             editControls.addTo(map);
