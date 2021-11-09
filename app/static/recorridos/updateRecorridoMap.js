@@ -14,12 +14,12 @@ const submitHandler = (event,map) => {
         const coodinates=map.drawnlayers[0].getLatLngs().flat().map(coordinate =>{
             return {lat:coordinate.lat ,lng:coordinate.lng }
         });
-        const id=document.getElementById('idReco');
+        const id=document.querySelector('#idReco').value;
 
       
-        fetch('/recorridos/update/'+id, {
+        fetch('/recorridos/updateCurrent', {
             method: 'POST',
-            body: JSON.stringify({name:name,description:description,status:status,coodinates:coodinates}),
+            body: JSON.stringify({id:id,name:name,description:description,status:status,coodinates:coodinates}),
             headers: {
                 'Content-Type':'application/json'
             }

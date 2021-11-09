@@ -15,4 +15,8 @@ class Coordenadas(db.Model):
         self.lat=lat
         self.lng=lng
         self.tipo=tipo
+
+    @classmethod
+    def devolverPorCoordenadasRecorrido(cls,latitud,longitud):
+        return cls.query.filter_by(lat=latitud,lng=longitud,tipo="recorrido").first()
         
