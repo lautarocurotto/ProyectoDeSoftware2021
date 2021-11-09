@@ -6,6 +6,7 @@ from app.resources import punto
 from app.resources import recorrido
 from app.resources import configuracion
 from app.resources import usuario
+from app.resources import zonas
 from flask_session import Session
 from app.resources import auth
 from app.helpers import handler
@@ -69,6 +70,12 @@ def create_app(environment="development"):
     app.add_url_rule("/configuracion/set/mantenimiento", "config_toggle_mantenimiento", configuracion.toggleMaintenance)
     app.add_url_rule("/configuracion/set_configs", "set_configs", configuracion.set_configs,  methods=["POST"])
     
+
+    app.add_url_rule("/zonas","zonas_index",zonas.index,methods=["POST", "GET"])
+    app.add_url_rule("/zonas/show/<int:id>","zonas_show",zonas.show)
+    app.add_url_rule("/zonas/delete/<int:id>","zonas_delete",zonas.delete)
+    app.add_url_rule("/zonas/activar/<int:id>","zonas_activar",zonas.activar)
+
 
     # Ruta para el Home (usando decorator)
     @app.route("/")
