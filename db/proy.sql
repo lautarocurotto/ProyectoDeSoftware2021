@@ -112,8 +112,11 @@ INSERT INTO `Permiso` (`id`, `nombre`) VALUES
 (24, 'recorrido_new'),
 (25, 'recorrido_destroy'),
 (26, 'recorrido_update'),
-(27, 'recorrido_show');
-
+(27, 'recorrido_show'),
+(28, 'zonas_index'),
+(29, 'zonas_show'),
+(30, 'zonas_import'),
+(31, 'zonas_destroy');
 -- --------------------------------------------------------
 
 --
@@ -228,8 +231,14 @@ INSERT INTO `rol_tiene_permiso` (`rol_id`, `permiso_id`) VALUES
 (1, 26),
 (2, 26),
 (1, 27),
-(2, 27);
-
+(2, 27),
+(1, 28),
+(2, 28),
+(1, 29),
+(2, 29),
+(1, 30),
+(2, 30),
+(2, 31);
 -- --------------------------------------------------------
 
 --
@@ -278,6 +287,26 @@ INSERT INTO `usuario_tiene_rol` (`usuario_id`, `rol_id`) VALUES
 (1, 2),
 (17, 2);
 
+
+
+--
+-- Estructura de tabla para la tabla `Zonas`
+--
+CREATE TABLE `Zonas` (
+  `id` int NOT NULL,
+  `codigo` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `estado` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `color` varchar(50) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `Zonas`
+--
+
+INSERT INTO `Zonas` (`id`, `codigo`, `nombre`, `estado`, `color`) VALUES
+(1, '123aa', 'zonaa1', 'publicado', '#a40000'),
+(2, '40058', '2ZONA', 'despublicado', '#a40000');
 --
 -- Índices para tablas volcadas
 --
@@ -339,6 +368,12 @@ ALTER TABLE `usuario_tiene_rol`
   ADD KEY `FK_rolID` (`rol_id`);
 
 --
+-- Indices de la tabla `Zonas`
+--
+ALTER TABLE `Zonas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -358,7 +393,7 @@ ALTER TABLE `Coordenadas`
 -- AUTO_INCREMENT de la tabla `Permiso`
 --
 ALTER TABLE `Permiso`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `Punto_encuentro`
@@ -383,6 +418,13 @@ ALTER TABLE `Rol`
 --
 ALTER TABLE `Usuario`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `Zonas`
+--
+
+ALTER TABLE `Zonas`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas

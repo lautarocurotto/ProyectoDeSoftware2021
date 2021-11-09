@@ -1,0 +1,121 @@
+<!-- 
+Esta seria la página de administracion las zonas inundables de la app privada
+
+-->
+
+{% extends "layout.html"%}
+{% block title %}Puntos de encuentro - Zonas de inundación{% endblock %}
+{% block head %}
+    {{super()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+  <script type="module" src="../../static/puntos/newPuntoMap.js"></script>
+{% endblock %}
+{% block content %}
+  
+
+<div class="container-fluid">
+    <h1>Administración de zonas inundables</h1>
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#new-pto-modal">Importar Zonas Inundables</button>
+
+    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#search-modal"><i class="fas fa-search"></i> Buscar</button>
+
+    <a class="btn btn-outline-primary {{'active' if request.args.get('statusF') == 'publicado'}}" href="{{url_for('zonas_index', statusF='publicado')}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'statusF'}}{% endfor %}"><i class="fas fa-user-check"></i> Mostrar sólo publicados</a>
+
+    <a class="btn btn-outline-primary {{'active' if request.args.get('statusF') == 'despublicado'}}" href="{{url_for('zonas_index',statusF='despublicado')}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'statusF'}}{% endfor %}"><i class="fas fa-user-check"></i> Mostrar sólo despublicados</a>
+
+    <a class="btn btn-outline-secondary" href="{{url_for('zonas_index')}}"><i class="fas fa-times"></i> Quitar filtros</a>
+   
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Codigo</td>
+                <td>Nombre</td>
+                <td>Estado</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {%for zonas in paginator.get_page() %}
+            <tr>
+                <td>{{zonas.codigo}}</td>
+                <td>{{zonas.nombre}}</td>
+                <td>{{zonas.estado}}</td>
+                <td>
+                    <a class="btn btn-outline-secondary" href="/zonas/update/{{zonas.id}}">Editar</a>
+                    {% if tiene_permiso(session["id"],"zonas_destroy") %}
+                    {% if (zonas.estado=="publicado") %}
+                    <a class="btn btn-outline-danger" href="/zonas/delete/{{zonas.id}}">Borrar</a>
+                    {% else %}
+                    <a class="btn btn-outline-danger" href="/zonas/activar/{{zonas.id}}">Activar Zona</a>
+                    {% endif %}
+                    {% endif %}
+                    <a class="btn btn-outline-secondary" href="/zonas/show/{{zonas.id}}">Ver</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="Puntos navigation pages">
+        <ul class="pagination">
+            {% if(not paginator.prev_page() < 0)%}
+                <li class="page-item"><a class="page-link" href="{{url_for('zonas_index', page=paginator.prev_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Anterior</a></li>
+            {% endif %}
+            {% if paginator.has_next_page() %}
+                <li class="page-item"><a class="page-link" href="{{url_for('zonas_index', page=paginator.next_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Siguiente</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<!-- modal de busqueda por nombre -->
+<div class="modal fade" id="search-modal" tabindex="-1" aria-labelledby="search-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="search-modalLabel">Búsqueda de Zonas inundables</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <form action="{{url_for('zonas_index')}}">
+                    <label for="nombreF">Nombre de la zona inundable: </label>
+                    <input type="text" name="nombreF" placeholder="Nombre" required >
+                    <input class="btn btn-primary" type="submit" value="Buscar">
+                    <button class="btn btn-secondary" type="reset">Limpiar</button>
+                </form>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<!-- modal de nuevo punto  -->
+<div class="modal fade" id="new-pto-modal" tabindex="-1" aria-labelledby="new-pto-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="new-pto-modalLabel">Importar Zonas Inundables</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" name="archivo">
+                <input class="btn btn-success" type="submit" value="Importar Zonas Inundables">
+            </form>            
+                    <button class="btn btn-secondary" type="reset">Limpiar</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
