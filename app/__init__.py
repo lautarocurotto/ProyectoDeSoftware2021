@@ -62,7 +62,8 @@ def create_app(environment="development"):
 
     app.add_url_rule("/recorridos","recorridos_index",recorrido.index,methods=["POST", "GET"])
     app.add_url_rule("/recorridos/nuevo","recorridos_create",recorrido.create, methods=["POST"] )
-    app.add_url_rule("/recorridos/update/<int:id>","recorridos_update",recorrido.update, methods=["POST", "GET"] )
+    app.add_url_rule("/recorridos/update/<int:id>","recorridos_update",recorrido.update, methods=["GET"] )
+    app.add_url_rule("/recorridos/updateCurrent","recorridos_updateCurrent",recorrido.updateCurrent, methods=["POST"] )
     app.add_url_rule("/recorridos/delete/<int:id>","recorridos_delete",recorrido.delete)
     app.add_url_rule("/recorridos/show/<int:id>","recorridos_show",recorrido.show)
 

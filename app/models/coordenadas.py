@@ -15,4 +15,6 @@ class Coordenadas(db.Model):
         self.lat=lat
         self.lng=lng
         self.tipo=tipo
+
+  
         

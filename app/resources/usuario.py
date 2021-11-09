@@ -9,6 +9,7 @@ from app.resources.validadorUsuarios import ValidarForm
 from app.models.configuracion import Configuracion
 from app.helpers.auth import authenticated, check_permission
 from app.helpers.paginator import Paginator
+from email_validator import validate_email, EmailNotValidError
 
 # Protected resources
 def index():
@@ -37,6 +38,11 @@ def create():
     if mensaje.validate()==False:
         print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
     else:
+        try:
+            valid = validate_email(params["email"])
+        except EmailNotValidError as e:
+            print(str(e))
+            return redirect(url_for("puntos_index"))
         email=params['email']
         username=params['username']
         listaAdm=request.form.getlist('adm')
