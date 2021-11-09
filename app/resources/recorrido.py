@@ -62,13 +62,14 @@ def create():
 
 
 def update(id):
-    print("entre al update")
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"recorrido_update")):
        abort(401)
     params=request.form
+    contenido=request.get_json()
+    print(contenido)
     recorrido_to_update=Recorrido.query.get_or_404(id)
     if request.method == "POST":
         mensaje=ValidarForm(params)
@@ -81,9 +82,9 @@ def update(id):
             if (cant_puntos==0):
                 recorrido_to_update.nombre=params["nombre"]
                 recorrido_to_update.descripcion=params["descripcion"]
-                recorrido_to_update.puntos[0].lat=params["lat"]
                 recorrido_to_update.estado=params["status"]
-                recorrido_to_update.puntos[0].lng=params["lng"]
+
+             
                 try:
                     db.session.commit()
                     return redirect(url_for("recorridos_index"))

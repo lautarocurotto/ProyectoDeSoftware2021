@@ -16,9 +16,6 @@ const submitHandler = (event,map) => {
         });
         const id=document.getElementById('idReco');
 
-        console.log(coodinates);
-
-    
       
         fetch('/recorridos/update/'+id, {
             method: 'POST',
