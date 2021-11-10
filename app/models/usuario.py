@@ -7,6 +7,7 @@ from app.models import usuario_tiene_rol
 from sqlalchemy import Column,Integer,String,Boolean,DateTime
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
+from sqlalchemy.orm import relationship
 
 from app.models.permiso import Permiso 
 from app.models.rol_tiene_permiso import rol_tiene_permiso
@@ -24,6 +25,8 @@ class Usuario(db.Model):
     created_at=Column(DateTime)
     first_name=Column(String(255))
     last_name=Column(String(255))
+
+    seguimientos = relationship('Seguimiento', backref='author')
 
     @classmethod
     def verify_password(cls,user,password):
