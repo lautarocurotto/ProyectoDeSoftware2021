@@ -6,12 +6,13 @@ from app.resources import punto
 from app.resources import recorrido
 from app.resources import configuracion
 from app.resources import usuario
-from app.resources import denuncia
+from app.resources import zonas
 from flask_session import Session
 from app.resources import auth
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.helpers.auth import authenticated, check_permission
+from app.resources import denuncia
 from app.resources.api.denuncia import denuncia_api
 
 
@@ -32,8 +33,8 @@ def create_app(environment="development"):
 
     # Funciones que se exportan al contexto de Jinja2
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
-    app.jinja_env.globals.update(isAdmin=helper_auth.isAdmin)
-    app.jinja_env.globals.update(configs=configuracion.getConfigs)
+    # app.jinja_env.globals.update(isAdmin=helper_auth.isAdmin)
+    app.jinja_env.globals.update(configs=configuracion.get_configs)
     app.jinja_env.globals.update(tiene_permiso=helper_auth.check_permission)
 
     # Autenticación
@@ -63,19 +64,27 @@ def create_app(environment="development"):
 
     app.add_url_rule("/recorridos","recorridos_index",recorrido.index,methods=["POST", "GET"])
     app.add_url_rule("/recorridos/nuevo","recorridos_create",recorrido.create, methods=["POST"] )
-    app.add_url_rule("/recorridos/update/<int:id>","recorridos_update",recorrido.update, methods=["POST", "GET"] )
+    app.add_url_rule("/recorridos/update/<int:id>","recorridos_update",recorrido.update, methods=["GET"] )
+    app.add_url_rule("/recorridos/updateCurrent","recorridos_updateCurrent",recorrido.updateCurrent, methods=["POST"] )
     app.add_url_rule("/recorridos/delete/<int:id>","recorridos_delete",recorrido.delete)
     app.add_url_rule("/recorridos/show/<int:id>","recorridos_show",recorrido.show)
 
     app.add_url_rule("/configuracion", "configuracion", configuracion.index)
     app.add_url_rule("/configuracion/set/mantenimiento", "config_toggle_mantenimiento", configuracion.toggleMaintenance)
-    app.add_url_rule("/configuracion/set_configs", "set_configs", configuracion.setConfigs,  methods=["POST"])
-    
+    app.add_url_rule("/configuracion/set_configs", "set_configs", configuracion.set_configs,  methods=["POST"])
+
+
     app.add_url_rule("/denuncias", "denuncias", denuncia.index)
     app.add_url_rule("/denuncia/<int:id>", "denuncia_show", denuncia.show)
     app.add_url_rule("/denuncia/new", "denuncia_new", denuncia.new_denuncia, methods=["POST"])
     app.add_url_rule("/denuncia/set-status", "denuncia_set_status", denuncia.set_status, methods=["POST"])
     app.add_url_rule("/denuncia/update-seguimiento", "denuncia_update_seguimiento", denuncia.update_seguimiento, methods=["POST"])
+
+    app.add_url_rule("/zonas","zonas_index",zonas.index,methods=["POST", "GET"])
+    app.add_url_rule("/zonas/show/<int:id>","zonas_show",zonas.show)
+    app.add_url_rule("/zonas/delete/<int:id>","zonas_delete",zonas.delete)
+    app.add_url_rule("/zonas/activar/<int:id>","zonas_activar",zonas.activar)
+
 
     # Ruta para el Home (usando decorator)
     @app.route("/")

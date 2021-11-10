@@ -9,3 +9,9 @@
     margin: 0 auto 5px auto;
     background-color: rgb(236, 236, 236);
 }
+
+#mapid { height: 280px; }
+
+#lat { display: none;}
+
+#lng { display: none;}

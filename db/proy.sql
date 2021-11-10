@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.9.5deb2
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 31-10-2021 a las 22:53:14
--- Versión del servidor: 10.4.21-MariaDB
--- Versión de PHP: 8.0.11
+-- Servidor: localhost:3306
+-- Tiempo de generación: 28-10-2021 a las 14:49:14
+-- Versión del servidor: 8.0.27-0ubuntu0.20.04.1
+-- Versión de PHP: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `proys`
+-- Base de datos: `proyS`
 --
 
 -- --------------------------------------------------------
@@ -28,35 +29,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `administra_punto` (
-  `id_usuario` int(11) NOT NULL,
-  `id_punto_encuentro` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `configuracion`
---
-
-CREATE TABLE `configuracion` (
-  `id` int(11) NOT NULL,
-  `color1Privada` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `color2Privada` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `color3Privada` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `color1Publica` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `color2Publica` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `color3Publica` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `maxElementos` int(11) NOT NULL,
-  `criterio_orden` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `sitio_en_mantenimiento` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `configuracion`
---
-
-INSERT INTO `configuracion` (`id`, `color1Privada`, `color2Privada`, `color3Privada`, `color1Publica`, `color2Publica`, `color3Publica`, `maxElementos`, `criterio_orden`, `sitio_en_mantenimiento`) VALUES
-(2, '#a40000', '#4e9a06', '#75507b', '#C8F2D2', '#C7F1D1', '#C6FFD3', 4, 'Alfabetico', 0);
+  `id_usuario` int NOT NULL,
+  `id_punto_encuentro` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -71,14 +46,15 @@ CREATE TABLE `denuncia` (
   `created_at` date NOT NULL DEFAULT current_timestamp(),
   `closed_at` date DEFAULT NULL,
   `description` text NOT NULL,
-  `coordenates` text DEFAULT NULL,
-  `status` varchar(50) NOT NULL DEFAULT 'UNCONFIRMED',
+  `coordenada_lat` varchar(200) NOT NULL,
+  `coordenada_lng` varchar(200) NOT NULL,
   `operator_id` int(11) DEFAULT NULL,
   `denunciante_name` varchar(200) NOT NULL,
   `denunciante_last_name` varchar(200) DEFAULT NULL,
   `denunciante_phone` varchar(200) NOT NULL,
   `denunciante_email` varchar(200) NOT NULL,
-  `seguimiento` text DEFAULT NULL
+  `seguimiento` text DEFAULT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'UNCONFIRMED'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -119,19 +95,57 @@ CREATE TABLE `denuncia_seguimiento` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `permiso`
+-- Estructura de tabla para la tabla `Configuracion`
 --
 
-CREATE TABLE `permiso` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tabla para guardar los permisos del sistema';
+CREATE TABLE `Configuracion` (
+  `id` int NOT NULL,
+  `color1Privada` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `color2Privada` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `color3Privada` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `color1Publica` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `color2Publica` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `color3Publica` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `maxElementos` int NOT NULL,
+  `criterio_orden` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `sitio_en_mantenimiento` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `permiso`
+-- Volcado de datos para la tabla `Configuracion`
 --
 
-INSERT INTO `permiso` (`id`, `nombre`) VALUES
+INSERT INTO `Configuracion` (`id`, `color1Privada`, `color2Privada`, `color3Privada`, `color1Publica`, `color2Publica`, `color3Publica`, `maxElementos`, `criterio_orden`, `sitio_en_mantenimiento`) VALUES
+(2, '#a40000', '#4e9a06', '#75507b', '#C8F2D2', '#C7F1D1', '#C6FFD3', 4, 'Alfabetico', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Coordenadas`
+--
+
+CREATE TABLE `Coordenadas` (
+  `id` int NOT NULL,
+  `lat` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `lng` varchar(255) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Permiso`
+--
+
+CREATE TABLE `Permiso` (
+  `id` int NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='Tabla para guardar los permisos del sistema';
+
+--
+-- Volcado de datos para la tabla `Permiso`
+--
+
+INSERT INTO `Permiso` (`id`, `nombre`) VALUES
 (1, 'punto_encuentro_index'),
 (2, 'punto_encuentro_new'),
 (3, 'punto_encuentro_destroy'),
@@ -158,70 +172,76 @@ INSERT INTO `permiso` (`id`, `nombre`) VALUES
 (25, 'recorrido_destroy'),
 (26, 'recorrido_update'),
 (27, 'recorrido_show'),
-(29, 'denuncia_index'),
-(30, 'denuncia_update');
-
+(28, 'zonas_index'),
+(29, 'zonas_show'),
+(30, 'zonas_import'),
+(31, 'zonas_destroy'),
+(32, 'denuncia_index'),
+(33, 'denuncia_update'),
+(34, 'denuncia_create'),
+(35, 'denuncia_destroy');
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `punto_encuentro`
+-- Estructura de tabla para la tabla `Punto_encuentro`
 --
 
-CREATE TABLE `punto_encuentro` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `Punto_encuentro` (
+  `id` int NOT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `direccion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `coordenadas` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `lat` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `lng` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `estado` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `telefono` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tabla para guardar los puntos de encuentro';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='Tabla para guardar los puntos de encuentro';
 
 --
--- Volcado de datos para la tabla `punto_encuentro`
+-- Volcado de datos para la tabla `Punto_encuentro`
 --
 
-INSERT INTO `punto_encuentro` (`id`, `nombre`, `direccion`, `coordenadas`, `estado`, `telefono`, `email`) VALUES
-(22, 'zzzz', 'zzzzzz', 'zzzzz', 'publicado', 'zzzzzzzz', 'z@gmail.com');
+INSERT INTO `Punto_encuentro` (`id`, `nombre`, `direccion`, `lat`, `lng`, `estado`, `telefono`, `email`) VALUES
+(49, 'aaa', 'a', '-34.91591853170241', '-57.94755935668946', 'publicado', 'aaa', 'a@gmail.com'),
+(50, 'f', 'f', '-34.917326130709455', '-57.9745101928711', 'despublicado', 'f', 'v@gmail.com');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `recorrido`
+-- Estructura de tabla para la tabla `Recorrido`
 --
 
-CREATE TABLE `recorrido` (
-  `id` int(11) NOT NULL,
+CREATE TABLE `Recorrido` (
+  `id` int NOT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `descripcion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `lat` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `lng` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `estado` varchar(255) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `recorrido`
+-- Volcado de datos para la tabla `Recorrido`
 --
 
-INSERT INTO `recorrido` (`id`, `nombre`, `descripcion`, `lat`, `lng`, `estado`) VALUES
-(6, 'hdsh', 'h', 'h', 'h', 'despublicado');
+
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `rol`
+-- Estructura de tabla para la tabla `Rol`
 --
 
-CREATE TABLE `rol` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tabla para guardar los roles del sistema';
+CREATE TABLE `Rol` (
+  `id` int NOT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='Tabla para guardar los roles del sistema';
 
 --
--- Volcado de datos para la tabla `rol`
+-- Volcado de datos para la tabla `Rol`
 --
 
-INSERT INTO `rol` (`id`, `nombre`) VALUES
+INSERT INTO `Rol` (`id`, `nombre`) VALUES
 (1, 'operador/a'),
 (2, 'administrador/a');
 
@@ -232,9 +252,9 @@ INSERT INTO `rol` (`id`, `nombre`) VALUES
 --
 
 CREATE TABLE `rol_tiene_permiso` (
-  `rol_id` int(11) NOT NULL,
-  `permiso_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='tabla de la relacion entre rol y permiso';
+  `rol_id` int NOT NULL,
+  `permiso_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='tabla de la relacion entre rol y permiso';
 
 --
 -- Volcado de datos para la tabla `rol_tiene_permiso`
@@ -242,19 +262,13 @@ CREATE TABLE `rol_tiene_permiso` (
 
 INSERT INTO `rol_tiene_permiso` (`rol_id`, `permiso_id`) VALUES
 (1, 1),
-(1, 2),
-(1, 4),
-(1, 5),
-(1, 23),
-(1, 24),
-(1, 26),
-(1, 27),
-(1, 29),
-(1, 30),
 (2, 1),
+(1, 2),
 (2, 2),
 (2, 3),
+(1, 4),
 (2, 4),
+(1, 5),
 (2, 5),
 (2, 6),
 (2, 8),
@@ -272,37 +286,52 @@ INSERT INTO `rol_tiene_permiso` (`rol_id`, `permiso_id`) VALUES
 (2, 20),
 (2, 21),
 (2, 22),
+(1, 23),
 (2, 23),
+(1, 24),
 (2, 24),
 (2, 25),
+(1, 26),
 (2, 26),
+(1, 27),
 (2, 27),
+(1, 28),
+(2, 28),
+(1, 29),
 (2, 29),
-(2, 30);
-
+(1, 30),
+(2, 30),
+(2, 31),
+(1, 32),
+(1, 33),
+(1, 34),
+(2, 32),
+(2, 33),
+(2, 34),
+(2, 35);
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Estructura de tabla para la tabla `Usuario`
 --
 
-CREATE TABLE `usuario` (
-  `id` int(11) NOT NULL,
-  `email` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `username` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+CREATE TABLE `Usuario` (
+  `id` int NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `activo` tinyint(1) NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_at` datetime NOT NULL,
-  `first_name` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `last_name` varchar(255) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='Tabla para almacenar los usuarios registrados en la pagina';
+  `first_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `last_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='Tabla para almacenar los usuarios registrados en la pagina';
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Volcado de datos para la tabla `Usuario`
 --
 
-INSERT INTO `usuario` (`id`, `email`, `username`, `password`, `activo`, `updated_at`, `created_at`, `first_name`, `last_name`) VALUES
+INSERT INTO `Usuario` (`id`, `email`, `username`, `password`, `activo`, `updated_at`, `created_at`, `first_name`, `last_name`) VALUES
 (1, 'gastonciancio@gmail.com', 'gciancio', 'pbkdf2:sha256:260000$5VWrriAIKIIziY9Z$e28f7c2af21cf06cb2011e86ff23c5900a886d6e6e4083fb079f8910ce1365fa', 1, '2021-10-17 14:55:53', '2021-10-13 16:39:57', 'gaston', 'ciancio'),
 (17, 'admin@gmail.com', 'admin', 'pbkdf2:sha256:260000$8li21ZhHQatYCtTo$04ea4a5677e6ee78b16d21fd3dc4d349a646cc820f18c8c7fe0576db1decdbb8', 1, '2021-10-23 17:19:38', '2021-10-23 17:19:38', 'admin', 'admin'),
 (18, 'ope@gmail.com', 'ope', 'pbkdf2:sha256:260000$2s4wfQpeAtSL56Z6$c0d8e6a7251d810d71617b9e42a322d821ca7a6d2babb7411fcc5b6c5ea48c56', 1, '2021-10-23 17:48:15', '2021-10-23 17:48:15', 'ope', 'ope');
@@ -314,9 +343,9 @@ INSERT INTO `usuario` (`id`, `email`, `username`, `password`, `activo`, `updated
 --
 
 CREATE TABLE `usuario_tiene_rol` (
-  `usuario_id` int(11) NOT NULL,
-  `rol_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='tabla de la relacion entre usuario y rol';
+  `usuario_id` int NOT NULL,
+  `rol_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci COMMENT='tabla de la relacion entre usuario y rol';
 
 --
 -- Volcado de datos para la tabla `usuario_tiene_rol`
@@ -324,18 +353,38 @@ CREATE TABLE `usuario_tiene_rol` (
 
 INSERT INTO `usuario_tiene_rol` (`usuario_id`, `rol_id`) VALUES
 (1, 1),
+(18, 1),
 (1, 2),
-(17, 2),
-(18, 1);
+(17, 2);
 
+
+
+--
+-- Estructura de tabla para la tabla `Zonas`
+--
+CREATE TABLE `Zonas` (
+  `id` int NOT NULL,
+  `codigo` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `estado` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `color` varchar(50) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `Zonas`
+--
+
+INSERT INTO `Zonas` (`id`, `codigo`, `nombre`, `estado`, `color`) VALUES
+(1, '123aa', 'zonaa1', 'publicado', '#a40000'),
+(2, '40058', '2ZONA', 'despublicado', '#a40000');
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `configuracion`
+-- Indices de la tabla `Configuracion`
 --
-ALTER TABLE `configuracion`
+ALTER TABLE `Configuracion`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -358,27 +407,33 @@ ALTER TABLE `denuncia_seguimiento`
   ADD KEY `denuncia_id` (`denuncia_id`);
 
 --
--- Indices de la tabla `permiso`
+-- Indices de la tabla `Coordenadas`
 --
-ALTER TABLE `permiso`
+ALTER TABLE `Coordenadas`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `punto_encuentro`
+-- Indices de la tabla `Permiso`
 --
-ALTER TABLE `punto_encuentro`
+ALTER TABLE `Permiso`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `recorrido`
+-- Indices de la tabla `Punto_encuentro`
 --
-ALTER TABLE `recorrido`
+ALTER TABLE `Punto_encuentro`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `rol`
+-- Indices de la tabla `Recorrido`
 --
-ALTER TABLE `rol`
+ALTER TABLE `Recorrido`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `Rol`
+--
+ALTER TABLE `Rol`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -389,9 +444,9 @@ ALTER TABLE `rol_tiene_permiso`
   ADD KEY `FK_permisoID` (`permiso_id`);
 
 --
--- Indices de la tabla `usuario`
+-- Indices de la tabla `Usuario`
 --
-ALTER TABLE `usuario`
+ALTER TABLE `Usuario`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -402,14 +457,20 @@ ALTER TABLE `usuario_tiene_rol`
   ADD KEY `FK_rolID` (`rol_id`);
 
 --
+-- Indices de la tabla `Zonas`
+--
+ALTER TABLE `Zonas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `configuracion`
+-- AUTO_INCREMENT de la tabla `Configuracion`
 --
-ALTER TABLE `configuracion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `Configuracion`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `denuncia`
@@ -429,35 +490,49 @@ ALTER TABLE `denuncia_categoria`
 ALTER TABLE `denuncia_seguimiento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT de la tabla `permiso`
---
-ALTER TABLE `permiso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT de la tabla `punto_encuentro`
+-- AUTO_INCREMENT de la tabla `Coordenadas`
 --
-ALTER TABLE `punto_encuentro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+ALTER TABLE `Coordenadas`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `recorrido`
+-- AUTO_INCREMENT de la tabla `Permiso`
 --
-ALTER TABLE `recorrido`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `Permiso`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
--- AUTO_INCREMENT de la tabla `rol`
+-- AUTO_INCREMENT de la tabla `Punto_encuentro`
 --
-ALTER TABLE `rol`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `Punto_encuentro`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
--- AUTO_INCREMENT de la tabla `usuario`
+-- AUTO_INCREMENT de la tabla `Recorrido`
 --
-ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+ALTER TABLE `Recorrido`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `Rol`
+--
+ALTER TABLE `Rol`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `Usuario`
+--
+ALTER TABLE `Usuario`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `Zonas`
+--
+
+ALTER TABLE `Zonas`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -467,15 +542,15 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `rol_tiene_permiso`
 --
 ALTER TABLE `rol_tiene_permiso`
-  ADD CONSTRAINT `FK_permisoID` FOREIGN KEY (`permiso_id`) REFERENCES `permiso` (`id`),
-  ADD CONSTRAINT `foraingKeyRolID` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
+  ADD CONSTRAINT `FK_permisoID` FOREIGN KEY (`permiso_id`) REFERENCES `Permiso` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `foraingKeyRolID` FOREIGN KEY (`rol_id`) REFERENCES `Rol` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Filtros para la tabla `usuario_tiene_rol`
 --
 ALTER TABLE `usuario_tiene_rol`
-  ADD CONSTRAINT `FK_rolID` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`),
-  ADD CONSTRAINT `FK_usuID` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `FK_rolID` FOREIGN KEY (`rol_id`) REFERENCES `Rol` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `FK_usuID` FOREIGN KEY (`usuario_id`) REFERENCES `Usuario` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -7,6 +7,13 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 {% block title %}Puntos de encuentro - Zonas de inundación{% endblock %}
 {% block head %}
     {{super()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+  <script type="module" src="../../static/puntos/newPuntoMap.js"></script>
 {% endblock %}
 {% block content %}
   
@@ -22,7 +29,7 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
     <a class="btn btn-outline-primary {{'active' if request.args.get('statusF') == 'despublicado'}}" href="{{url_for('puntos_index',statusF='despublicado')}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'statusF'}}{% endfor %}"><i class="fas fa-user-check"></i> Mostrar sólo despublicados</a>
 
     <a class="btn btn-outline-secondary" href="{{url_for('puntos_index')}}"><i class="fas fa-times"></i> Quitar filtros</a>
-
+   
     <table class="table">
         <thead>
             <tr>
@@ -86,14 +93,14 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 
 <!-- modal de nuevo punto  -->
 <div class="modal fade" id="new-pto-modal" tabindex="-1" aria-labelledby="new-pto-modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="new-pto-modalLabel">Nuevo Punto de encuentro</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{{ url_for('puntos_create') }}" method="POST">
+            <form action="{{ url_for('puntos_create') }}" method="POST" id='create-punto-form'>
                 <div class="mb-3">
                     <label for="nombre">
                         <input class="form-control" required type="text" name="nombre" placeholder="Nombre" >
@@ -104,11 +111,7 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
                         <input class="form-control" required type="text" name="direccion"  placeholder="Direccion" >
                     </label>
                 </div>
-                <div class="mb-3">
-                    <label for="coordenadas">
-                        <input class="form-control" required type="text" name="coordenadas" placeholder="Coordenadas" >
-                    </label>
-                </div>
+               
                 <div class="mb-3">
                     <label for="status">
                         <select class="form-control" required name="status" id="status" >
@@ -127,7 +130,19 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
                         <input class="form-control" type="email" required name="email" placeholder="Email" >
                     </label>
                 </div>
+                <div class="mb-3">
+                    <label for="lat">
+                        <input class="form-control" style="display: none"   type="text" name="lat" placeholder="lat" id='lat' >
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="lng">
+                        <input class="form-control"  style="display: none"  type="text" name="lng" placeholder="lng" id='lng' >
+                    </label>
+                </div>
                 
+                <div id="mapid"></div>
+
                 <div class="mb-3">
                     <input class="btn btn-success" type="submit" value="Crear punto de encuentro">
                     <button class="btn btn-secondary" type="reset">Limpiar</button>

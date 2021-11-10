@@ -10,6 +10,7 @@ from app.helpers.auth import authenticated, check_permission
 from app.helpers.paginator import Paginator
 from app.models.punto import Punto
 from app.models.configuracion import Configuracion
+from email_validator import validate_email, EmailNotValidError
 
 # Protected resources
 
@@ -20,7 +21,7 @@ def index():
         return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"punto_encuentro_index")):
        abort(401)
-    conf=Configuracion.getConfigs()
+    conf=Configuracion.get_configs()
     params=request.args
     currentPage = int(params.get("page", 0))
 
@@ -40,10 +41,15 @@ def create():
     if mensaje.validate()==False:
         print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
     else:
+        try:
+            valid = validate_email(params["email"])
+        except EmailNotValidError as e:
+            print(str(e))
+            return redirect(url_for("puntos_index"))
         print("Los campos estan validados")
         cant_puntos=Punto.existe_punto(params["nombre"]) # Me fijo si ya existe un punto con ese nombre
         if (cant_puntos==0): #si la cantidad es 0 es porque no hay ninguna tupla en la base de datos con ese nombre, o sea que no existe 
-            new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],coordenadas=params["coordenadas"],estado=params["status"],telefono=params["telefono"],email=params["email"])
+            new_punto=Punto(nombre=params["nombre"],direccion=params["direccion"],lat=params["lat"],lng=params["lng"],estado=params["status"],telefono=params["telefono"],email=params["email"])
             db.session.add(new_punto)
             db.session.commit()
             mensaje="Se agrego el punto"
@@ -72,7 +78,8 @@ def update(id):
             if (cant_puntos==0):
                 punto_to_update.nombre=params["nombre"]
                 punto_to_update.direccion=params["direccion"]
-                punto_to_update.coordenadas=params["coordenadas"]
+                punto_to_update.lat=params["lat"]
+                punto_to_update.lng=params["lng"]
                 punto_to_update.estado=params["status"]
                 punto_to_update.telefono=params["telefono"]
                 punto_to_update.email=params["email"]

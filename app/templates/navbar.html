@@ -29,8 +29,8 @@
                     {% if tiene_permiso(session["id"],"usuario_index") %}
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'usuario_index'}}" href="{{url_for('usuario_index')}}">Usuarios</a>
-                    {% endif %}
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'usuario_perfil'}}" href="{{url_for('usuario_perfil')}}">Perfil</a>
                     </li>
@@ -43,6 +43,10 @@
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'recorridos_index'}}" href="{{url_for('recorridos_index')}}">Recorridos</a>
                     </li>
+                    {% endif %}
+                    {% if tiene_permiso(session["id"],"zonas_index") %}
+                    <li class="nav-item">
+                        <a class="nav-link {{'active' if request.endpoint == 'zonas_index'}}" href="{{url_for('zonas_index')}}">Zonas inundables</a>
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('auth_logout')}}" style="color: red;">Cerrar Sesión</a>

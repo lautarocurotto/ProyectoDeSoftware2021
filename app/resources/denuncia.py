@@ -19,7 +19,7 @@ def index():
     if not authenticated(session) or not check_permission(session["id"], "denuncia_index"):
         abort(401)
 
-    return render_template("denuncia/denuncias.html", paginator = Paginator(Denuncia.get_all(request.args), Configuracion.getConfigs().maxElementos, int(request.args.get("page", 0))), categorias = Categoria.query.all())
+    return render_template("denuncia/denuncias.html", paginator = Paginator(Denuncia.get_all(request.args), Configuracion.get_configs().maxElementos, int(request.args.get("page", 0))), categorias = Categoria.query.all())
 
 def show(id):
     """Obtener y mostrar una denuncia para gestionar"""

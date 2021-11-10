@@ -1,5 +1,4 @@
 from re import A
-from sqlalchemy.orm import backref, relationship
 from sqlalchemy.sql.expression import select
 from sqlalchemy.sql.sqltypes import Date
 from app.db import db
@@ -8,6 +7,7 @@ from app.models import usuario_tiene_rol
 from sqlalchemy import Column,Integer,String,Boolean,DateTime
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
+from sqlalchemy.orm import relationship
 
 from app.models.permiso import Permiso 
 from app.models.rol_tiene_permiso import rol_tiene_permiso
@@ -19,15 +19,14 @@ class Usuario(db.Model):
     id=Column(Integer,primary_key=True)
     email=Column(String(255),unique=True)
     username=Column(String(255),unique=True)
-    password=Column(String(255),unique=True)
-    activo=Column(Boolean,unique=True)
-    updated_at=Column(DateTime,unique=True)
-    created_at=Column(DateTime,unique=True)
-    first_name=Column(String(255),unique=True)
-    last_name=Column(String(255),unique=True)
+    password=Column(String(255))
+    activo=Column(Boolean)
+    updated_at=Column(DateTime)
+    created_at=Column(DateTime)
+    first_name=Column(String(255))
+    last_name=Column(String(255))
 
     seguimientos = relationship('Seguimiento', backref='author')
-
 
     @classmethod
     def verify_password(cls,user,password):

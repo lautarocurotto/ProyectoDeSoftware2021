@@ -4,6 +4,7 @@ from flask.helpers import flash
 from sqlalchemy.sql.expression import true
 from app.db import db
 from app.validadores.validadorRecorridos import ValidarForm
+from app.models.coordenadas import Coordenadas
 
 from app.helpers.auth import authenticated, check_permission
 from app.helpers.paginator import Paginator
@@ -19,7 +20,7 @@ def index():
         return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"recorrido_index")):
        abort(401)
-    conf=Configuracion.getConfigs()
+    conf=Configuracion.get_configs()
     params=request.args
     currentPage = int(params.get("page", 0))
 
@@ -34,47 +35,70 @@ def create():
         return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"recorrido_new")):
        abort(401)    
-    params=request.form
-    mensaje=ValidarForm(params)
-    if mensaje.validate()==False:
-        print("Hay algo mal en el formulario")
-        
+    
+    contenido=request.get_json()
+    nombree=contenido["name"]
+    descripcionn=contenido["description"]
+    estadoo=contenido["status"]
+    coordendas=contenido["coodinates"]
+   
+    if(nombree=="" or descripcionn=="" or estadoo=="" or len(coordendas)<3):
+         mensaje="Formulario mal"
     else:
         print("Los campos estan validados")
-        cant_puntos=Recorrido.existe_recorrido(params["nombre"]) 
-        if (cant_puntos==0): #si la cantidad es 0 es porque no hay ninguna tupla en la base de datos con ese nombre, o sea que no existe 
-            new_recorrido=Recorrido(nombre=params["nombre"],descripcion=params["descripcion"],lat=params["lat"],estado=params["status"],lng=params["lng"])
+        cant_puntos=Recorrido.existe_recorrido(nombree) 
+        if (cant_puntos==0):
+            new_recorrido=Recorrido(nombre=nombree,descripcion=descripcionn,estado=estadoo)
+            for c in coordendas:
+                new_coordenada=Coordenadas(lat=c["lat"],lng=c["lng"],tipo="recorrido")
+                new_recorrido.puntos.append(new_coordenada)
             db.session.add(new_recorrido)
             db.session.commit()
             mensaje="Se agrego el recorrido"
         else:
             mensaje="El recorrido ya existe por favor elija otro nombre"
-        flash(mensaje)
-    return redirect(url_for("recorridos_index"))
+    flash(mensaje)
+    return mensaje
+
 
 def update(id):
-
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"recorrido_update")):
        abort(401)
-    params=request.form
     recorrido_to_update=Recorrido.query.get_or_404(id)
-    if request.method == "POST":
-        mensaje=ValidarForm(params)
-        if mensaje.validate()==False:
+    return render_template("recorridos/update.html", recorrido_to_update=recorrido_to_update)
+    
+def updateCurrent():
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"recorrido_update")):
+       abort(401)
+
+    contenido=request.get_json()
+    print(contenido)
+    nombree=contenido["name"]
+    descripcionn=contenido["description"]
+    estadoo=contenido["status"]
+    coordendas=contenido["coodinates"]
+    recorrido_to_update=Recorrido.query.get_or_404(contenido["id"])
+    if(nombree=="" or descripcionn=="" or estadoo=="" or len(coordendas)<3):
             print("Hay algo mal en el formulario") 
             return render_template("puntos/update.html", recorrido_to_update=recorrido_to_update)
-        else:
+    else:
             print("Los campos estan validados")
-            cant_puntos=Recorrido.existe_recorrido(params["nombre"],id,True)
+            cant_puntos=Recorrido.existe_recorrido(contenido["name"],contenido["id"],True)
             if (cant_puntos==0):
-                recorrido_to_update.nombre=params["nombre"]
-                recorrido_to_update.descripcion=params["descripcion"]
-                recorrido_to_update.lat=params["lat"]
-                recorrido_to_update.estado=params["status"]
-                recorrido_to_update.lng=params["lng"]
+                recorrido_to_update.nombre=contenido["name"]
+                recorrido_to_update.descripcion=contenido["description"]
+                recorrido_to_update.estado=contenido["status"]
+                for c in recorrido_to_update.puntos:
+                     db.session.delete(c)
+                for c in coordendas:
+                    new_coordenada=Coordenadas(lat=c["lat"],lng=c["lng"],tipo="recorrido")
+                    recorrido_to_update.puntos.append(new_coordenada)
                 try:
                     db.session.commit()
                     return redirect(url_for("recorridos_index"))
@@ -84,9 +108,7 @@ def update(id):
             else:
                 flash("El nombre ya existe, por favor elija otro nombre")
                 return render_template("recorridos/update.html", recorrido_to_update=recorrido_to_update)
-    else:
-        return render_template("recorridos/update.html", recorrido_to_update=recorrido_to_update)
-    
+
 
 def delete(id):
     user = authenticated(session)
