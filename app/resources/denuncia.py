@@ -5,7 +5,6 @@ from app.models.denuncia import Denuncia
 from app.helpers.paginator import Paginator
 from app.models.configuracion import Configuracion
 from app.helpers.auth import authenticated, check_permission
-from email_validator import validate_email, EmailNotValidError
 from app.models.seguimiento import Seguimiento
 from app.models.categoria import Categoria
 from app.models.usuario import Usuario
@@ -20,7 +19,7 @@ def index():
     if not authenticated(session) or not check_permission(session["id"], "denuncia_index"):
         abort(401)
 
-    return render_template("denuncia/denuncias.html", paginator = Paginator(Denuncia.get_all(request.args), Configuracion.getConfigs().maxElementos, request.args.get("page", 0)), categorias = Categoria.query.all())
+    return render_template("denuncia/denuncias.html", paginator = Paginator(Denuncia.get_all(request.args), Configuracion.getConfigs().maxElementos, int(request.args.get("page", 0))), categorias = Categoria.query.all())
 
 def show(id):
     """Obtener y mostrar una denuncia para gestionar"""
@@ -96,21 +95,21 @@ def new_denuncia():
         int(postdata["categoria_id"])
     except:
         flash("Categoría inválida")
-        return redirect(url_for('denuncia_index'))
+        return redirect(url_for('denuncias'))
     
     Categoria.query.get_or_404(postdata["categoria_id"])
 
     if postdata["coordenadas"] == '':
         flash("Debe introducir coordenadas")
-        return redirect(url_for('denuncia_index'))
+        return redirect(url_for('denuncias'))
 
     if postdata["titulo"] == '':
         flash("Título inválido")
-        return redirect(url_for('denuncia_index'))
+        return redirect(url_for('denuncias'))
 
     if postdata["descripcion"] == '':
         flash("Descripción inválida")
-        return redirect(url_for('denuncia_index'))
+        return redirect(url_for('denuncias'))
 
     db.session.add(
         Denuncia(
@@ -131,4 +130,4 @@ def new_denuncia():
         return (str(e))
         
     flash("Denuncia creada")
-    return redirect(url_for('denuncia_index'))
+    return redirect(url_for('denuncias'))
