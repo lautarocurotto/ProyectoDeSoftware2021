@@ -11,21 +11,21 @@ class Denuncia(db.Model):
 
     __tablename__ = "denuncia"
     id = Column(Integer, primary_key = True)
-    title = Column(String)
+    title = Column(String(255))
     category_id = Column(Integer, ForeignKey('denuncia_categoria.id'))
     created_at = Column(DateTime, server_default=text('CURRENT_TIMESTAMP'))
     closed_at = Column(DateTime)
-    description = Column(String)
+    description = Column(String(255))
 
-    coordenada_lat = Column(String)
-    coordenada_lng = Column(String)
+    coordenada_lat = Column(String(255))
+    coordenada_lng = Column(String(255))
 
-    status = Column(String, server_default=text('UNCONFIRMED'))
+    status = Column(String(255), server_default='UNCONFIRMED')
     operator_id = Column(Integer)
-    denunciante_name = Column(String)
-    denunciante_last_name = Column(String)
-    denunciante_phone = Column(String)
-    denunciante_email = Column(String)
+    denunciante_name = Column(String(255))
+    denunciante_last_name = Column(String(255))
+    denunciante_phone = Column(String(255))
+    denunciante_email = Column(String(255))
 
     seguimientos = relationship('Seguimiento', backref="denuncia")
 

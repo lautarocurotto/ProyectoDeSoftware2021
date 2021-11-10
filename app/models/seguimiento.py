@@ -10,6 +10,6 @@ class Seguimiento(db.Model):
     __tablename__ = "denuncia_seguimiento"
     id = Column(Integer, primary_key=True)
     denuncia_id = Column(Integer, ForeignKey('denuncia.id'))
-    description = Column(String)
+    description = Column(String(255))
     author_id = Column(Integer, ForeignKey(Usuario.id))
     created_at = Column(Date)

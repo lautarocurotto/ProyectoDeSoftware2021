@@ -25,6 +25,7 @@ class Usuario(db.Model):
     created_at=Column(DateTime)
     first_name=Column(String(255))
     last_name=Column(String(255))
+    roles=relationship("Rol",secondary=usuario_tiene_rol.__tablename__,backref="usuarios")
 
     seguimientos = relationship('Seguimiento', backref='author')
 
@@ -62,6 +63,10 @@ class Usuario(db.Model):
     def find_user_by_email(cls,e):
         return cls.query.filter_by(email=e).one()
 
+    @classmethod
+    def find_user_by_email_first(cls,e):
+        return cls.query.filter_by(email=e).first()
+
 
 
 
@@ -89,6 +94,9 @@ class Usuario(db.Model):
     def has_permission(cls, aUserID, aPermission):
         consulta=cls.query.join(usuario_tiene_rol, usuario_tiene_rol.usuario_id == Usuario.id).join(rol_tiene_permiso, usuario_tiene_rol.rol_id == rol_tiene_permiso.rol_id).join(Permiso, rol_tiene_permiso.permiso_id == Permiso.id).filter(Usuario.id==aUserID).filter(Permiso.nombre == aPermission)
         return (consulta.count() > 0)
+
+    
+
 
     def __init__(self,email=None,username=None,password=None,activo=None,updated_at=None,created_at=None,first_name=None,last_name=None):
         self.email=email
