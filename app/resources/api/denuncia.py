@@ -4,6 +4,7 @@ from app.db import db
 from email_validator import validate_email, EmailNotValidError
 from app.models.denuncia import Denuncia
 from app.models.categoria import Categoria
+import json
 
 denuncia_api = Blueprint("denuncias", __name__, url_prefix="/denuncias")
 
@@ -61,5 +62,9 @@ def new_denuncia():
         db.session.commit()
     except Exception as e:
         return (str(e))
-        
-    return response.Response(status=201)
+
+    atributos = {
+        "atributos" : postdata 
+    }
+       
+    return response.Response(status=201, response = json.dumps(atributos), content_type="application/json")
