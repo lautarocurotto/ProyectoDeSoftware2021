@@ -99,7 +99,7 @@ def new_denuncia():
     
     Categoria.query.get_or_404(postdata["categoria_id"])
 
-    if postdata["coordenadas"] == '':
+    if postdata["lat"] == '' or postdata["lng"] == '':
         flash("Debe introducir coordenadas")
         return redirect(url_for('denuncias'))
 
@@ -114,7 +114,8 @@ def new_denuncia():
     db.session.add(
         Denuncia(
             category_id = postdata["categoria_id"],
-            coordenates = postdata["coordenadas"],
+            coordenada_lat = postdata["lat"],
+            coordenada_lng = postdata["lng"],
             denunciante_name = datos_usuario.first_name,
             denunciante_last_name = datos_usuario.last_name,
             denunciante_phone = "User " + datos_usuario.username,

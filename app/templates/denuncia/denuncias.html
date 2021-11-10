@@ -3,6 +3,11 @@
 {% block title %}Denuncias - Zonas de inundación{% endblock %}
 {% block head %}
     {{super()}}
+    {% if tiene_permiso(session["id"], "denuncia_create") %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script type="module" src="{{url_for('static', filename='denuncia/new-denuncia-map.js')}}"></script>
+    {% endif %}
 {% endblock %}
 {% block content %}
   
@@ -110,7 +115,7 @@
         </ul>
     </nav>
 
-    {% if tiene_permiso(session["id"], "denuncia_index") %}
+    {% if tiene_permiso(session["id"], "denuncia_create") %}
     <div class="modal fade" id="new-modal" tabindex="-1" aria-labelledby="new-modalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -120,7 +125,7 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <form action="{{url_for('denuncia_new')}}" method="POST">
+                    <form action="{{url_for('denuncia_new')}}" method="POST" id="new-denuncia-form">
                         <div class="mb-3">
                            <label for="titulo">Título: </label>
                            <input class="form-control" type="text" name="titulo" placeholder="titulo" required autocomplete="false"> 
@@ -138,11 +143,18 @@
                                 {% endfor %}
                             </select>
                         </div>
+                        <label for="lat">
+                            <input class="form-control" style="display: none"   type="text" name="lat" placeholder="lat" id='lat'>
+                        </label>
+                        <label for="lng">
+                            <input class="form-control"  style="display: none"  type="text" name="lng" placeholder="lng" id='lng'>
+                        </label>
+                        
                         <div class="mb-3">
-                            <label for="coordenadas">Coordenadas: </label>
-                            <input class="form-control" type="text" name="coordenadas" placeholder="coordenadas" required autocomplete="false"> 
+                           <div id="mapid" style="height: 300px; width: 100%;"></div> 
                         </div>
-                    
+                        
+        
                         <input class="btn btn-outline-success" type="submit" value="Guardar">
                     </form>
                 </div>
@@ -153,5 +165,6 @@
     {% endif %}
 
 </div>
+
 
 {% endblock %}

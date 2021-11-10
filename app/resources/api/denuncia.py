@@ -42,10 +42,13 @@ def new_denuncia():
     if postdata["descripcion"] == '':
         return response.Response(status=500)
 
+    coordenadas = postdata["coordenadas"].split(", ")
+
     db.session.add(
         Denuncia(
             category_id = postdata["categoria_id"],
-            coordenates = postdata["coordenadas"],
+            coordenada_lat = coordenadas[0],
+            coordenada_lng = coordenadas[1],
             denunciante_name = postdata["nombre_denunciante"],
             denunciante_last_name = postdata["apellido_denunciante"],
             denunciante_phone = postdata["telcel_denunciante"],

@@ -1,3 +1,4 @@
+from re import S
 from sqlalchemy.orm import backref, relationship
 from sqlalchemy.sql.schema import ForeignKey
 from app.db import db
@@ -16,7 +17,8 @@ class Denuncia(db.Model):
     closed_at = Column(DateTime)
     description = Column(String)
 
-    coordenates = Column(String)
+    coordenada_lat = Column(String)
+    coordenada_lng = Column(String)
 
     status = Column(String, server_default=text('UNCONFIRMED'))
     operator_id = Column(Integer)
