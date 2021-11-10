@@ -8,6 +8,7 @@ from app.helpers.auth import authenticated, check_permission
 from email_validator import validate_email, EmailNotValidError
 from app.models.seguimiento import Seguimiento
 from app.models.categoria import Categoria
+from app.models.usuario import Usuario
 
 from app.db import db
 
@@ -19,7 +20,7 @@ def index():
     if not authenticated(session) or not check_permission(session["id"], "denuncia_index"):
         abort(401)
 
-    return render_template("denuncia/denuncias.html", paginator=Paginator(Denuncia.get_all(request.args), Configuracion.getConfigs().maxElementos, request.args.get("page", 0)))
+    return render_template("denuncia/denuncias.html", paginator = Paginator(Denuncia.get_all(request.args), Configuracion.getConfigs().maxElementos, request.args.get("page", 0)), categorias = Categoria.query.all())
 
 def show(id):
     """Obtener y mostrar una denuncia para gestionar"""
@@ -85,49 +86,43 @@ def update_seguimiento():
     return redirect(url_for('denuncia_show', id = request.form["id"]))
 
 def new_denuncia():
-    """Método para usar en la API"""
-    postdata = request.get_json()
+    """Método para usar con form"""
 
-    try:
-        validate_email(postdata["email_denunciante"])
-    except EmailNotValidError:
-        return "Email inválido"
+    postdata = request.form
+       
+    datos_usuario = Usuario.query.get_or_404(session["id"])
 
     try:
         int(postdata["categoria_id"])
     except:
-        return "ID de categoría inválido"
+        flash("Categoría inválida")
+        return redirect(url_for('denuncia_index'))
     
     Categoria.query.get_or_404(postdata["categoria_id"])
 
     if postdata["coordenadas"] == '':
-        return response.Response(status=500)
-
-    if postdata["apellido_denunciante"] == '':
-        return response.Response(status=500)
-
-    if postdata["nombre_denunciante"] == '':
-        return response.Response(status=500)
-
-    if postdata["telcel_denunciante"] == '':
-        return response.Response(status=500)
+        flash("Debe introducir coordenadas")
+        return redirect(url_for('denuncia_index'))
 
     if postdata["titulo"] == '':
-        return response.Response(status=500)
+        flash("Título inválido")
+        return redirect(url_for('denuncia_index'))
 
     if postdata["descripcion"] == '':
-        return response.Response(status=500)
+        flash("Descripción inválida")
+        return redirect(url_for('denuncia_index'))
 
     db.session.add(
         Denuncia(
             category_id = postdata["categoria_id"],
             coordenates = postdata["coordenadas"],
-            denunciante_name = postdata["nombre_denunciante"],
-            denunciante_last_name = postdata["apellido_denunciante"],
-            denunciante_phone = postdata["telcel_denunciante"],
-            denunciante_email = postdata["email_denunciante"],
+            denunciante_name = datos_usuario.first_name,
+            denunciante_last_name = datos_usuario.last_name,
+            denunciante_phone = "User " + datos_usuario.username,
+            denunciante_email = datos_usuario.email,
             title = postdata["titulo"],
-            description = postdata["descripcion"]
+            description = postdata["descripcion"],
+            status = "IN_PROGRESS"
         ))
 
     try:
@@ -135,5 +130,5 @@ def new_denuncia():
     except Exception as e:
         return (str(e))
         
-    return response.Response(status=201)
-
+    flash("Denuncia creada")
+    return redirect(url_for('denuncia_index'))
