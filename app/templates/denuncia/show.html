@@ -5,7 +5,11 @@
     {{super()}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    {% if request.args.get("edit-map") == "1" %}
+    <script type="module" src="{{url_for('static', filename='denuncia/new-denuncia-map.js')}}"></script>
+    {% else %}
     <script type="module" src="{{url_for('static', filename='denuncia/denuncia-show-map.js')}}"></script>
+    {% endif %}
 {% endblock %}
 {% block content %}
   
@@ -24,6 +28,10 @@
                     <small class="alert-danger">Cerrada el {{denuncia.closed_at}}</small>
                 {% endif %}
                 <small class="alert-primary"><strong>Categoría</strong> {{denuncia.categoria.name}}</small>
+                <form action="{{url_for('denuncia_delete')}}" onsubmit="return confirm('¿Está seguro que desea eliminar esta denuncia?');" method="POST">
+                    <input type="hidden" name="id" value="{{denuncia.id}}">
+                    <input type="submit" value="Eliminar Denuncia" class="btn btn-outline-danger">
+                </form>
             </div>
 
             <div class="mb-3">
@@ -116,13 +124,43 @@
     
     <div class="container">
         <small class="alert-primary">Fecha de creación: {{denuncia.created_at}}</small>
+
+        {% if request.args.get("edit-description") == "1" and tiene_permiso(session["id"], "denuncia_update") %}
+        <form action="{{url_for('denuncia_set_descripcion')}}" method="POST">
+            <input type="hidden" name="id" value="{{denuncia.id}}">
+            <h5>Edite la descripción. Luego presione guardar cambios. <a href="{{url_for(request.endpoint, id = denuncia.id)}}">Cancelar</a></h5>
+            <div class="mb-3">
+                <input class="form-control" type="text" value="{{denuncia.description}}" autocomplete="false" name="descripcion">
+            </div>
+            <div class="mb-3">
+                <input type="submit" value="Guardar cambios" class="btn btn-outline-success">
+            </div>
+        </form>
+        {% else %}
+        <a class="btn" href="{{url_for(request.endpoint, id = denuncia.id)}}?edit-description=1">Editar descripción <i class="fas fa-edit color2"></i></a>
         <p>{{denuncia.description}}</p>
+        {% endif %}
+
         <p><i class="fas fa-globe-americas"></i> {{denuncia.coordenada_lat}}, {{denuncia.coordenada_lng}}</p>
 
-        <div id="mapid" style="width: 100%; height: 300px;"></div>
+        {% if request.args.get("edit-map") == "1" and tiene_permiso(session["id"], "denuncia_update") %}
+        <h5>Seleccione un punto en el mapa. Luego presione guardar nuevas coordenadas. <a href="{{url_for(request.endpoint, id = denuncia.id)}}">Cancelar</a></h5>
+        {% else %}
+        <a  class="btn" href="{{url_for(request.endpoint, id = denuncia.id)}}?edit-map=1">Editar Coordenadas <i class="fas fa-edit color2"></i></a>
+        {% endif %}
+        
+        {% if request.args.get("edit-map") == "1" and tiene_permiso(session["id"], "denuncia_update") %}
+        <form action="{{url_for('denuncia_set_coordenadas')}}" id="new-denuncia-form" method="POST">
+            <input type="hidden" name="id" value="{{denuncia.id}}">
+        {% endif %}
+            <input type="hidden" name="lat" id="lat" value="{{denuncia.coordenada_lat}}">
+            <input type="hidden" name="lng" id="lng" value="{{denuncia.coordenada_lng}}">
+            <div id="mapid" style="width: 100%; height: 300px;"></div>
+        {% if request.args.get("edit-map") == "1" and tiene_permiso(session["id"], "denuncia_update") %}
+            <input type="submit" class="btn btn-outline-success" value="Guardar nuevas coordenadas">
+        </form>
+        {% endif %}
 
-        <input type="hidden" name="lat" id="lat" value="{{denuncia.coordenada_lat}}">
-        <input type="hidden" name="lng" id="lng" value="{{denuncia.coordenada_lng}}">
     </div>
     
     {% block jsimport %}
@@ -130,6 +168,7 @@
         function enablebtn(evt){
             evt.getElementsByClassName("btn")[0].disabled = false;
         }
+
     </script>
     {% endblock %}
     

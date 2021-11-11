@@ -27,7 +27,7 @@ class Denuncia(db.Model):
     denunciante_phone = Column(String(255))
     denunciante_email = Column(String(255))
 
-    seguimientos = relationship('Seguimiento', backref="denuncia")
+    seguimientos = relationship('Seguimiento', backref="denuncia", cascade="all, delete")
 
     @classmethod
     def get_all(cls, query_args):
