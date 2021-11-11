@@ -49,11 +49,11 @@ def delete(id):
        abort(401)
     zona_to_delete=Zonas.find_by_id(id)
     if(zona_to_delete.estado=="despublicado"):
-        mensaje="el usuario ya se encuentra borrado"
+        mensaje="La zona inundable ya se encuentra despublicada"
     else:
         zona_to_delete.estado="despublicado"
         db.session.commit()
-        mensaje="La zona innundable se ha eliminado con exito"
+        mensaje="La zona innundable se ha despublicado con exito"
     flash(mensaje)
     return redirect(url_for("zonas_index"))
 
@@ -121,3 +121,20 @@ def importar():
             db.session.add(new_zona)
             db.session.commit()
     return redirect(url_for("zonas_index"))
+
+def delete_fisico(id):
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"zonas_destroy")):
+       abort(401)
+    zona_to_delete=Zonas.find_by_id(id)
+    try:
+        db.session.delete(zona_to_delete)
+        db.session.commit()
+        mensaje="Se eliminó con éxito"
+        flash(mensaje)
+        return redirect(url_for("zonas_index"))
+    except:
+        return "Hubo un problema al borrar el recorrido de evacuacion"
+    
