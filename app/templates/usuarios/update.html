@@ -45,19 +45,11 @@
         <hr class="my-4"></div>
         <div class="mb-3">
             <h5>Roles de {{usuario.first_name}}</h5>
-            {% if 2 in roles %}
-            <input type="checkbox" name="adm" id="adm" value="adm" checked>
-            {% else %}
-            <input type="checkbox" name="adm" id="adm" value="adm">
-            {% endif %}
-            <label for="adm"> Administrador</label><br>
-            
-            {% if 1 in roles %}
-            <input type="checkbox" name="ope" id="ope" value="ope" checked>
-            {% else %}
-            <input type="checkbox" name="ope" id="ope" value="ope">
-            {% endif %}
-            <label for="ope"> Operador</label><br><br>
+            {%for rol in listaroles %}   
+                <div>
+                    {{rol.nombre}}<input type="checkbox" value="{{rol.id}}" name="my_checkbox"{% if rol.id in roles %} checked  {% endif %} >
+                </div>
+            {% endfor %}
         </div>
         <div class="mb-3">
             <input class="btn btn-success btn-lg" type="submit" value="Modificar  usuario">

@@ -10,11 +10,15 @@ class Rol(db.Model):
     nombre=Column(String(255),unique=True)
 
 
+
+
     
 
 
 def __init__(self,id=None,nombre=None):
         self.id=id
         self.nombre=nombre
+
+
 
 
