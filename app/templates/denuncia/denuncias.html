@@ -1,0 +1,170 @@
+
+{% extends "layout.html"%}
+{% block title %}Denuncias - Zonas de inundación{% endblock %}
+{% block head %}
+    {{super()}}
+    {% if tiene_permiso(session["id"], "denuncia_create") %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script type="module" src="{{url_for('static', filename='denuncia/new-denuncia-map.js')}}"></script>
+    {% endif %}
+{% endblock %}
+{% block content %}
+  
+
+<div class="container-fluid">
+    <h1>Administración de denuncias</h1>
+
+    <div class="mb-3">
+        <div class="accordion" id="accordionFilters">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingFilters">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
+                  <i class="fas fa-sliders-h"></i> Filtros de búsqueda
+                </button>
+              </h2>
+              <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="headingFilters" data-bs-parent="#accordionFilters">
+                <div class="accordion-body">
+                    <form action="{{url_for('denuncias')}}" method="GET">
+    
+                        <div class="mb-3">
+                            <label for="query-title">Búsqueda por título: </label>
+                            <input class="form-control" type="text" id="query-title" name="query-title" placeholder="Título" value="{{request.args.get('query-title') if request.args.get('query-title') != None}}">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="query-status">Búsqueda por estado:</label>
+                            <select class="form-control" name="query-status" id="status-query" value="{{request.args.get('query-status') if request.args.get('query-status') != None}}">
+                                <option value=""></option>
+                                <option value="UNCONFIRMED">Sin confirmar</option>
+                                <option value="IN_PROGRESS">En curso</option>
+                                <option value="RESOLVED">Resuelta</option>
+                                <option value="CLOSED">Cerrada</option>
+                            </select>
+                        </div>
+    
+                        <hr class="my-4">
+    
+                        <p>Filtrar por fecha de creación de la denuncia</p>
+                        <div class="mb-3">
+                            <label for="query-datefrom">Desde</label>
+                            <input class="form-control" type="date" name="query-datefrom" id="query-datefrom" value="{{request.args.get('query-datefrom') if request.args.get('query-datefrom') != None}}">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="query-dateuntil">Hasta</label>
+                            <input class="form-control" type="date" name="query-dateuntil" id="query-dateuntil" value="{{request.args.get('query-dateuntil') if request.args.get('query-dateuntil') != None}}">
+                        </div>
+                        
+                        <input type="submit" value="Filtrar" class="btn btn-outline-primary form-control">
+                    </form>
+    
+                    <div class="mb-3">
+                        <a class="btn btn-outline-warning" class="btn" href="{{url_for('denuncias')}}"><i class="fas fa-times"></i> Quitar filtros</a>
+                    </div>
+                    
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <!-- end filters -->
+
+    {% if tiene_permiso(session["id"], "denuncia_index") %}
+    <div class="mb-3">
+        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#new-modal"><i class="fas fa-plus"></i> Nueva denuncia</button>
+    </div>
+    {% endif %}
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Título</td>
+                    <td>Fecha creación</td>
+                    <td>Estado</td>
+                    <td>Telf. denunciante</td>
+                    <td>Email denunciante</td>
+                </tr>
+            </thead>
+            <tbody>
+                {%for denuncia in paginator.get_page() %}
+                
+                    <tr>
+                        <td><a href="{{url_for('denuncia_show', id=denuncia.id)}}">{{denuncia.title}}</a></td>
+                        <td>{{denuncia.created_at}}</td>
+                        <td>{{denuncia.status}}</td>
+                        <td>{{denuncia.denunciante_phone}}</td>
+                        <td>{{denuncia.denunciante_email}}</td>
+                    </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- end table -->
+
+    <nav aria-label="Puntos navigation pages">
+        <ul class="pagination">
+            {% if(not paginator.prev_page() < 0)%}
+                <li class="page-item"><a class="page-link" href="{{url_for('denuncias', page=paginator.prev_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Anterior</a></li>
+            {% endif %}
+            {% if paginator.has_next_page() %}
+                <li class="page-item"><a class="page-link" href="{{url_for('denuncias', page=paginator.next_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Siguiente</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% if tiene_permiso(session["id"], "denuncia_create") %}
+    <div class="modal fade" id="new-modal" tabindex="-1" aria-labelledby="new-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="new-modalLabel">Nueva denuncia</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <form action="{{url_for('denuncia_new')}}" method="POST" id="new-denuncia-form">
+                        <div class="mb-3">
+                           <label for="titulo">Título: </label>
+                           <input class="form-control" type="text" name="titulo" placeholder="titulo" required autocomplete="false"> 
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion">Descripción: </label>
+                            <input class="form-control" type="text" name="descripcion" placeholder="descripcion" required autocomplete="false"> 
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoria_id">Categoría: </label>
+                            <select class="form-control" name="categoria_id" id="categoria_id" required>
+                                <option value=""> </option>
+                                {% for categoria in categorias %}
+                                <option value="{{categoria.id}}">{{categoria.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <label for="lat">
+                            <input class="form-control" style="display: none"   type="text" name="lat" placeholder="lat" id='lat'>
+                        </label>
+                        <label for="lng">
+                            <input class="form-control"  style="display: none"  type="text" name="lng" placeholder="lng" id='lng'>
+                        </label>
+                        
+                        <div class="mb-3">
+                           <div id="mapid" style="height: 300px; width: 100%;"></div> 
+                        </div>
+                        
+        
+                        <input class="btn btn-outline-success" type="submit" value="Guardar">
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+
+{% endblock %}

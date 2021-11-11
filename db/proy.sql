@@ -36,6 +36,65 @@ CREATE TABLE `administra_punto` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `denuncia`
+--
+
+CREATE TABLE `denuncia` (
+  `id` int(11) NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `closed_at` date DEFAULT NULL,
+  `description` text NOT NULL,
+  `coordenada_lat` varchar(200) NOT NULL,
+  `coordenada_lng` varchar(200) NOT NULL,
+  `operator_id` int(11) DEFAULT NULL,
+  `denunciante_name` varchar(200) NOT NULL,
+  `denunciante_last_name` varchar(200) DEFAULT NULL,
+  `denunciante_phone` varchar(200) NOT NULL,
+  `denunciante_email` varchar(200) NOT NULL,
+  `seguimiento` text DEFAULT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'UNCONFIRMED'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `denuncia_categoria`
+--
+
+CREATE TABLE `denuncia_categoria` (
+  `id` int(11) NOT NULL,
+  `name` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `denuncia_categoria`
+--
+
+INSERT INTO `denuncia_categoria` (`id`, `name`) VALUES
+(1, 'calles'),
+(2, 'alcantarillas'),
+(3, 'desagües'),
+(4, 'infraestructura');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `denuncia_seguimiento`
+--
+
+CREATE TABLE `denuncia_seguimiento` (
+  `id` int(11) NOT NULL,
+  `denuncia_id` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `description` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `Configuracion`
 --
 
@@ -116,7 +175,11 @@ INSERT INTO `Permiso` (`id`, `nombre`) VALUES
 (28, 'zonas_index'),
 (29, 'zonas_show'),
 (30, 'zonas_import'),
-(31, 'zonas_destroy');
+(31, 'zonas_destroy'),
+(32, 'denuncia_index'),
+(33, 'denuncia_update'),
+(34, 'denuncia_create'),
+(35, 'denuncia_destroy');
 -- --------------------------------------------------------
 
 --
@@ -238,7 +301,14 @@ INSERT INTO `rol_tiene_permiso` (`rol_id`, `permiso_id`) VALUES
 (2, 29),
 (1, 30),
 (2, 30),
-(2, 31);
+(2, 31),
+(1, 32),
+(1, 33),
+(1, 34),
+(2, 32),
+(2, 33),
+(2, 34),
+(2, 35);
 -- --------------------------------------------------------
 
 --
@@ -318,6 +388,25 @@ ALTER TABLE `Configuracion`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `denuncia`
+--
+ALTER TABLE `denuncia`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `denuncia_categoria`
+--
+ALTER TABLE `denuncia_categoria`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `denuncia_seguimiento`
+--
+ALTER TABLE `denuncia_seguimiento`
+  ADD PRIMARY KEY (`id`,`denuncia_id`),
+  ADD KEY `denuncia_id` (`denuncia_id`);
+
+--
 -- Indices de la tabla `Coordenadas`
 --
 ALTER TABLE `Coordenadas`
@@ -382,6 +471,25 @@ ALTER TABLE `Zonas`
 --
 ALTER TABLE `Configuracion`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `denuncia`
+--
+ALTER TABLE `denuncia`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `denuncia_categoria`
+--
+ALTER TABLE `denuncia_categoria`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `denuncia_seguimiento`
+--
+ALTER TABLE `denuncia_seguimiento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 
 --
 -- AUTO_INCREMENT de la tabla `Coordenadas`
