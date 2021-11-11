@@ -47,8 +47,9 @@ Esta seria la página de administracion las zonas inundables de la app privada
                 <td>{{zonas.estado}}</td>
                 <td>
                     {% if tiene_permiso(session["id"],"zonas_destroy") %}
+                    <a class="btn btn-outline-danger" href="/zonas/eliminar/{{zonas.id}}">Eliminar</a>
                     {% if (zonas.estado=="publicado") %}
-                    <a class="btn btn-outline-danger" href="/zonas/delete/{{zonas.id}}">Borrar</a>
+                    <a class="btn btn-outline-danger" href="/zonas/delete/{{zonas.id}}">Despublicar</a>
                     {% else %}
                     <a class="btn btn-outline-danger" href="/zonas/activar/{{zonas.id}}">Activar Zona</a>
                     {% endif %}

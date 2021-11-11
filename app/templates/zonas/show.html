@@ -38,8 +38,9 @@
     </table>
     <a class="btn btn-outline-primary" href="/zonas/update/{{zonas.id}}">Editar</a>
     {% if tiene_permiso(session["id"],"zonas_destroy") %}
+    <a class="btn btn-outline-danger" href="/zonas/eliminar/{{zonas.id}}">Eliminar</a>
     {% if (zonas.estado=="publicado") %}
-    <a class="btn btn-outline-danger" href="/zonas/delete/{{zonas.id}}">Borrar</a>
+    <a class="btn btn-outline-danger" href="/zonas/delete/{{zonas.id}}">Despublicar</a>
     {% else %}
     <a class="btn btn-outline-danger" href="/zonas/activar/{{zonas.id}}">Activar Zona</a>
     {% endif %}
