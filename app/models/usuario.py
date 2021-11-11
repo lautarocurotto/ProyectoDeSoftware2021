@@ -52,6 +52,10 @@ class Usuario(db.Model):
         return cls.query.filter_by(id=id1).one()
 
     @classmethod
+    def find_by_id_first(cls,id1):
+        return cls.query.filter_by(id=id1).first()
+
+    @classmethod
     def existe_mail(cls,nombree,idPunto=None):
             return cls.query.filter(cls.email==nombree,cls.id !=idPunto).count()
     
@@ -94,6 +98,12 @@ class Usuario(db.Model):
     def has_permission(cls, aUserID, aPermission):
         consulta=cls.query.join(usuario_tiene_rol, usuario_tiene_rol.usuario_id == Usuario.id).join(rol_tiene_permiso, usuario_tiene_rol.rol_id == rol_tiene_permiso.rol_id).join(Permiso, rol_tiene_permiso.permiso_id == Permiso.id).filter(Usuario.id==aUserID).filter(Permiso.nombre == aPermission)
         return (consulta.count() > 0)
+
+    def as_dict(self):
+        #return {attr.name: getattr(self,attr.name) for attr in self.__table__.columns}
+        return {"email": self.email,
+                "username":self.username,
+                "firstname":self.first_name}
 
     
 
