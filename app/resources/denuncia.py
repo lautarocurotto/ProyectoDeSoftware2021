@@ -1,6 +1,5 @@
 from datetime import datetime
 from flask import redirect, render_template, request, url_for, session, abort, flash
-from werkzeug.wrappers import response
 from app.models.denuncia import Denuncia
 from app.helpers.paginator import Paginator
 from app.models.configuracion import Configuracion
@@ -132,3 +131,57 @@ def new_denuncia():
         
     flash("Denuncia creada")
     return redirect(url_for('denuncias'))
+
+def delete_denuncia():
+    postdata = request.form
+
+    if not authenticated(session) or not check_permission(session["id"], "denuncia_destroy"):
+        abort(401)
+
+    if (postdata["id"] == ''):
+        flash("Error!")
+        return redirect(url_for('denuncias'))
+
+    try:
+        db.session.delete(Denuncia.query.get_or_404(postdata["id"]))
+        db.session.commit()
+        flash("Denuncia eliminada.")
+        return redirect(url_for('denuncias'))
+    except:
+        flash("Error")
+        return redirect(url_for('denuncias'))
+
+def set_coordenadas():
+    if not authenticated(session) or not check_permission(session["id"], "denuncia_update"):
+        abort(401)
+
+    postdata = request.form
+
+    denuncia = Denuncia.query.get_or_404(postdata["id"])
+    denuncia.coordenada_lat = postdata["lat"]
+    denuncia.coordenada_lng = postdata["lng"]
+
+    try:
+        db.session.commit()
+        flash("Coordenadas actualizadas")
+    except:
+        flash("Error al intentar actualizar el mapa")
+    
+    return redirect(url_for('denuncia_show', id = request.form["id"]))
+
+def set_descripcion():
+    if not authenticated(session) or not check_permission(session["id"], "denuncia_update"):
+        abort(401)
+
+    postdata = request.form
+
+    denuncia = Denuncia.query.get_or_404(postdata["id"])
+    denuncia.description = postdata["descripcion"]
+
+    try:
+        db.session.commit()
+        flash("Descripción actualizada")
+    except:
+        flash("Error al intentar actualizar la descripción")
+    
+    return redirect(url_for('denuncia_show', id = request.form["id"]))
