@@ -73,11 +73,6 @@ def create_app(environment="development"):
     app.add_url_rule("/configuracion", "configuracion", configuracion.index)
     app.add_url_rule("/configuracion/set/mantenimiento", "config_toggle_mantenimiento", configuracion.toggleMaintenance)
     app.add_url_rule("/configuracion/set_configs", "set_configs", configuracion.set_configs,  methods=["POST"])
-    
-    api =Blueprint("api", __name__,url_prefix="/api")
-    api.register_blueprint(zonainundable_api)
-    app.register_blueprint(api)
-
 
     app.add_url_rule("/denuncias", "denuncias", denuncia.index)
     app.add_url_rule("/denuncia/<int:id>", "denuncia_show", denuncia.show)
@@ -106,7 +101,7 @@ def create_app(environment="development"):
 
     api = Blueprint("api", __name__, url_prefix="/api")
     api.register_blueprint(denuncia_api)
-
+    api.register_blueprint(zonainundable_api)
     app.register_blueprint(api)
 
     # Handlers
