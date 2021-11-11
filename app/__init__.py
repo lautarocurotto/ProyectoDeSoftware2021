@@ -1,5 +1,5 @@
 from os import environ
-from flask import Flask, render_template,redirect,url_for,request, session
+from flask import Flask, render_template,redirect,url_for,request, session, Blueprint
 from config import config
 from app import db
 from app.resources import punto
@@ -12,6 +12,9 @@ from app.resources import auth
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.helpers.auth import authenticated, check_permission
+from app.resources.api.zonainundable_api import zonainundable_api
+from app.resources import denuncia
+from app.resources.api.denuncia import denuncia_api
 
 
 def create_app(environment="development"):
@@ -71,7 +74,12 @@ def create_app(environment="development"):
     app.add_url_rule("/configuracion", "configuracion", configuracion.index)
     app.add_url_rule("/configuracion/set/mantenimiento", "config_toggle_mantenimiento", configuracion.toggleMaintenance)
     app.add_url_rule("/configuracion/set_configs", "set_configs", configuracion.set_configs,  methods=["POST"])
-    
+
+    app.add_url_rule("/denuncias", "denuncias", denuncia.index)
+    app.add_url_rule("/denuncia/<int:id>", "denuncia_show", denuncia.show)
+    app.add_url_rule("/denuncia/new", "denuncia_new", denuncia.new_denuncia, methods=["POST"])
+    app.add_url_rule("/denuncia/set-status", "denuncia_set_status", denuncia.set_status, methods=["POST"])
+    app.add_url_rule("/denuncia/update-seguimiento", "denuncia_update_seguimiento", denuncia.update_seguimiento, methods=["POST"])
 
     app.add_url_rule("/zonas","zonas_index",zonas.index,methods=["POST", "GET"])
     app.add_url_rule("/zonas/show/<int:id>","zonas_show",zonas.show)
@@ -91,6 +99,11 @@ def create_app(environment="development"):
 
 
     # Rutas de API-REST (usando Blueprints)
+
+    api = Blueprint("api", __name__, url_prefix="/api")
+    api.register_blueprint(denuncia_api)
+    api.register_blueprint(zonainundable_api)
+    app.register_blueprint(api)
 
     # Handlers
     app.register_error_handler(404, handler.not_found_error)

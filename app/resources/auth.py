@@ -15,7 +15,7 @@ def authenticate():
     params = request.form
     email=params['email']
     password=params['password']
-    user=Usuario.find_user_by_email(email)
+    user=Usuario.find_user_by_email_first(email)
     if user and user.activo: # and user.verify_password(user,password):
         #sesion iniciada correctamente
         print("funciono")

@@ -1,5 +1,6 @@
 from re import A
 from sqlalchemy.orm import load_only
+from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.sql.sqltypes import Date
 from app.db import db
 from sqlalchemy import Column,Integer,String,Boolean,DateTime,exists
@@ -7,8 +8,8 @@ from sqlalchemy import Column,Integer,String,Boolean,DateTime,exists
 
 class usuario_tiene_rol(db.Model):
     __tablename__="usuario_tiene_rol"
-    usuario_id=Column(Integer,primary_key=True)
-    rol_id=Column(Integer,primary_key=True)
+    usuario_id=Column(ForeignKey("Usuario.id"),primary_key=True)
+    rol_id=Column(ForeignKey("Rol.id"),primary_key=True)
 
     @classmethod
     def find_by_id(cls,id1): #devuelve la cantidad de administradores de un usuario (0 o 1)
