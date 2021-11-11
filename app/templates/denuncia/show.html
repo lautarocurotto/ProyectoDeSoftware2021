@@ -28,10 +28,12 @@
                     <small class="alert-danger">Cerrada el {{denuncia.closed_at}}</small>
                 {% endif %}
                 <small class="alert-primary"><strong>Categoría</strong> {{denuncia.categoria.name}}</small>
+                {% if tiene_permiso(session["id"], "denuncia_destroy") %}
                 <form action="{{url_for('denuncia_delete')}}" onsubmit="return confirm('¿Está seguro que desea eliminar esta denuncia?');" method="POST">
                     <input type="hidden" name="id" value="{{denuncia.id}}">
                     <input type="submit" value="Eliminar Denuncia" class="btn btn-outline-danger">
                 </form>
+                {% endif %}
             </div>
 
             <div class="mb-3">
