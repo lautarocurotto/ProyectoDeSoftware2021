@@ -34,6 +34,7 @@ def create_app(environment="development"):
     # app.jinja_env.globals.update(isAdmin=helper_auth.isAdmin)
     app.jinja_env.globals.update(configs=configuracion.get_configs)
     app.jinja_env.globals.update(tiene_permiso=helper_auth.check_permission)
+    app.jinja_env.globals.update(cantidad_puntos=zonas.cantidad_puntos)
 
     # Autenticación
     app.add_url_rule("/iniciar_sesion", "auth_login", auth.login)
@@ -76,7 +77,7 @@ def create_app(environment="development"):
     app.add_url_rule("/zonas/show/<int:id>","zonas_show",zonas.show)
     app.add_url_rule("/zonas/delete/<int:id>","zonas_delete",zonas.delete)
     app.add_url_rule("/zonas/activar/<int:id>","zonas_activar",zonas.activar)
-
+    app.add_url_rule("/zonas/importar","zonas_importar",zonas.importar, methods=["POST","GET"] )
 
     # Ruta para el Home (usando decorator)
     @app.route("/")
