@@ -9,7 +9,7 @@ class Coordenadas(db.Model):
     tipo=Column(String(255))
 
     recorrido_id=Column(Integer,ForeignKey('Recorrido.id'))
-
+    zonas_id=Column(Integer,ForeignKey('Zonas.id'))
 
     def __init__(self,lat=None,lng=None,tipo=None):
         self.lat=lat

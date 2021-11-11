@@ -46,7 +46,6 @@ Esta seria la página de administracion las zonas inundables de la app privada
                 <td>{{zonas.nombre}}</td>
                 <td>{{zonas.estado}}</td>
                 <td>
-                    <a class="btn btn-outline-secondary" href="/zonas/update/{{zonas.id}}">Editar</a>
                     {% if tiene_permiso(session["id"],"zonas_destroy") %}
                     {% if (zonas.estado=="publicado") %}
                     <a class="btn btn-outline-danger" href="/zonas/delete/{{zonas.id}}">Borrar</a>
@@ -104,8 +103,8 @@ Esta seria la página de administracion las zonas inundables de la app privada
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/upload" method="POST" enctype="multipart/form-data">
-                <input type="file" name="archivo">
+            <form action="{{url_for('zonas_importar')}}" method="POST" enctype="multipart/form-data">
+                <input type="file" name="archivo" required placeholder="Archivo" required>
                 <input class="btn btn-success" type="submit" value="Importar Zonas Inundables">
             </form>            
                     <button class="btn btn-secondary" type="reset">Limpiar</button>

@@ -1,6 +1,7 @@
 from app.db import db
 from sqlalchemy import Column,Integer,String,exists
-
+from sqlalchemy.orm import relationship
+from app.models.coordenadas import Coordenadas
 
 class Zonas(db.Model):
     __tablename__="Zonas"
@@ -8,6 +9,10 @@ class Zonas(db.Model):
     codigo=Column(String(255),unique=True)
     nombre=Column(String(255))
     estado=Column(String(255))
+    color=Column(String(255))
+    puntos=relationship(Coordenadas,cascade="all, delete")
+
+
 
     @classmethod
     def dame_todo(csl,conf,nombree,estadoo):
@@ -24,3 +29,15 @@ class Zonas(db.Model):
     @classmethod
     def find_by_id(cls,id1):
         return cls.query.filter_by(id=id1).one()
+    
+    @classmethod
+    def existe_zona(cls, nombre):
+        return cls.query.filter_by(nombre=nombre).count() > 0
+    
+    @classmethod
+    def get_by_name(cls,nombre):
+        return cls.query.filter_by(nombre=nombre).one()
+
+    @classmethod
+    def cant_puntos(cls,id):
+        return Coordenadas.query.filter_by(zonas_id=id).count()

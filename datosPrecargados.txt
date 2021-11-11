@@ -27,7 +27,11 @@ INSERT INTO `Permiso` (`id`, `nombre`) VALUES
 (24, 'recorrido_new'),
 (25, 'recorrido_destroy'),
 (26, 'recorrido_update'),
-(27, 'recorrido_show');
+(27, 'recorrido_show'),
+(28, 'zonas_index'),
+(29, 'zonas_show'),
+(30, 'zonas_import'),
+(31, 'zonas_destroy');
 
 INSERT INTO `Punto_encuentro` (`id`, `nombre`, `direccion`, `lat`, `lng`, `estado`, `telefono`, `email`) VALUES
 (49, 'aaa', 'a', '-34.91591853170241', '-57.94755935668946', 'publicado', 'aaa', 'a@gmail.com'),
@@ -71,8 +75,14 @@ INSERT INTO `rol_tiene_permiso` (`rol_id`, `permiso_id`) VALUES
 (1, 26),
 (2, 26),
 (1, 27),
-(2, 27);
-
+(2, 27),
+(1, 28),
+(2, 28),
+(1, 29),
+(2, 29),
+(1, 30),
+(2, 30),
+(2, 31);
 
 INSERT INTO `Usuario` (`id`, `email`, `username`, `password`, `activo`, `updated_at`, `created_at`, `first_name`, `last_name`) VALUES
 (1, 'gastonciancio@gmail.com', 'gciancio', 'pbkdf2:sha256:260000$5VWrriAIKIIziY9Z$e28f7c2af21cf06cb2011e86ff23c5900a886d6e6e4083fb079f8910ce1365fa', 1, '2021-10-17 14:55:53', '2021-10-13 16:39:57', 'gaston', 'ciancio'),
