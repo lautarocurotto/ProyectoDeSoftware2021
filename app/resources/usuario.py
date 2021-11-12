@@ -89,9 +89,9 @@ def update(id):
             params=request.form    
             existeMail=Usuario.existe_mail(params["email"],id)
             existeUsername=Usuario.existe_username(params["username"],id)
-            if(existeMail==0 and existeUsername==0): 
-                lista=request.form.getlist('checkbox')
-                print(lista)
+            lista=request.form.getlist('checkbox')
+
+            if(existeMail==0 and existeUsername==0 and len(listaRoles)!=0): 
                 usuario_to_update.email=params["email"]
                 usuario_to_update.username=params["username"]
                 usuario_to_update.updated_at=datetime.now()
@@ -100,9 +100,7 @@ def update(id):
                 db.session.commit()
                 TodosLosroles=Rol.query.all()
                 for rol in TodosLosroles:
-                    print(str(rol.id))
                     if str(rol.id) in listaRoles:
-                        print("ENTRE ACAAA")
                         if(usuario_tiene_rol.find_by_id(id,rol.id)==0): #si no es admin
                             rol1=usuario_tiene_rol(usuario_id=usuario_to_update.id,rol_id=rol.id)
                             db.session.add(rol1)
@@ -120,8 +118,10 @@ def update(id):
                     mensaje="El mail ingresado ya existe"
                 if(existeUsername!=0):
                     mensaje="El nombre de usuario ingresado ya existe"
+                if(len(listaRoles)==0):
+                    mensaje="No se puede dejar a un usuario sin roles"
                 flash(mensaje)
-                return render_template("usuarios/update.html",usuario=usuario_to_update, roles=lista)
+                return render_template("usuarios/update.html",usuario=usuario_to_update, listaroles=roles ,roles=lista)
     else:
         return render_template("usuarios/update.html",usuario=usuario_to_update, listaroles=roles, roles=lista)
 
