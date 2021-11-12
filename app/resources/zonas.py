@@ -21,7 +21,7 @@ def index():
     if (not user):
         return redirect(url_for("auth_login"))
     if (not check_permission(session["id"],"zonas_index")):
-       abort(401)
+      abort(401)
     conf=Configuracion.get_configs()
     params=request.args
     currentPage = int(params.get("page", 0))

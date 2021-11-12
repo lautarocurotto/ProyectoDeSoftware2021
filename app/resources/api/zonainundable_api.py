@@ -7,9 +7,8 @@ from app.models.configuracion import Configuracion
 
 zonainundable_api= Blueprint("consultas", __name__, url_prefix="/consultas")
 
-@zonainundable_api.get("/id")
-def index():
-    id=request.args.get("ID")
+@zonainundable_api.get("/<int:id>")
+def index(id):
     if(id!=None):
         usuario_rows=Usuario.find_by_id_first(id)
         print(usuario_rows)
@@ -32,11 +31,5 @@ def index2():
         "page":usuario_rows.page,
         "total":usuario_rows.total,
     }
-
-
-@zonainundable_api.post("/")
-def create():
-    data=request.get_json()
-    return jsonify(data)
 
 
