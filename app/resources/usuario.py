@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import redirect, render_template, request, url_for, session, abort, flash
 from app.db import db
 from datetime import datetime
-
+from app.models.roles import Rol
 from app.models.usuario import Usuario
 from app.models.usuario_tiene_rol import usuario_tiene_rol
 from app.resources.validadorUsuarios import ValidarForm
@@ -23,8 +23,8 @@ def index():
     currentPage = int(params.get("page", 0))
 
     usuariosTotal = Usuario.dame_todo(conf,currentPage,params.get("statusF",None),params.get("nombreF",None))
-
-    return render_template("usuarios/usuarios.html", paginator=Paginator(usuariosTotal, conf.maxElementos, currentPage))
+    roles=Rol.query.all()
+    return render_template("usuarios/usuarios.html", paginator=Paginator(usuariosTotal, conf.maxElementos, currentPage), roles=roles)
 
 
 def create():
@@ -34,6 +34,7 @@ def create():
     if (not check_permission(session["id"],"usuario_new")):
       abort(401)
     params=request.form
+    roles=request.form.getlist("my_checkbox")
     mensaje=ValidarForm(params)
     if mensaje.validate()==False:
         print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
@@ -45,24 +46,21 @@ def create():
             return redirect(url_for("puntos_index"))
         email=params['email']
         username=params['username']
-        listaAdm=request.form.getlist('adm')
-        listaOpe=request.form.getlist('ope')
         existeMail= Usuario.find_by_email(email)
         existeUserName= Usuario.find_by_username(username)
         now=datetime.now()
-        if(existeMail==0 and existeUserName==0):   
-            new_usuario=Usuario(email=params["email"],username=params["username"],password=params["password"],activo=1,updated_at=now,created_at=now,first_name=params["name"],last_name=params["lastname"])
-            db.session.add(new_usuario)
-            db.session.commit()
-            if 'adm' in listaAdm:
-                rol1=usuario_tiene_rol(usuario_id=new_usuario.id,rol_id=2)
-                db.session.add(rol1)
+        if(existeMail==0 and existeUserName==0):
+            if not roles:
+                mensaje="debe seleccionar un rol"
+            else:
+                new_usuario=Usuario(email=params["email"],username=params["username"],password=params["password"],activo=1,updated_at=now,created_at=now,first_name=params["name"],last_name=params["lastname"])
+                db.session.add(new_usuario)
                 db.session.commit()
-            if 'ope' in listaOpe:
-                rol2=usuario_tiene_rol(usuario_id=new_usuario.id,rol_id=1)
-                db.session.add(rol2)
-                db.session.commit()
-            mensaje="Se agrego el usuario"
+                for rol in roles:
+                    rol1=usuario_tiene_rol(usuario_id=new_usuario.id,rol_id=rol)
+                    db.session.add(rol1)
+                    db.session.commit()
+                mensaje="Se agrego el usuario"
         else:
             if(existeMail!=0):
                 mensaje="El mail ya esta en uso, elija otro"
@@ -79,66 +77,53 @@ def update(id):
     if (not check_permission(session["id"],"usuario_update")):
        abort(401)
     lista=[]
-    listaAdm=request.form.getlist('adm')
-    listaOpe=request.form.getlist('ope')
+    listaRoles=request.form.getlist('my_checkbox')
     usuario_to_update=Usuario.find_by_id(id)
     roles_usuario_to_update=usuario_tiene_rol.find_by_id_lista(id)
-    rol_to_update=usuario_tiene_rol.find_by_id(id)
+    roles=Rol.query.all()
     for rol in roles_usuario_to_update:
         lista.append(rol.rol_id)
+
     
     if request.method == 'POST':
-        params=request.form
-        mensaje=ValidarForm(params)
-        if mensaje.validate()==False:
-            print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
-            return render_template("usuarios/update.html", usuario=usuario_to_update)
-        else:
+            params=request.form    
             existeMail=Usuario.existe_mail(params["email"],id)
             existeUsername=Usuario.existe_username(params["username"],id)
-            if(existeMail==0 and existeUsername==0): 
-                lista=request.form.getlist('checkbox')
+            lista=request.form.getlist('checkbox')
+
+            if(existeMail==0 and existeUsername==0 and len(listaRoles)!=0): 
                 usuario_to_update.email=params["email"]
                 usuario_to_update.username=params["username"]
                 usuario_to_update.updated_at=datetime.now()
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]
                 db.session.commit()
-                if "adm" in listaAdm:
-                    if(usuario_tiene_rol.find_by_id(id)==0): #si NO es administrador 
-                        rol1=usuario_tiene_rol(usuario_id=id,rol_id=2)
-                        print(rol1)
-                        db.session.add(rol1)
-                        db.session.commit()
-                else: #si se desmarco el admin
-                    if(usuario_tiene_rol.find_by_id(id)!=0): #si  es administrador
-                        rol_a_borrar=usuario_tiene_rol.esOperador2(id)
-                        db.session.delete(rol_a_borrar)
-                        db.session.commit()
-                          
-                if "ope" in listaOpe:
-                    if(usuario_tiene_rol.find_by_id2(id)==0): #si NO es operador
-                        rol1=usuario_tiene_rol(usuario_id=id,rol_id=1)
-                        print(rol1)
-                        db.session.add(rol1)
-                        db.session.commit()
-                else:
-                    if(usuario_tiene_rol.find_by_id2(id)!=0): #si es operador
-                        rol_a_borrar=usuario_tiene_rol.esOperador1(id)
-                        db.session.delete(rol_a_borrar)
-                        db.session.commit() 
-
-                flash("El usuario se ha modificado con exito")
+                TodosLosroles=Rol.query.all()
+                for rol in TodosLosroles:
+                    if str(rol.id) in listaRoles:
+                        if(usuario_tiene_rol.find_by_id(id,rol.id)==0): #si no es admin
+                            rol1=usuario_tiene_rol(usuario_id=usuario_to_update.id,rol_id=rol.id)
+                            db.session.add(rol1)
+                            db.session.commit()
+                    else:
+                        if(usuario_tiene_rol.find_by_id(id,rol.id)!=0): #si  es administrador
+                            rol_a_borrar=usuario_tiene_rol.esOperador1(id,rol.id)
+                            db.session.delete(rol_a_borrar)
+                            db.session.commit()
+                mensaje="Se modifico el usuario"
+                flash(mensaje)
                 return redirect(url_for("usuario_index"))
             else:
                 if(existeMail!=0):
                     mensaje="El mail ingresado ya existe"
                 if(existeUsername!=0):
                     mensaje="El nombre de usuario ingresado ya existe"
+                if(len(listaRoles)==0):
+                    mensaje="No se puede dejar a un usuario sin roles"
                 flash(mensaje)
-                return render_template("usuarios/update.html",usuario=usuario_to_update, roles=lista)
+                return render_template("usuarios/update.html",usuario=usuario_to_update, listaroles=roles ,roles=lista)
     else:
-        return render_template("usuarios/update.html",usuario=usuario_to_update, roles=lista)
+        return render_template("usuarios/update.html",usuario=usuario_to_update, listaroles=roles, roles=lista)
 
 
 def delete(id):
@@ -151,7 +136,7 @@ def delete(id):
     if(usuario_to_delete.activo==0):
         mensaje="el usuario ya se encuentra borrado"
     else:
-        esAdministrador=usuario_tiene_rol.find_by_id(id)
+        esAdministrador=usuario_tiene_rol.find_by_id(id,2)
         if(esAdministrador!=0):
             mensaje="No se puede eliminar a un usuario administrador"
         else:
@@ -194,13 +179,32 @@ def verPerfil():
     u=Usuario.find_user_by_email(email)
     return render_template("usuarios/perfil.html", usuario=u)
 
+def updatePassword(id):
+    user = authenticated(session)
+    if (not user):
+        return redirect(url_for("auth_login"))
+    usuario_to_update=Usuario.find_by_id(id)
+    
+    if request.method == 'POST':
+        params=request.form
+        if(usuario_to_update.verify_password(usuario_to_update,params["password"])):
+            flash("la nueva contraseña debe ser diferente")
+            return render_template("usuarios/perfil.html",usuario=usuario_to_update)
+        else:
+            usuario_to_update.password=usuario_to_update.create_password(params["password"])
+            db.session.commit()
+            flash("El usuario se ha modificado con exito")
+            return redirect(url_for("home"))
+    else:
+        return render_template("usuarios/perfil.html",usuario=usuario_to_update)
+    
 
 def updatePerfil(id):
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
     usuario_to_update=Usuario.find_by_id(id)
-   
+    
     if request.method == 'POST':
         params=request.form
         mensaje=ValidarForm(params)
@@ -213,8 +217,8 @@ def updatePerfil(id):
             if(existeMail==0 and existeUsername==0): 
                 usuario_to_update.email=params["email"]
                 usuario_to_update.username=params["username"]
-                if  usuario_to_update.password != params["password"]:
-                    usuario_to_update.password=usuario_to_update.create_password(params["password"])
+                #if  usuario_to_update.password != params["password"]:
+                #   usuario_to_update.password=usuario_to_update.create_password(params["password"])
                 usuario_to_update.updated_at=datetime.now()
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]

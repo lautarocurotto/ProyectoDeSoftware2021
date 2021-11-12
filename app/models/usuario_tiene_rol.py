@@ -12,8 +12,8 @@ class usuario_tiene_rol(db.Model):
     rol_id=Column(ForeignKey("Rol.id"),primary_key=True)
 
     @classmethod
-    def find_by_id(cls,id1): #devuelve la cantidad de administradores de un usuario (0 o 1)
-        return cls.query.filter_by(usuario_id=id1,rol_id=2).count()
+    def find_by_id(cls,id1,rol): #devuelve la cantidad de administradores de un usuario (0 o 1)
+        return cls.query.filter_by(usuario_id=id1,rol_id=rol).count()
     
     @classmethod
     def find_by_id2(cls,id1): #devuelve la cantidad de operadores de un usuario (0 o 1)
@@ -26,12 +26,10 @@ class usuario_tiene_rol(db.Model):
 
     
     @classmethod
-    def esOperador1(cls,id1):
-        return cls.query.filter_by(usuario_id=id1,rol_id=1).one()
+    def esOperador1(cls,id1,rol):
+        return cls.query.filter_by(usuario_id=id1,rol_id=rol).one()
 
-    @classmethod
-    def esOperador2(cls,id1): 
-        return cls.query.filter_by(usuario_id=id1,rol_id=2).one()
+    
     
         
 

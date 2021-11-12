@@ -21,6 +21,7 @@
 
     <div class="table-responsive">
         <table class="table">
+        
             <thead>
                 <tr>
                     <td>Nombre de usuario</td>
@@ -41,11 +42,13 @@
                         {% endif %}
                     </td>
                     <td>
+                        {% if not session.get("user")==usuario.email %}
                         <a class="btn btn-outline-secondary" href="/usuarios/update/{{usuario.id}}">Editar</a>
                         {% if (usuario.activo==1) %}
                         <a class="btn btn-outline-danger" href="/usuarios/delete/{{usuario.id}}">Borrar</a>
                         {% else %}
                         <a class="btn btn-outline-success" class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
+                        {% endif %}
                         {% endif %}
                         <a class="btn btn-outline-secondary" href="/usuarios/show/{{usuario.id}}">Ver</a> 
                     </td>
@@ -123,11 +126,12 @@
                     <label for="lastname">
                         <input class="form-control" type="text" name="lastname" required placeholder="Apellido" required>
                     </label>
-                </div>   
-                <div>
-                    Admninstrador<input type="checkbox" value="adm" name="adm" >
-                    Operador<input type="checkbox" value="ope" name="ope" >
                 </div>
+                {%for rol in roles %}   
+                <div>
+                    {{rol.nombre}}<input type="checkbox" value="{{rol.id}}" name="my_checkbox" >
+                </div>
+                {% endfor %}
                 <div class="input-control">
                     <input type="submit" value="Crear nuevo usuario">
                     <button type="reset">Limpiar</button>

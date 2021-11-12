@@ -23,11 +23,6 @@
             </label>
         </div>
         <div class="mb-3">
-            <label for="password">Clave
-                <input class="form-control" type="password" name="password" required placeholder="Contraseña" required  value="{{usuario.password}}">
-            </label>
-        </div>
-        <div class="mb-3">
             <label for="name">Nombre
                 <input class="form-control" type="text" name="name" required placeholder="Nombre" required value="{{usuario.first_name}}">
             </label>
@@ -44,11 +39,23 @@
         </div>
         
     </form>
+    <h1>Contraseña</h1>
 
-    <br>
-    
-    <a class="btn btn-outline-secondary" href="{{url_for('home')}}">Volver</a>
-</div>
+    <form action="/usuarios/passwordUpdate/{{usuario.id}}" method="POST">
+        <div class="mb-3">
+            <label for="password">Nueva contraseña:
+                <input class="form-control" type="password" name="password" required placeholder="Contraseña">
+            </label>
+        </div>
+        <div class="mb-3">
+            <input class="btn btn-outline-success" type="submit" value="Cambiar contraseña">
+            <button class="btn btn-outline-secondary" type="reset">Limpiar</button>
+        </div>
 
+    </form>
 
+<br>
+<a class="btn btn-outline-secondary" href="{{url_for('home')}}">Volver</a>
 {% endblock %}
+
+    
