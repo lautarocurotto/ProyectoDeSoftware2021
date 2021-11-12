@@ -41,3 +41,13 @@ class Zonas(db.Model):
     @classmethod
     def cant_puntos(cls,id):
         return Coordenadas.query.filter_by(zonas_id=id).count()
+
+    @classmethod
+    def find_by_id_first(cls,e):
+        return cls.query.filter_by(id=e).first()
+
+    def as_dict(self):
+        return {"id": self.id,
+                "nombre":self.nombre,
+                "coordenadas":[punto.as_dict() for punto in self.puntos],
+                "color":self.color}
