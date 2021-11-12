@@ -77,58 +77,43 @@ def update(id):
     if (not check_permission(session["id"],"usuario_update")):
        abort(401)
     lista=[]
-    listaAdm=request.form.getlist('adm')
-    listaOpe=request.form.getlist('ope')
+    listaRoles=request.form.getlist('my_checkbox')
     usuario_to_update=Usuario.find_by_id(id)
     roles_usuario_to_update=usuario_tiene_rol.find_by_id_lista(id)
-    rol_to_update=usuario_tiene_rol.find_by_id(id)
     roles=Rol.query.all()
     for rol in roles_usuario_to_update:
         lista.append(rol.rol_id)
 
     
     if request.method == 'POST':
-        params=request.form
-        mensaje=ValidarForm(params)
-        if mensaje.validate()==False:
-            print("Hay algo mal en el formulario") # En realidad aca se haria un abort ya que algun dato esta mal ingresado
-            return render_template("usuarios/update.html", usuario=usuario_to_update)
-        else:
+            params=request.form    
             existeMail=Usuario.existe_mail(params["email"],id)
             existeUsername=Usuario.existe_username(params["username"],id)
             if(existeMail==0 and existeUsername==0): 
                 lista=request.form.getlist('checkbox')
+                print(lista)
                 usuario_to_update.email=params["email"]
                 usuario_to_update.username=params["username"]
                 usuario_to_update.updated_at=datetime.now()
                 usuario_to_update.first_name=params["name"]
                 usuario_to_update.last_name=params["lastname"]
                 db.session.commit()
-                if "adm" in listaAdm:
-                    if(usuario_tiene_rol.find_by_id(id)==0): #si NO es administrador 
-                        rol1=usuario_tiene_rol(usuario_id=id,rol_id=2)
-                        print(rol1)
-                        db.session.add(rol1)
-                        db.session.commit()
-                else: #si se desmarco el admin
-                    if(usuario_tiene_rol.find_by_id(id)!=0): #si  es administrador
-                        rol_a_borrar=usuario_tiene_rol.esOperador2(id)
-                        db.session.delete(rol_a_borrar)
-                        db.session.commit()
-                          
-                if "ope" in listaOpe:
-                    if(usuario_tiene_rol.find_by_id2(id)==0): #si NO es operador
-                        rol1=usuario_tiene_rol(usuario_id=id,rol_id=1)
-                        print(rol1)
-                        db.session.add(rol1)
-                        db.session.commit()
-                else:
-                    if(usuario_tiene_rol.find_by_id2(id)!=0): #si es operador
-                        rol_a_borrar=usuario_tiene_rol.esOperador1(id)
-                        db.session.delete(rol_a_borrar)
-                        db.session.commit() 
-
-                flash("El usuario se ha modificado con exito")
+                TodosLosroles=Rol.query.all()
+                for rol in TodosLosroles:
+                    print(str(rol.id))
+                    if str(rol.id) in listaRoles:
+                        print("ENTRE ACAAA")
+                        if(usuario_tiene_rol.find_by_id(id,rol.id)==0): #si no es admin
+                            rol1=usuario_tiene_rol(usuario_id=usuario_to_update.id,rol_id=rol.id)
+                            db.session.add(rol1)
+                            db.session.commit()
+                    else:
+                        if(usuario_tiene_rol.find_by_id(id,rol.id)!=0): #si  es administrador
+                            rol_a_borrar=usuario_tiene_rol.esOperador1(id,rol.id)
+                            db.session.delete(rol_a_borrar)
+                            db.session.commit()
+                mensaje="Se modifico el usuario"
+                flash(mensaje)
                 return redirect(url_for("usuario_index"))
             else:
                 if(existeMail!=0):
@@ -151,7 +136,7 @@ def delete(id):
     if(usuario_to_delete.activo==0):
         mensaje="el usuario ya se encuentra borrado"
     else:
-        esAdministrador=usuario_tiene_rol.find_by_id(id)
+        esAdministrador=usuario_tiene_rol.find_by_id(id,2)
         if(esAdministrador!=0):
             mensaje="No se puede eliminar a un usuario administrador"
         else:

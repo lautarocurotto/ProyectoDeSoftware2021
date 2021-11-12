@@ -47,7 +47,7 @@
             <h5>Roles de {{usuario.first_name}}</h5>
             {%for rol in listaroles %}   
                 <div>
-                    {{rol.nombre}}<input type="checkbox" value="{{rol.id}}" name="my_checkbox"{% if rol.id in roles %} checked  {% endif %} >
+                    {{rol.nombre}}<input type="checkbox" value={{rol.id}} name="my_checkbox"{% if rol.id in roles %} checked  {% endif %} >
                 </div>
             {% endfor %}
         </div>
