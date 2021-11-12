@@ -11,6 +11,10 @@ class Coordenadas(db.Model):
     recorrido_id=Column(Integer,ForeignKey('Recorrido.id'))
     zonas_id=Column(Integer,ForeignKey('Zonas.id'))
 
+    def as_dict(self):
+        return{ "lat": self.lat,
+                "lon":self.lng}
+
     def __init__(self,lat=None,lng=None,tipo=None):
         self.lat=lat
         self.lng=lng
