@@ -7,6 +7,7 @@ from app.helpers.auth import authenticated, check_permission
 from app.models.seguimiento import Seguimiento
 from app.models.categoria import Categoria
 from app.models.usuario import Usuario
+from email_validator import validate_email, EmailNotValidError
 
 from app.db import db
 
@@ -22,38 +23,16 @@ def index():
 
 def show(id):
     """Obtener y mostrar una denuncia para gestionar"""
+
     if not authenticated(session) or not check_permission(session["id"], "denuncia_update"):
         abort(401)
 
-    return render_template("denuncia/show.html", denuncia=Denuncia.query.get_or_404(id))
+    categorias = []
 
-def set_status():
-    """Método para setear un estado a la denuncia"""
-    if not authenticated(session) or not check_permission(session["id"], "denuncia_update") and (request.form["status"] == '' and request.form["id"] == ''):
-        abort(401)
+    if not request.args.get("edit-categoria") == None:
+        categorias = Categoria.query.all()
 
-    if not request.form["status"] in status_names:
-        abort(500)
-
-    denuncia = Denuncia.query.get_or_404(request.form["id"])
-    
-    denuncia.status = request.form["status"]
-
-    # En caso de que se re-abra la denuncia, borrar la fecha de clsed_at
-    if(request.form["status"] == "CLOSED"):
-        denuncia.closed_at = datetime.now()
-    else:
-        denuncia.closed_at = ""
-    
-
-    try:
-        db.session.commit()
-        flash("Estado de denuncia actualizado")
-    except:
-        print("Error @ denuncia#set_status()")
-        flash("Error")
-    
-    return redirect(url_for('denuncia_show', id = request.form["id"]))
+    return render_template("denuncia/show.html", denuncia=Denuncia.query.get_or_404(id), categorias = categorias)
 
 def update_seguimiento():
     if not authenticated(session) or not check_permission(session["id"], "denuncia_update") and (request.form["seguimientos"] == '' and request.form["id"] == ''):
@@ -169,6 +148,8 @@ def set_coordenadas():
     
     return redirect(url_for('denuncia_show', id = request.form["id"]))
 
+# ============================== SETTERS ==========================================
+
 def set_descripcion():
     if not authenticated(session) or not check_permission(session["id"], "denuncia_update"):
         abort(401)
@@ -184,4 +165,86 @@ def set_descripcion():
     except:
         flash("Error al intentar actualizar la descripción")
     
+    return redirect(url_for('denuncia_show', id = request.form["id"]))
+
+def set_denunciante():
+    if not authenticated(session) or not check_permission(session["id"], "denuncia_update"):
+        abort(401)
+
+    postdata = request.form
+
+    if (postdata["id"] == ''):
+        flash("Error!")
+        return redirect(url_for('denuncias'))
+
+    denuncia = Denuncia.query.get_or_404(postdata["id"])
+
+    if postdata["denunciante_name"] != '':
+        denuncia.denunciante_name = postdata["denunciante_name"]
+
+    if postdata["denunciante_last_name"] != '':
+        denuncia.denunciante_last_name = postdata['denunciante_last_name']
+
+    if postdata["denunciante_email"] != '':
+        try:
+            validate_email(postdata["denunciante_email"])
+            denuncia.denunciante_email = postdata["denunciante_email"]
+        except EmailNotValidError:
+            flash("Email inválido")
+            return redirect(url_for('denuncia_show', id = postdata["id"]))
+
+    if postdata["denunciante_phone"] != '':
+        denuncia.denunciante_phone = postdata["denunciante_phone"]
+
+    try:
+        db.session.commit()
+        flash("Denunciante actualizado")
+    except:
+        flash("Error")
+    
+    return redirect(url_for('denuncia_show', id = postdata["id"]))
+
+def set_status():
+    """Método para setear un estado a la denuncia"""
+    if not authenticated(session) or not check_permission(session["id"], "denuncia_update") and (request.form["status"] == '' and request.form["id"] == ''):
+        abort(401)
+
+    if not request.form["status"] in status_names:
+        abort(500)
+
+    denuncia = Denuncia.query.get_or_404(request.form["id"])
+    
+    denuncia.status = request.form["status"]
+
+    # En caso de que se re-abra la denuncia, borrar la fecha de clsed_at
+    if(request.form["status"] == "CLOSED"):
+        denuncia.closed_at = datetime.now()
+    else:
+        denuncia.closed_at = ""
+    
+
+    try:
+        db.session.commit()
+        flash("Estado de denuncia actualizado")
+    except:
+        print("Error @ denuncia#set_status()")
+        flash("Error")
+    
+    return redirect(url_for('denuncia_show', id = request.form["id"]))
+
+def set_categoria():
+    if not authenticated(session) or not check_permission(session["id"], "denuncia_update") and request.form["id"] == '':
+        abort(401)
+
+    postdata = request.form
+
+    if postdata["categoria"] != '':
+        Denuncia.query.get_or_404(request.form["id"]).category_id = postdata["categoria"]
+
+    try:
+        db.session.commit()
+        flash("Categoría actualizada")
+    except:
+        flash("Error!")
+
     return redirect(url_for('denuncia_show', id = request.form["id"]))

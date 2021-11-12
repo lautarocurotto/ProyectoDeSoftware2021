@@ -27,7 +27,27 @@
                 {% if denuncia.status == "CLOSED" %}
                     <small class="alert-danger">Cerrada el {{denuncia.closed_at}}</small>
                 {% endif %}
+
+                {% if request.args.get("edit-categoria") == "1" %}
+                <div class="mb-3">
+                    <form action="{{url_for('denuncia_set_categoria')}}" method="POST">
+                        <input type="hidden" name="id" value="{{denuncia.id}}">
+                        
+                        <select class="form-control" name="categoria" id="categoria">
+                            {% for categoria in categorias %}
+                                <option {{'selected' if denuncia.categoria.id == categoria.id}} value="{{categoria.id}}">{{categoria.name}}</option>
+                            {% endfor %}
+                        </select>
+                        
+                        <input type="submit" value="Cambiar categoría" class="btn btn-outline-success">
+                        <a class="btn btn-outline-secondary" href="{{url_for('denuncia_show', id = denuncia.id)}}">Cancelar</a>
+                    </form>
+                </div>
+                {% else %}
                 <small class="alert-primary"><strong>Categoría</strong> {{denuncia.categoria.name}}</small>
+                <a href="{{url_for('denuncia_show', id = denuncia.id)}}?edit-categoria=1"><i class="fas fa-edit color2"></i></a>
+                {% endif %}
+
                 {% if tiene_permiso(session["id"], "denuncia_destroy") %}
                 <form action="{{url_for('denuncia_delete')}}" onsubmit="return confirm('¿Está seguro que desea eliminar esta denuncia?');" method="POST">
                     <input type="hidden" name="id" value="{{denuncia.id}}">
@@ -44,8 +64,37 @@
                             <i class="far fa-user-circle"></i> Datos del denunciante
                         </button>
                       </h2>
-                      <div id="collapseDenunciante" class="accordion-collapse collapse" aria-labelledby="headingDenunciante" data-bs-parent="#accordionDenunciante">
+                      <div id="collapseDenunciante" class="accordion-collapse collapse {{'show' if request.args.get('edit-denunciante') == '1' }}" aria-labelledby="headingDenunciante" data-bs-parent="#accordionDenunciante">
                         <div class="accordion-body">
+                            {% if request.args.get("edit-denunciante") == "1" and tiene_permiso(session["id"], "denuncia_update") %}
+                            <div class="mb-3">
+                                <form action="{{url_for('denuncia_set_denunciante')}}" method="POST">
+                                    <input type="hidden" name="id" value="{{denuncia.id}}">
+                                    <div class="mb-3">
+                                        <label for="denunciante_name">Nombre</label>
+                                        <input type="text" value="{{denuncia.denunciante_name}}" autocomplete="false" required class="form-control" name="denunciante_name">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="denunciante_last_name">Nombre</label>
+                                        <input type="text" value="{{denuncia.denunciante_last_name}}" autocomplete="false" required class="form-control" name="denunciante_last_name">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="denunciante_phone">Número de teléfono</label>
+                                        <input type="text" value="{{denuncia.denunciante_phone}}" autocomplete="false" required class="form-control" name="denunciante_phone">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="denunciante_email">Número de teléfono</label>
+                                        <input type="email" value="{{denuncia.denunciante_email}}" autocomplete="false" required class="form-control" name="denunciante_email">
+                                    </div>
+
+                                    <input type="submit" value="Guardar cambios" class="btn btn-outline-success">
+                                    <a class="btn btn-outline-secondary" href="{{url_for('denuncia_show', id = denuncia.id)}}">Cancelar</a>
+                                </form>
+                            </div>
+                            {% else %}
                             <div class="mb-3">
                                 <h5>Nombre</h5>
                                 <p>{{denuncia.denunciante_name}}</p>
@@ -55,7 +104,11 @@
                                 <p><a href="phone:{{denuncia.denunciante_phone}}">{{denuncia.denunciante_phone}}</a></p>
                                 <h5>Email</h5>
                                 <p><a href="mailto:{{denuncia.denunciante_email}}">{{denuncia.denunciante_email}}</a></p>
+                                {% if tiene_permiso(session["id"], "denuncia_update") %}
+                                <a href="{{url_for('denuncia_show', id = denuncia.id)}}?edit-denunciante=1" class="btn">Editar datos del denunciante <i class="fas fa-edit color2"></i></a>
+                                {% endif %}
                             </div>
+                            {% endif %}
                         </div>
                       </div>
                     </div>

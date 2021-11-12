@@ -81,8 +81,12 @@ def create_app(environment="development"):
     app.add_url_rule("/denuncia/set-status", "denuncia_set_status", denuncia.set_status, methods=["POST"])
     app.add_url_rule("/denuncia/update-seguimiento", "denuncia_update_seguimiento", denuncia.update_seguimiento, methods=["POST"])
     app.add_url_rule("/denuncia/delete", "denuncia_delete", denuncia.delete_denuncia, methods=["POST"])
+    # muchos setters de denuncia
     app.add_url_rule("/denuncia/set_coordenadas", "denuncia_set_coordenadas", denuncia.set_coordenadas, methods=["POST"])
     app.add_url_rule("/denuncia/set_descripcion", "denuncia_set_descripcion", denuncia.set_descripcion, methods=["POST"])
+    app.add_url_rule("/denuncia/set_denunciante", "denuncia_set_denunciante", denuncia.set_denunciante, methods=["POST"])
+    app.add_url_rule("/denuncia/set_categoria", "denuncia_set_categoria", denuncia.set_categoria, methods=["POST"])
+    
 
     app.add_url_rule("/zonas","zonas_index",zonas.index,methods=["POST", "GET"])
     app.add_url_rule("/zonas/show/<int:id>","zonas_show",zonas.show)
