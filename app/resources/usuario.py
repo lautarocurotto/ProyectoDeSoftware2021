@@ -43,7 +43,7 @@ def create():
             valid = validate_email(params["email"])
         except EmailNotValidError as e:
             print(str(e))
-            return redirect(url_for("puntos_index"))
+            return redirect(url_for("usuarios_index"))
         email=params['email']
         username=params['username']
         existeMail= Usuario.find_by_email(email)
