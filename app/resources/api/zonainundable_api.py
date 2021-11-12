@@ -14,11 +14,11 @@ def index(id):
         print(usuario_rows)
         if(usuario_rows):
             usuarios=usuario_rows.as_dict()
-            return jsonify(Usuarios=usuarios)
+            return jsonify(Usuarios=usuarios),200
         else:
-            return "El ID del usuario pasado por parametro no existe en la base de datos"
+            return "El ID del usuario pasado por parametro no existe en la base de datos",400
     else:
-        return "No se ha pasado el id"
+        return 404
 
 @zonainundable_api.get("/")
 def index2():
@@ -30,6 +30,6 @@ def index2():
         "usuarios":[item.as_dict() for item in usuario_rows.items],
         "page":usuario_rows.page,
         "total":usuario_rows.total,
-    }
+    },200
 
 
