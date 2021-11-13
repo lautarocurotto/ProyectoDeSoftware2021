@@ -5,7 +5,7 @@ from app.models.usuario import Usuario
 from app.models.configuracion import Configuracion
 
 
-zonainundable_api= Blueprint("consultas", name, url_prefix="/consultas")
+zonainundable_api= Blueprint("consultas", __name__, url_prefix="/consultas")
 
 @zonainundable_api.get("/<int:id>")
 def index(id):
