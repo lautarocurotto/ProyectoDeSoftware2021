@@ -94,6 +94,9 @@ def create_app(environment="development"):
     app.add_url_rule("/zonas/activar/<int:id>","zonas_activar",zonas.activar)
     app.add_url_rule("/zonas/importar","zonas_importar",zonas.importar, methods=["POST","GET"] )
     app.add_url_rule("/zonas/eliminar/<int:id>","zonas_eliminar",zonas.delete_fisico)
+
+
+
     # Ruta para el Home (usando decorator)
     @app.route("/")
     def home():

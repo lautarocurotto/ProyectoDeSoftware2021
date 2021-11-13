@@ -96,8 +96,19 @@ class Usuario(db.Model):
 
     @classmethod
     def has_permission(cls, aUserID, aPermission):
-        consulta=cls.query.join(usuario_tiene_rol, usuario_tiene_rol.usuario_id == Usuario.id).join(rol_tiene_permiso, usuario_tiene_rol.rol_id == rol_tiene_permiso.rol_id).join(Permiso, rol_tiene_permiso.permiso_id == Permiso.id).filter(Usuario.id==aUserID).filter(Permiso.nombre == aPermission)
-        return (consulta.count() > 0)
+        usuario=Usuario.find_by_id_first(aUserID)
+        print(usuario)
+        lista=[]
+        for rol in usuario.roles:
+            for permiso in rol.permisos:
+                lista.append(permiso.nombre)
+        if aPermission in lista:
+            return True
+        else:
+            return False
+
+    #consulta=cls.query.join(usuario_tiene_rol, usuario_tiene_rol.usuario_id == Usuario.id).join(rol_tiene_permiso, usuario_tiene_rol.rol_id == rol_tiene_permiso.rol_id).join(Permiso, rol_tiene_permiso.permiso_id == Permiso.id).filter(Usuario.id==aUserID).filter(Permiso.nombre == aPermission)
+    #    return (consulta.count() > 0)
 
     def as_dict(self):
         #return {attr.name: getattr(self,attr.name) for attr in self.__table__.columns}
