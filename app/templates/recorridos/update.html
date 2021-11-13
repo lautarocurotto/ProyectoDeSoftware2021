@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+
+{% block title %}Recorrido {{recorrido_to_update.nombre}} {% endblock %}
+
+{% block head %}
+    {{super()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <script type="module" src="../../static/recorridos/updateRecorridoMap.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h1>Modificando recorrido de evacuacion {{recorrido_to_update.nombre}}</h1>
+
+    <div class="mb-3">
+        <a class="btn btn-outline-secondary" href="{{url_for('recorridos_index')}}">Volver</a>
+        {% if tiene_permiso(session["id"],"recorrido_destroy") %}
+        <a class="btn btn-outline-danger" href="/recorridos/delete/{{recorrido_to_update.id}}">Borrar</a>
+        {% endif %}
+    </div>
+    
+    
+
+    <form action="/recorridos/update/{{recorrido_to_update.id}}" method="POST" id="formulario-update">
+        <div class="mb-3">
+            <label for="nombre">Nombre de recorrido
+                <input class="form-control" type="text" id="nombre" name="nombre" required placeholder="Nombre" required value="{{recorrido_to_update.nombre}}">
+            </label>
+        </div>
+        <div class="mb-3">
+            <label for="descripcion">Descripcion
+                <input class="form-control" type="text" id="descripcion" name="descripcion" required placeholder="Descripcion" required value="{{recorrido_to_update.descripcion}}">  
+            </label>
+        </div>
+       
+        <div class="mb-3">
+            <label for="status">Estado
+                <select class="form-control" name="status" id="status" required value="{{recorrido_to_update.estado}}">
+                    <option value="publicado">publicado</option>
+                    <option value="despublicado">despublicado</option>
+                </select>
+            </label>
+        </div>
+        {%for coordenada in recorrido_to_update.puntos %}
+       
+        <input style="display: none;" name="lat" value="{{coordenada.lat}}">
+        <input style="display: none;" name="lng" value="{{coordenada.lng}}">
+
+      {% endfor %}
+        <div id="mapid"></div>
+        <input style="display: none;" id="idReco" value="{{recorrido_to_update.id}}">
+        <input class="btn btn-success btn-lg" type="submit" value="Modificar recorrido de evacuacion">
+        
+    </form>
+
+</div>
+
+
+{% endblock %}

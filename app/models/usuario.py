@@ -7,6 +7,7 @@ from app.models import usuario_tiene_rol
 from sqlalchemy import Column,Integer,String,Boolean,DateTime
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
+from sqlalchemy.orm import relationship
 
 from app.models.permiso import Permiso 
 from app.models.rol_tiene_permiso import rol_tiene_permiso
@@ -18,12 +19,15 @@ class Usuario(db.Model):
     id=Column(Integer,primary_key=True)
     email=Column(String(255),unique=True)
     username=Column(String(255),unique=True)
-    password=Column(String(255),unique=True)
-    activo=Column(Boolean,unique=True)
-    updated_at=Column(DateTime,unique=True)
-    created_at=Column(DateTime,unique=True)
-    first_name=Column(String(255),unique=True)
-    last_name=Column(String(255),unique=True)
+    password=Column(String(255))
+    activo=Column(Boolean)
+    updated_at=Column(DateTime)
+    created_at=Column(DateTime)
+    first_name=Column(String(255))
+    last_name=Column(String(255))
+    roles=relationship("Rol",secondary=usuario_tiene_rol.__tablename__,backref="usuarios")
+
+    seguimientos = relationship('Seguimiento', backref='author')
 
     @classmethod
     def verify_password(cls,user,password):
@@ -48,6 +52,10 @@ class Usuario(db.Model):
         return cls.query.filter_by(id=id1).one()
 
     @classmethod
+    def find_by_id_first(cls,id1):
+        return cls.query.filter_by(id=id1).first()
+
+    @classmethod
     def existe_mail(cls,nombree,idPunto=None):
             return cls.query.filter(cls.email==nombree,cls.id !=idPunto).count()
     
@@ -58,6 +66,10 @@ class Usuario(db.Model):
     @classmethod
     def find_user_by_email(cls,e):
         return cls.query.filter_by(email=e).one()
+
+    @classmethod
+    def find_user_by_email_first(cls,e):
+        return cls.query.filter_by(email=e).first()
 
 
 
@@ -75,7 +87,7 @@ class Usuario(db.Model):
             if activoo=='bloqueado':
                 query=query.filter_by(activo=0)
 
-        return query.limit(conf.maxElementos).offset(page*conf.maxElementos)
+        return query
 
     
     @classmethod
@@ -84,8 +96,28 @@ class Usuario(db.Model):
 
     @classmethod
     def has_permission(cls, aUserID, aPermission):
-        consulta=cls.query.join(usuario_tiene_rol, usuario_tiene_rol.usuario_id == Usuario.id).join(rol_tiene_permiso, usuario_tiene_rol.rol_id == rol_tiene_permiso.rol_id).join(Permiso, rol_tiene_permiso.permiso_id == Permiso.id).filter(Usuario.id==aUserID).filter(Permiso.nombre == aPermission)
-        return (consulta.count() > 0)
+        usuario=Usuario.find_by_id_first(aUserID)
+        print(usuario)
+        lista=[]
+        for rol in usuario.roles:
+            for permiso in rol.permisos:
+                lista.append(permiso.nombre)
+        if aPermission in lista:
+            return True
+        else:
+            return False
+
+    #consulta=cls.query.join(usuario_tiene_rol, usuario_tiene_rol.usuario_id == Usuario.id).join(rol_tiene_permiso, usuario_tiene_rol.rol_id == rol_tiene_permiso.rol_id).join(Permiso, rol_tiene_permiso.permiso_id == Permiso.id).filter(Usuario.id==aUserID).filter(Permiso.nombre == aPermission)
+    #    return (consulta.count() > 0)
+
+    def as_dict(self):
+        #return {attr.name: getattr(self,attr.name) for attr in self.__table__.columns}
+        return {"email": self.email,
+                "username":self.username,
+                "firstname":self.first_name}
+
+    
+
 
     def __init__(self,email=None,username=None,password=None,activo=None,updated_at=None,created_at=None,first_name=None,last_name=None):
         self.email=email

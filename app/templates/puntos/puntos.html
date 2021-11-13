@@ -7,6 +7,13 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 {% block title %}Puntos de encuentro - Zonas de inundación{% endblock %}
 {% block head %}
     {{super()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+  <script type="module" src="../../static/puntos/newPuntoMap.js"></script>
 {% endblock %}
 {% block content %}
   
@@ -15,14 +22,14 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
     <h1>Administración de puntos de encuentro</h1>
     <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#new-pto-modal">Nuevo punto de encuentro</button>
 
-    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#search-modal"><i class="fas fa-search"></i> Buscar</button>
+    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#search-modal"><i class="fas fa-search"></i> Buscar</button>
 
-    <a href="{{url_for('puntos_index', statusF='publicado')}}"><i class="fas fa-user-check"></i> Mostrar sólo publicados</a>
+    <a class="btn btn-outline-primary {{'active' if request.args.get('statusF') == 'publicado'}}" href="{{url_for('puntos_index', statusF='publicado')}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'statusF'}}{% endfor %}"><i class="fas fa-user-check"></i> Mostrar sólo publicados</a>
 
-    <a href="{{url_for('puntos_index',statusF='despublicado')}}"><i class="fas fa-user-check"></i> Mostrar sólo despublicados</a>
+    <a class="btn btn-outline-primary {{'active' if request.args.get('statusF') == 'despublicado'}}" href="{{url_for('puntos_index',statusF='despublicado')}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'statusF'}}{% endfor %}"><i class="fas fa-user-check"></i> Mostrar sólo despublicados</a>
 
-    <a class="btn" href="{{url_for('puntos_index')}}"><i class="fas fa-times"></i> Quitar filtros</a>
-
+    <a class="btn btn-outline-secondary" href="{{url_for('puntos_index')}}"><i class="fas fa-times"></i> Quitar filtros</a>
+   
     <table class="table">
         <thead>
             <tr>
@@ -33,17 +40,17 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
             </tr>
         </thead>
         <tbody>
-            {%for punto in puntos %}
+            {%for punto in paginator.get_page() %}
             <tr>
                 <td>{{punto.nombre}}</td>
                 <td>{{punto.estado}}</td>
                 <td>{{punto.direccion}}</td>
                 <td>
-                    <a href="/puntos/update/{{punto.id}}"><i class="far fa-edit">Editar</i></a>
+                    <a class="btn btn-outline-secondary" href="/puntos/update/{{punto.id}}">Editar</a>
                     {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
-                    <a href="/puntos/delete/{{punto.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+                    <a class="btn btn-outline-danger" href="/puntos/delete/{{punto.id}}">Borrar</a>
                     {% endif %}
-                    <a href="/puntos/show/{{punto.id}}">Ver</a>
+                    <a class="btn btn-outline-secondary" href="/puntos/show/{{punto.id}}">Ver</a>
                 </td>
             </tr>
             {% endfor %}
@@ -51,11 +58,11 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
     </table>
     <nav aria-label="Puntos navigation pages">
         <ul class="pagination">
-            {% if(not prevPage < 0)%}
-                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=prevPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}">Anterior</a></li>
+            {% if(not paginator.prev_page() < 0)%}
+                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=paginator.prev_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Anterior</a></li>
             {% endif %}
-            {% if puntos.count() == max %}
-                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=nextPage)}}{{ '&statusF=' + request.args.get('statusF') if request.args.get('statusF') != None}}">Siguiente</a></li>
+            {% if paginator.has_next_page() %}
+                <li class="page-item"><a class="page-link" href="{{url_for('puntos_index', page=paginator.next_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Siguiente</a></li>
             {% endif %}
         </ul>
     </nav>
@@ -86,14 +93,14 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
 
 <!-- modal de nuevo punto  -->
 <div class="modal fade" id="new-pto-modal" tabindex="-1" aria-labelledby="new-pto-modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="new-pto-modalLabel">Nuevo Punto de encuentro</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="{{ url_for('puntos_create') }}" method="POST">
+            <form action="{{ url_for('puntos_create') }}" method="POST" id='create-punto-form'>
                 <div class="mb-3">
                     <label for="nombre">
                         <input class="form-control" required type="text" name="nombre" placeholder="Nombre" >
@@ -104,11 +111,7 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
                         <input class="form-control" required type="text" name="direccion"  placeholder="Direccion" >
                     </label>
                 </div>
-                <div class="mb-3">
-                    <label for="coordenadas">
-                        <input class="form-control" required type="text" name="coordenadas" placeholder="Coordenadas" >
-                    </label>
-                </div>
+               
                 <div class="mb-3">
                     <label for="status">
                         <select class="form-control" required name="status" id="status" >
@@ -127,7 +130,19 @@ Esta seria la página de administracion CRUD de los puntos de encuentro de la ap
                         <input class="form-control" type="email" required name="email" placeholder="Email" >
                     </label>
                 </div>
+                <div class="mb-3">
+                    <label for="lat">
+                        <input class="form-control" style="display: none"   type="text" name="lat" placeholder="lat" id='lat' >
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label for="lng">
+                        <input class="form-control"  style="display: none"  type="text" name="lng" placeholder="lng" id='lng' >
+                    </label>
+                </div>
                 
+                <div id="mapid"></div>
+
                 <div class="mb-3">
                     <input class="btn btn-success" type="submit" value="Crear punto de encuentro">
                     <button class="btn btn-secondary" type="reset">Limpiar</button>

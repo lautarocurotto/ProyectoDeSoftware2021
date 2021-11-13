@@ -6,19 +6,19 @@ from sqlalchemy import Column,Integer,String
 class Configuracion(db.Model):
     __tablename__="Configuracion"
     id=Column(Integer,primary_key=True)
-    color1Privada=Column(String(255),unique=True)
-    color2Privada=Column(String(255),unique=True)
-    color3Privada=Column(String(255),unique=True)
-    color1Publica=Column(String(50),unique=True)
-    color2Publica=Column(String(50),unique=True)
-    color3Publica=Column(String(50),unique=True)
-    maxElementos=Column(Integer,unique=True)
-    criterio_orden=Column(String(50),unique=True)
-    sitio_en_mantenimiento=Column(Integer,unique=True)
+    color1Privada=Column(String(255))
+    color2Privada=Column(String(255))
+    color3Privada=Column(String(255))
+    color1Publica=Column(String(50))
+    color2Publica=Column(String(50))
+    color3Publica=Column(String(50))
+    maxElementos=Column(Integer)
+    criterio_orden=Column(String(50))
+    sitio_en_mantenimiento=Column(Integer)
     
 
     @classmethod
-    def getConfigs(csl):
+    def get_configs(csl):
         return  csl.query.all()[0]
 
 

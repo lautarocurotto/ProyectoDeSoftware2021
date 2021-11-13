@@ -4,31 +4,37 @@
 
 {% block head %}
     {{super()}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <script type="module" src="/../static/puntos/updatePuntoMap.js"></script>
+    
 {% endblock %}
 
 {% block content %}
 
 <div class="container-fluid">
+
     <h1>Modificando Punto de encuentro {{punto_to_update.nombre}}</h1>
 
-    <form action="/puntos/update/{{punto_to_update.id}}" method="POST">
+    
+    <form action="/puntos/update/{{punto_to_update.id}}" method="POST" id="formulario-update">
         <div class="mb-3">
-            <label for="newusername">
+            <label for="nombre">Nombre de punto de encuentro
                 <input class="form-control" type="text" name="nombre" required placeholder="Nombre" required value="{{punto_to_update.nombre}}">
             </label>
         </div>
         <div class="mb-3">
-            <label for="name">
+            <label for="direccion">Dirección
                 <input class="form-control" type="text" name="direccion" required placeholder="Direccion" required value="{{punto_to_update.direccion}}">  
             </label>
         </div>
-        <div class="input-control">
-            <label for="lastname">
-                <input class="form-control" type="text" name="coordenadas" required placeholder="Coordenadas" required value="{{punto_to_update.coordenadas}}">
-            </label>
-        </div>
+        
         <div class="mb-3">
-            <label for="status">
+            <label for="status">Estado
                 <select class="form-control" name="status" id="status" required value="{{punto_to_update.status}}">
                     <option value="publicado">publicado</option>
                     <option value="despublicado">despublicado</option>
@@ -36,24 +42,30 @@
             </label>
         </div>
         <div class="mb-3">
-            <label for="email">
+            <label for="telefono">Número de teléfono
                 <input class="form-control" type="text" name="telefono" required placeholder="Telefono" required value="{{punto_to_update.telefono}}">
             </label>
         </div>
         <div class="mb-3">
-            <label for="email">
+            <label for="email">Email
                 <input class="form-control" type="email" name="email" required placeholder="Email" required value="{{punto_to_update.email}}">
             </label>
         </div>
+
+        <input style="display: none" id="lat" name="lat" value="{{punto_to_update.lat}}">
+        <input style="display: none" id="lng"  name="lng" value="{{punto_to_update.lng}}">
+        <div id="mapid"></div>
         
         <input class="btn btn-success" type="submit" value="Modificar punto de encuentro">
-        
+        <div class="mb-3">
+            <a class="btn btn-outline-secondary" href="{{url_for('puntos_index')}}">Volver</a>
+            {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
+            <a class="btn btn-outline-danger" href="/puntos/delete/{{punto_to_update.id}}">Borrar</a>
+            {% endif %}
+        </div>
+       
     </form>
-    <br>
-    {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
-    <a class="btn btn-danger" href="/puntos/delete/{{punto_to_update.id}}"><i class="far fa-trash-alt">Borrar</i></a>
-    {% endif %}
-    <a href="{{url_for('puntos_index')}}">Volver</a>
+
 </div>
 
 

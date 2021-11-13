@@ -45,13 +45,13 @@
             <td>{{usuario.updated_at}}</td>
         </tr>
     </table>
-    <a class="btn btn-secondary" href="/usuarios/update/{{usuario.id}}"><i class="far fa-edit">Editar</i></a>
+    <a class="btn btn-outline-secondary" href="/usuarios/update/{{usuario.id}}">Editar</a>
     {% if (usuario.activo==1) %}
-    <a href="/usuarios/delete/{{usuario.id}}"><i class="far fa-trash-alt">Borrar</i></a>
+    <a class="btn btn-outline-danger" href="/usuarios/delete/{{usuario.id}}">Borrar</a>
     {% else %}
-    <a class="btn btn-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
+    <a class="btn btn-outline-success" href="/usuarios/activar/{{usuario.id}}">Activar usuario</a>
     {% endif %}
-    <a href="{{url_for('usuario_index')}}">Volver</a>
+    <a class="btn btn-outline-secondary" href="{{url_for('usuario_index')}}">Volver</a>
 </div>
 
 {% endblock %}
