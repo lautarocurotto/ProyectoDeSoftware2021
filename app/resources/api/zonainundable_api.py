@@ -5,7 +5,7 @@ from app.models.usuario import Usuario
 from app.models.configuracion import Configuracion
 
 
-zonainundable_api= Blueprint("consultas", __name__, url_prefix="/consultas")
+zonainundable_api= Blueprint("consultas", __name__, url_prefix="/zonas-inundables")
 
 @zonainundable_api.get("/<int:id>")
 def index(id):
@@ -23,8 +23,10 @@ def index(id):
 @zonainundable_api.get("/")
 def index2():
     pagee=int(request.args.get("page",1))
+
+    per_page = Configuracion.get_configs().maxElementos
     
-    zona_rows=Zonas.query.paginate(page=pagee,per_page=2)
+    zona_rows=Zonas.query.paginate(page=pagee,per_page=per_page)
     print(zona_rows)
     return {
         "zonas":[item.as_dict() for item in zona_rows.items],
