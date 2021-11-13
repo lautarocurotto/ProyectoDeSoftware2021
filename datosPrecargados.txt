@@ -1,6 +1,12 @@
 INSERT INTO `Configuracion` (`id`, `color1Privada`, `color2Privada`, `color3Privada`, `color1Publica`, `color2Publica`, `color3Publica`, `maxElementos`, `criterio_orden`, `sitio_en_mantenimiento`) VALUES
 (2, '#a40000', '#4e9a06', '#75507b', '#C8F2D2', '#C7F1D1', '#C6FFD3', 4, 'Alfabetico', 0);
 
+INSERT INTO `denuncia_categoria` (`id`, `name`) VALUES
+(1, 'calles'),
+(2, 'alcantarillas'),
+(3, 'desagües'),
+(4, 'infraestructura');
+
 INSERT INTO `Permiso` (`id`, `nombre`) VALUES
 (1, 'punto_encuentro_index'),
 (2, 'punto_encuentro_new'),
@@ -31,7 +37,11 @@ INSERT INTO `Permiso` (`id`, `nombre`) VALUES
 (28, 'zonas_index'),
 (29, 'zonas_show'),
 (30, 'zonas_import'),
-(31, 'zonas_destroy');
+(31, 'zonas_destroy'),
+(32, 'denuncia_index'),
+(33, 'denuncia_update'),
+(34, 'denuncia_create'),
+(35, 'denuncia_destroy');
 
 INSERT INTO `Punto_encuentro` (`id`, `nombre`, `direccion`, `lat`, `lng`, `estado`, `telefono`, `email`) VALUES
 (49, 'aaa', 'a', '-34.91591853170241', '-57.94755935668946', 'publicado', 'aaa', 'a@gmail.com'),
@@ -82,7 +92,14 @@ INSERT INTO `rol_tiene_permiso` (`rol_id`, `permiso_id`) VALUES
 (2, 29),
 (1, 30),
 (2, 30),
-(2, 31);
+(2, 31),
+(1, 32),
+(1, 33),
+(1, 34),
+(2, 32),
+(2, 33),
+(2, 34),
+(2, 35);
 
 INSERT INTO `Usuario` (`id`, `email`, `username`, `password`, `activo`, `updated_at`, `created_at`, `first_name`, `last_name`) VALUES
 (1, 'gastonciancio@gmail.com', 'gciancio', 'pbkdf2:sha256:260000$5VWrriAIKIIziY9Z$e28f7c2af21cf06cb2011e86ff23c5900a886d6e6e4083fb079f8910ce1365fa', 1, '2021-10-17 14:55:53', '2021-10-13 16:39:57', 'gaston', 'ciancio'),
