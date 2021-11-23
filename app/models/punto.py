@@ -41,3 +41,7 @@ class Punto(db.Model):
                 "telefono":self.telefono,
                 "email":self.email}
 
+    @classmethod
+    def cantidad_puntos(cls):
+            return cls.query.count()
+        

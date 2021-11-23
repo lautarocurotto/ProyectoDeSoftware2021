@@ -12,6 +12,9 @@ def index():
     max_elementos=Configuracion.get_configs().maxElementos
     pagina=int(request.args.get("page",1))
     puntos_aux=Punto.query.paginate(page=1,per_page=max_elementos)
+    if(Punto.cantidad_puntos()==0):
+        data={"mensaje":"No hay puntos de encuentro en el sistema"}
+        return jsonify(data),404
     if(pagina<=puntos_aux.pages):
         puntos_rows=Punto.query.paginate(page=pagina,per_page=max_elementos)
         data= {
