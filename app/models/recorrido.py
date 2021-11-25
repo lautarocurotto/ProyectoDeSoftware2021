@@ -30,3 +30,14 @@ class Recorrido(db.Model):
             return cls.query.filter(cls.nombre==nombree,cls.id !=idReco).count()
         else:
             return cls.query.filter_by(nombre=nombree).count()
+    
+    @classmethod
+    def cantidad_recorridos(cls):
+       return cls.query.count()
+
+    def as_dict(self):
+        return {"id": self.id,
+                "nombre":self.nombre,
+                "descripcion":self.descripcion,
+                "coordenadas":[coordenada.as_dict() for coordenada in self.puntos]
+               }
