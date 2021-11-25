@@ -15,6 +15,7 @@ from app.helpers.auth import authenticated, check_permission
 from app.resources.api.zonainundable_api import zonainundable_api
 from app.resources import denuncia
 from app.resources.api.denuncia import denuncia_api
+from app.resources.api.puntos import puntos_encuentro_api
 
 from app.resources.api.recorridos import recorridos_evacuacion_api
 
@@ -114,7 +115,7 @@ def create_app(environment="development"):
     api = Blueprint("api", __name__, url_prefix="/api")
     api.register_blueprint(denuncia_api)
     api.register_blueprint(zonainundable_api)
-    
+    api.register_blueprint(puntos_encuentro_api)
     api.register_blueprint(recorridos_evacuacion_api)
     app.register_blueprint(api)
 

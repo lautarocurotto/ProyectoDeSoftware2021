@@ -31,3 +31,17 @@ class Punto(db.Model):
             return cls.query.filter(cls.nombre==nombree,cls.id !=idPunto).count()
         else:
             return cls.query.filter_by(nombre=nombree).count()
+    
+    def as_dict(self):
+        return {"id": self.id,
+                "nombre":self.nombre,
+                "direccion":self.direccion,
+                "lat":self.lat,
+                "long":self.lng,
+                "telefono":self.telefono,
+                "email":self.email}
+
+    @classmethod
+    def cantidad_puntos(cls):
+            return cls.query.count()
+        
