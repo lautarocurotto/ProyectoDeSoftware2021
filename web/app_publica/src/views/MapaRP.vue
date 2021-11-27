@@ -1,5 +1,5 @@
 <template>
-  <l-map style="height: 500px" :zoom="zoom" :center="center">
+  <l-map style="height: 700px" :zoom="zoom" :center="center" >
     <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
     <l-marker :lat-lng="markerLatLng"></l-marker>
   </l-map>
@@ -21,8 +21,9 @@ export default {
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 13,
       center: [-34.9187,-57.956],
-      markerLatLng: [51.504, -0.159]
+      markerLatLng: []
     };
-  }
+  },
+  
 }
 </script>
