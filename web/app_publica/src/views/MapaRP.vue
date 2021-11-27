@@ -24,6 +24,15 @@ export default {
       markerLatLng: []
     };
   },
+  created(){
+      fetch('http://127.0.0.1:5000/api/puntos-encuentro').then((response) =>{
+          return response.json();
+      }).then((json) => {
+          this.puntos = json.puntos_encuentro;
+      }).catch((e) => {
+        console.log(e);
+      })
+  }
   
 }
 </script>
