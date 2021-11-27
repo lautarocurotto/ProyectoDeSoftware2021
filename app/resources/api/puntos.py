@@ -4,7 +4,7 @@ from app.models.punto import Punto
 from app.models.configuracion import Configuracion
 
 
-puntos_encuentro_api= Blueprint("puntos-encuentro", __name__, url_prefix="/puntos-encuentro")
+puntos_encuentro_api= Blueprint("puntos-encuentroo", __name__, url_prefix="/puntos-encuentro")
 
 
 @puntos_encuentro_api.get("/")
