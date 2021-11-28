@@ -34,10 +34,11 @@ export default {
              fetch('http://127.0.0.1:5000/api/puntos-encuentro?page='+i).then((response2) =>{
                 return response2.json();
              }).then((json2) => {
-                this.markers.push(json2.puntos_encuentro);
-                this.markers.flat();
+                for (var i=0;i<json2.puntos_encuentro.length;i++){
+                    this.markers.push(json2.puntos_encuentro[i]);
+                }
               }
-             )}
+          )} 
       }).catch((e) => {
         console.log(e);
       })
