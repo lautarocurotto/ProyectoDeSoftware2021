@@ -18,7 +18,7 @@ def index():
     data= {
             "recorridos":[recorrido.as_dict() for recorrido in recorridos_rows.items],
             "page":recorridos_rows.page,
-            "total":recorridos_rows.total,
+            "total":recorridos_rows.pages,
         }
     return jsonify(data),200
   

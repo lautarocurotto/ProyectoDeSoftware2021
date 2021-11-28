@@ -18,7 +18,7 @@ def index():
     data= {
             "puntos_encuentro":[punto.as_dict() for punto in puntos_rows.items],
             "page":puntos_rows.page,
-            "total":puntos_rows.total,
+            "total":puntos_rows.pages,
         }
     return jsonify(data),200
    
