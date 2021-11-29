@@ -4,7 +4,7 @@ from app.models.recorrido import Recorrido
 from app.models.configuracion import Configuracion
 
 
-recorridos_evacuacion_api= Blueprint("puntos-encuentro", __name__, url_prefix="/recorridos-evacuacion")
+recorridos_evacuacion_api= Blueprint("recorridos-evacuacion", __name__, url_prefix="/recorridos-evacuacion")
 
 
 @recorridos_evacuacion_api.get("/")
