@@ -2,23 +2,30 @@
   <l-map style="height: 700px" :zoom="zoom" :center="center" >
     <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
     <div v-for="(marker,index) in markers" :key="index" >
-      <l-marker :lat-lng=[marker.lat,marker.long]></l-marker>
+      <l-marker :lat-lng=[marker.lat,marker.long]>
+         <l-popup>{{marker.nombre}}</l-popup>
+      </l-marker>
+       
     </div>
     <div v-for="(recorrido,index) in recorridos" :key="index" >
-      <l-polyline :lat-lngs=[recorrido.coordenadas]></l-polyline>
+      <l-polyline :lat-lngs=[recorrido.coordenadas] >
+        <l-popup>{{recorrido.nombre}}</l-popup>
+      </l-polyline>
+        
     </div>
   </l-map>
 </template>
 
 <script>
-import {LMap, LTileLayer, LMarker, LPolyline} from '@vue-leaflet/vue-leaflet';
+import {LMap, LTileLayer, LMarker, LPolyline, LPopup} from '@vue-leaflet/vue-leaflet';
 
 export default {
   components: {
     LMap,
     LTileLayer,
     LMarker,
-    LPolyline
+    LPolyline,
+    LPopup
   },
   data () {
     return {
