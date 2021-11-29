@@ -1,17 +1,33 @@
 <template>
-  <l-map style="height: 700px" :zoom="zoom" :center="center" >
-    <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-    <div v-for="(marker,index) in markers" :key="index" >
-      <l-marker :lat-lng=[marker.lat,marker.long]>
-         <l-popup>Nombre: {{marker.nombre}}. Direccion: {{marker.direccion}}. Telefono: {{marker.telefono}}. Email: {{marker.email}}  </l-popup>
-      </l-marker>
-       
-    </div>
-    <div v-for="(recorrido,index) in recorridos" :key="index" >
-      <l-polyline :lat-lngs=[recorrido.coordenadas]></l-polyline>
-        
-    </div>
-  </l-map>
+  <div>
+    <l-map style="height: 700px" :zoom="zoom" :center="center" >
+      <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+      <div v-for="(marker,index) in markers" :key="index" >
+        <l-marker :lat-lng=[marker.lat,marker.long]>
+          <l-popup>Nombre: {{marker.nombre}}. Direccion: {{marker.direccion}}. Telefono: {{marker.telefono}}. Email: {{marker.email}}  </l-popup>
+        </l-marker>
+      </div>
+      <div v-for="(recorrido,index) in recorridos" :key="index" >
+        <l-polyline :lat-lngs=[recorrido.coordenadas]></l-polyline>
+      </div>
+    </l-map>
+    <label>Puntos de encuentro</label>
+      <ul>
+        <div v-for="(marker,index) in markers" :key="index" >
+         <li>
+            Nombre: {{marker.nombre}}. Direccion: {{marker.direccion}}. Telefono: {{marker.telefono}}. Email: {{marker.email}} 
+          </li>
+        </div>
+      </ul>
+    <label>Recorridos</label>
+    <ul>
+       <div v-for="(recorrido,index) in recorridos" :key="index" >
+        <li>
+            Nombre: {{recorrido.nombre}}. Descripcion: {{recorrido.descripcion}}
+       </li>
+      </div>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -69,10 +85,6 @@ export default {
       }).catch((e) => {
         console.log(e);
       });
-
-
-
   }
-  
 }
 </script>
