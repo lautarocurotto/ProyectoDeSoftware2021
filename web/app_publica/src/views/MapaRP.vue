@@ -3,14 +3,12 @@
     <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
     <div v-for="(marker,index) in markers" :key="index" >
       <l-marker :lat-lng=[marker.lat,marker.long]>
-         <l-popup>{{marker.nombre}}</l-popup>
+         <l-popup>Nombre: {{marker.nombre}}. Direccion: {{marker.direccion}}. Telefono: {{marker.telefono}}. Email: {{marker.email}}  </l-popup>
       </l-marker>
        
     </div>
     <div v-for="(recorrido,index) in recorridos" :key="index" >
-      <l-polyline :lat-lngs=[recorrido.coordenadas] >
-        <l-popup>{{recorrido.nombre}}</l-popup>
-      </l-polyline>
+      <l-polyline :lat-lngs=[recorrido.coordenadas]></l-polyline>
         
     </div>
   </l-map>
