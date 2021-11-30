@@ -39,5 +39,5 @@ class Recorrido(db.Model):
         return {"id": self.id,
                 "nombre":self.nombre,
                 "descripcion":self.descripcion,
-                "coordenadas":[coordenada.as_dict() for coordenada in self.puntos]
+                "coordenadas":[coordenada.as_array() for coordenada in self.puntos]
                }

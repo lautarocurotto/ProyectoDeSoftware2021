@@ -16,12 +16,14 @@ from app.resources.api.zonainundable_api import zonainundable_api
 from app.resources import denuncia
 from app.resources.api.denuncia import denuncia_api
 from app.resources.api.puntos import puntos_encuentro_api
+from flask_cors import CORS
 
 from app.resources.api.recorridos import recorridos_evacuacion_api
 
 def create_app(environment="development"):
     # Configuración inicial de la app
     app = Flask(__name__)
+    CORS(app)
 
     # Carga de la configuración
     env = environ.get("FLASK_ENV", environment)
