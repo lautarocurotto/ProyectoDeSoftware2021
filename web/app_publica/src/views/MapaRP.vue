@@ -67,11 +67,11 @@ export default {
     };
   },
   created(){
-      fetch('http://127.0.0.1:5000/api/puntos-encuentro').then((response) =>{
+      fetch(this.$store.state.mainURL + '/puntos-encuentro').then((response) =>{
           return response.json();
       }).then((json) => {
           for (var i=1;i<=json.total;i++){
-             fetch('http://127.0.0.1:5000/api/puntos-encuentro?page='+i).then((response2) =>{
+             fetch(this.$store.state.mainURL + '/puntos-encuentro?page='+i).then((response2) =>{
                 return response2.json();
              }).then((json2) => {
                 for (var i=0;i<json2.puntos_encuentro.length;i++){
@@ -83,11 +83,11 @@ export default {
         console.log(e);
       });
 
-    fetch('http://127.0.0.1:5000/api/recorridos-evacuacion').then((response) =>{
+    fetch(this.$store.state.mainURL + '/recorridos-evacuacion').then((response) =>{
           return response.json();
       }).then((json) => {
           for (var i=1;i<=json.total;i++){
-             fetch('http://127.0.0.1:5000/api/recorridos-evacuacion?page='+i).then((response2) =>{
+             fetch(this.$store.state.mainURL + '/recorridos-evacuacion?page='+i).then((response2) =>{
                 return response2.json();
              }).then((json2) => {
                 for (var i=0;i<json2.recorridos.length;i++){
