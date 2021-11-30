@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import MapaRP from '../views/MapaRP.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/mapaRecorridosPuntos',
+    name: 'mapaRecorridosPuntos',
+    component: MapaRP
   }
 ]
 

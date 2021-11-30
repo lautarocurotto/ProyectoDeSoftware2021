@@ -20,5 +20,9 @@ class Coordenadas(db.Model):
         self.lng=lng
         self.tipo=tipo
 
+    def as_array(self):
+        return[ self.lat,
+                self.lng]
+
   
         
