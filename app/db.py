@@ -5,21 +5,23 @@ from flask import current_app
 from flask import g
 from flask import cli
 
-db=SQLAlchemy()
+db = SQLAlchemy()
+
 
 def init_app(app):
     db.init_app(app)
     config_db(app)
 
+
 def config_db(app):
-    
     @app.before_first_request
     def init_database():
         db.create_all()
- 
+
     @app.teardown_request
     def close_session(exception=None):
         db.session.remove()
+
 
 def connection():
     if "db_conn" not in g:
@@ -33,6 +35,7 @@ def connection():
         )
 
     return g.db_conn
+
 
 """def close(e=None):
     conn = g.pop("db_conn", None)
