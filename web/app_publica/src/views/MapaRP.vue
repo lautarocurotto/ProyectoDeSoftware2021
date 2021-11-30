@@ -1,6 +1,6 @@
 <template>
   <div>
-    <l-map style="height: 700px" :zoom="zoom" :center="center" >
+    <l-map style="height: 300px" :zoom="zoom" :center="center" >
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <div v-for="(marker,index) in markers" :key="index" >
         <l-marker :lat-lng=[marker.lat,marker.long]>
@@ -11,22 +11,36 @@
         <l-polyline :lat-lngs=[recorrido.coordenadas]></l-polyline>
       </div>
     </l-map>
-    <label>Puntos de encuentro</label>
-      <ul>
-        <div v-for="(marker,index) in markers" :key="index" >
-         <li>
-            Nombre: {{marker.nombre}}. Direccion: {{marker.direccion}}. Telefono: {{marker.telefono}}. Email: {{marker.email}} 
-          </li>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 border-bottom">
+          <h4>Puntos de encuentro</h4>
+            <div class="card margin-bottom" style="width: 18rem;" v-for="(marker,index) in markers" :key="index">
+              <div class="card-body">
+                <h5 class="card-title">{{marker.nombre}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{marker.direccion}}</h6>
+                <p class="card-text">
+                  <strong>Telefono</strong>: {{marker.telefono}} <br>
+                  <strong>Email</strong>: {{marker.email}} 
+                </p>
+              </div>
+            </div>
         </div>
-      </ul>
-    <label>Recorridos</label>
-    <ul>
-       <div v-for="(recorrido,index) in recorridos" :key="index" >
-        <li>
-            Nombre: {{recorrido.nombre}}. Descripcion: {{recorrido.descripcion}}
-       </li>
+
+        <div class="col-md-6 border-bottom">
+          <h4>Recorridos</h4>
+            <div class="card margin-bottom" style="width: 18rem;" v-for="(recorrido,index) in recorridos" :key="index">
+              <div class="card-body">
+                <h5 class="card-title">{{recorrido.nombre}}</h5>
+                <p class="card-text">
+                  {{recorrido.descripcion}}
+                </p>
+              </div>
+            </div>
+        </div>
       </div>
-    </ul>
+    </div>
+
   </div>
 </template>
 
