@@ -1,4 +1,4 @@
-import { Map } from './MapMultipleMarkerUS.js';
+import { Map } from './MapMultipleMarkerCUS.js';
 
  
 const submitHandler = (event,map) => {
@@ -24,7 +24,9 @@ window.onload = () => {
         selector:'mapid',
         longitudes: longitud,
         latitudes:latitud,
-        update:true
+        create:false,
+        update:true,
+        show:false
     })
     let form = document.getElementById('formulario-update');
     let res=form.addEventListener('submit', (event)=> submitHandler(event,map));

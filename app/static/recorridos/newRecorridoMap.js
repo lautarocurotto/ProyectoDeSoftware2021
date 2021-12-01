@@ -1,4 +1,4 @@
-import { Map } from './MapMultipleMarker.js';
+import { Map } from './MapMultipleMarkerCUS.js';
 
 
 const submitHandler = (event,map) => {
@@ -22,7 +22,10 @@ window.onload = () => {
         selector:'mapid',
         crearRectangle:false,
         crearPolyline:true,
-        crearPoligono:false
+        crearPoligono:false,
+        create:true,
+        update:false,
+        show:false
 
     })
     let form = document.getElementById('create-recorrido-form');

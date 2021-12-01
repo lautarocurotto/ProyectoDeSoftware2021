@@ -1,4 +1,4 @@
-import { Map } from './MapMultipleMarkerUS.js';
+import { Map } from './MapMultipleMarkerCUS.js';
 
 
 window.onload = () => {
@@ -9,7 +9,9 @@ window.onload = () => {
         selector:'mapid',
         longitudes: longitud,
         latitudes:latitud,
-        update:false
+        create:false,
+        update:false,
+        show:true
     })
     
     
