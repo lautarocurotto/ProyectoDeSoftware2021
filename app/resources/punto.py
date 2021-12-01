@@ -1,7 +1,7 @@
 from flask import redirect, render_template, request, url_for, session, abort
 from flask.helpers import flash
 from app.db import db
-from app.resources.validadorPuntos import ValidarForm
+from app.validadores.validadorPuntos import ValidarForm
 from app.helpers.auth import authenticated, check_permission
 from app.helpers.paginator import Paginator
 from app.models.punto import Punto
