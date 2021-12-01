@@ -1,4 +1,4 @@
-import { Map } from './MapMultipleMarkerUpdate.js';
+import { Map } from './MapMultipleMarkerUS.js';
 
  
 const submitHandler = (event,map) => {
@@ -8,7 +8,6 @@ const submitHandler = (event,map) => {
         alert('Selecciona minimo de puntos para aceptar el recorrido');
     }
     else {
-        
         const coodinates=map.drawnlayers[0].getLatLngs().flat().map(coordinate =>{
             return {lat:coordinate.lat ,lng:coordinate.lng }
         });
@@ -17,19 +16,15 @@ const submitHandler = (event,map) => {
     }
 }
      
-    
-
-
 window.onload = () => {
     
     let latitud = document.getElementsByName('lat');
     let longitud = document.getElementsByName('lng');
-    
     let map = new Map({
         selector:'mapid',
         longitudes: longitud,
-        latitudes:latitud
-
+        latitudes:latitud,
+        update:true
     })
     let form = document.getElementById('formulario-update');
     let res=form.addEventListener('submit', (event)=> submitHandler(event,map));

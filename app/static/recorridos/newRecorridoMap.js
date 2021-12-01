@@ -18,7 +18,6 @@ const submitHandler = (event,map) => {
      
 window.onload = () => {
     
-    
     let map = new Map({
         selector:'mapid',
         crearRectangle:false,

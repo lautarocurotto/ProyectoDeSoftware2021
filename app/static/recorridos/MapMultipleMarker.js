@@ -9,16 +9,12 @@ export class Map{
     #crearRecta;
     #crearPoligono;
 
-
     constructor({selector,crearPolyline,crearRectangle, crearPoligono}){
         this.#drawItems = new L.FeatureGroup();
-
         this.crearPoli = crearPolyline;
         this.crearRecta = crearRectangle;
         this.crearPoligono = crearPoligono;
-
         this.#initializeMap(selector);
-
         this.map.on(L.Draw.Event.CREATED,(e)=>{
             this.#eventHandler(e,this.map,this.#drawItems,this.editControls,this.createControls)
         });
@@ -30,25 +26,19 @@ export class Map{
     #initializeMap(selector){
         this.map = L.map(selector).setView([initialLat,initialLng],13);
         L.tileLayer(mapLayerUrl).addTo(this.map);
-        
         this.map.addLayer(this.#drawItems);
-
         this.map.addControl(this.createControls);
     };
 
     #eventHandler(e,map,drawItems,editControls,createControls){
         const existingZones= Object.values(drawItems._layers);
-
         if (existingZones.length == 0){
-            
             const layer= e.layer;
-            
             layer.editing.enable();
             drawItems.addLayer(layer);
             editControls.addTo(map);
             createControls.remove();
         }
-
     };
 
     #deleteHandler(map,editControls,createControls){
