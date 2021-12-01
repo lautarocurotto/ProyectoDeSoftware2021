@@ -100,13 +100,7 @@ def create_app(environment="development"):
         "/recorridos/update/<int:id>",
         "recorridos_update",
         recorrido.update,
-        methods=["GET"],
-    )
-    app.add_url_rule(
-        "/recorridos/updateCurrent",
-        "recorridos_updateCurrent",
-        recorrido.updateCurrent,
-        methods=["POST"],
+        methods=["GET", "POST"],
     )
     app.add_url_rule(
         "/recorridos/delete/<int:id>", "recorridos_delete", recorrido.delete

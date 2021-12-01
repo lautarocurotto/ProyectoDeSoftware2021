@@ -2,30 +2,18 @@ import { Map } from './MapMultipleMarkerUpdate.js';
 
  
 const submitHandler = (event,map) => {
-    event.preventDefault();
+  
     if (!map.hasValidZone()){
+        event.preventDefault();
         alert('Selecciona minimo de puntos para aceptar el recorrido');
     }
     else {
-        const name=document.querySelector('#nombre').value;
-        const description=document.querySelector('#descripcion').value;
-        const status=document.querySelector('#status').value;
         
         const coodinates=map.drawnlayers[0].getLatLngs().flat().map(coordinate =>{
             return {lat:coordinate.lat ,lng:coordinate.lng }
         });
-        const id=document.querySelector('#idReco').value;
-
-      
-        fetch('/recorridos/updateCurrent', {
-            method: 'POST',
-            body: JSON.stringify({id:id,name:name,description:description,status:status,coodinates:coodinates}),
-            headers: {
-                'Content-Type':'application/json'
-            }
-
-        }).then(data => location.reload());
-      
+        const coordenadas=document.querySelector('#coordinates');
+        coordenadas.value=JSON.stringify(coodinates);
     }
 }
      

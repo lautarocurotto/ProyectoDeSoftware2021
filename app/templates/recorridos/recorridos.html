@@ -104,17 +104,17 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
             <form action="{{ url_for('recorridos_create') }}" method="POST" id='create-recorrido-form'>
                 <div class="mb-3">
                     <label for="nombre">
-                        <input class="form-control"  type="text" id="nombre" name="nombre" placeholder="Nombre" >
+                        <input class="form-control" required type="text" id="nombre" name="nombre" placeholder="Nombre" >
                     </label>
                 </div>
                 <div class="mb-3">
                     <label for="descripcion">
-                        <input class="form-control"  type="text" id="descripcion" name="descripcion"  placeholder="Descripcion" >
+                        <input class="form-control" required type="text" id="descripcion" name="descripcion"  placeholder="Descripcion" >
                     </label>
                 </div>
                 <div class="mb-3">
                     <label for="status">
-                        <select class="form-control"  name="status" id="status" >
+                        <select class="form-control" required name="status" id="status" >
                             <option value="publicado">publicado</option>
                             <option value="despublicado">despublicado</option>
                         </select>
