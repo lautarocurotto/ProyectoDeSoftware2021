@@ -50,7 +50,7 @@
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet voluptatum vero perspiciatis possimus. Nemo fuga sapiente magni odio qui ullam sunt velit minus, aliquid sequi amet? Omnis rerum fugiat nesciunt!</p>
               </div>
               <div class="col-6" style="text-align: left;">
-                  <button class="btn btn-lg btn-light" data-bs-toggle="modal" data-bs-target="#new-denuncia">REALIZAR DENUNCIA</button>
+                  <router-link class="btn btn-lg btn-light" to="/denunciar">REALIZAR DENUNCIA</router-link>
               </div>
           </div>
         </div>

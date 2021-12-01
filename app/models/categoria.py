@@ -8,3 +8,15 @@ class Categoria(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
     denuncias = relationship('Denuncia', backref="categoria")
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
+    def as_dict(self):
+        return {
+            "id" : self.id,
+            "name" : self.name
+        }
+
+
