@@ -1,4 +1,4 @@
-import { Map } from './MapMultipleMarkerCUS.js';
+import { Map } from '../mapa/MapMultipleMarkerCUS.js';
 
  
 const submitHandler = (event,map) => {

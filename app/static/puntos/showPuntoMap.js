@@ -1,4 +1,4 @@
-import { Map } from './MapSingleMarkerCUS.js';
+import { Map } from '../mapa/MapSingleMarkerCUS.js';
 
 
 
