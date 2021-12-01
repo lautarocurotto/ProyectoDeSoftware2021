@@ -1,5 +1,5 @@
 from app.db import db
-from sqlalchemy import Column, Integer, String, exists
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from app.models.coordenadas import Coordenadas
 

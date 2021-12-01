@@ -1,6 +1,6 @@
 from app.models.usuario import Usuario
 from app.models.usuario_tiene_rol import usuario_tiene_rol
-from app.models.permiso import Permiso
+
 
 
 def authenticated(session):

@@ -1,18 +1,11 @@
-from re import A
-from sqlalchemy.sql.expression import select
-from sqlalchemy.sql.sqltypes import Date
 from app.db import db
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, exists
+from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from app.models import usuario_tiene_rol
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from sqlalchemy.orm import relationship
-
-from app.models.permiso import Permiso
-from app.models.rol_tiene_permiso import rol_tiene_permiso
 from app.models.usuario_tiene_rol import usuario_tiene_rol
-from app.models.roles import Rol
 
 
 class Usuario(db.Model):

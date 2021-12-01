@@ -1,6 +1,6 @@
-from sqlalchemy.orm import backref, relationship
+from sqlalchemy.orm import relationship
 from app.db import db
-from sqlalchemy import Column, Integer, String, DateTime, text
+from sqlalchemy import Column, Integer, String
 
 
 class Categoria(db.Model):

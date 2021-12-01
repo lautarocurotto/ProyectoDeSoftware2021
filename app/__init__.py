@@ -7,19 +7,16 @@ from app.resources import recorrido
 from app.resources import configuracion
 from app.resources import usuario
 from app.resources import zonas
-from flask_session import Session
 from app.resources import auth
 from app.helpers import handler
 from app.helpers import auth as helper_auth
-from app.helpers.auth import authenticated, check_permission
+from app.helpers.auth import authenticated
 from app.resources.api.zonainundable_api import zonainundable_api
 from app.resources import denuncia
 from app.resources.api.denuncia import denuncia_api
 from app.resources.api.puntos import puntos_encuentro_api
 from flask_cors import CORS
-
 from app.resources.api.recorridos import recorridos_evacuacion_api
-
 
 def create_app(environment="development"):
     # Configuración inicial de la app

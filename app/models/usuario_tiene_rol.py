@@ -1,9 +1,6 @@
-from re import A
-from sqlalchemy.orm import load_only
 from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.sql.sqltypes import Date
 from app.db import db
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, exists
+from sqlalchemy import Column
 
 
 class usuario_tiene_rol(db.Model):

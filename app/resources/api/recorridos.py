@@ -1,4 +1,3 @@
-from re import I
 from flask import jsonify, Blueprint, request
 from app.models.recorrido import Recorrido
 from app.models.configuracion import Configuracion

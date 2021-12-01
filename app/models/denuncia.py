@@ -1,11 +1,9 @@
-from re import S
-from sqlalchemy.orm import backref, relationship
+
+from sqlalchemy.orm import  relationship
 from sqlalchemy.sql.schema import ForeignKey
 from app.db import db
 from sqlalchemy import Column, Integer, String, DateTime, text
-from app.models.seguimiento import Seguimiento
-from app.models.categoria import Categoria
-from app.models.usuario import Usuario
+
 
 
 class Denuncia(db.Model):

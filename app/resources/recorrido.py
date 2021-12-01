@@ -1,11 +1,7 @@
 from flask import redirect, render_template, request, url_for, session, abort
-import flask
 from flask.helpers import flash
-from sqlalchemy.sql.expression import true
 from app.db import db
-from app.validadores.validadorRecorridos import ValidarForm
 from app.models.coordenadas import Coordenadas
-
 from app.helpers.auth import authenticated, check_permission
 from app.helpers.paginator import Paginator
 from app.models.recorrido import Recorrido

@@ -1,9 +1,7 @@
 import pymysql
 from flask_sqlalchemy import SQLAlchemy
-
 from flask import current_app
 from flask import g
-from flask import cli
 
 db = SQLAlchemy()
 
@@ -33,16 +31,4 @@ def connection():
             db=conf["DB_NAME"],
             cursorclass=pymysql.cursors.DictCursor,
         )
-
     return g.db_conn
-
-
-"""def close(e=None):
-    conn = g.pop("db_conn", None)
-
-    if conn is not None:
-        conn.close()
-
-
-def init_app(app):
-    app.teardown_appcontext(close)"""

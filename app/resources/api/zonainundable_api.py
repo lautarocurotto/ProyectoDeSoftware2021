@@ -1,7 +1,5 @@
 from flask import jsonify, Blueprint, request
-from sqlalchemy.sql.expression import false
 from app.models.zonas import Zonas
-from app.models.usuario import Usuario
 from app.models.configuracion import Configuracion
 
 

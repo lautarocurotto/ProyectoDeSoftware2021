@@ -1,7 +1,5 @@
-from re import A
-from sqlalchemy.sql.sqltypes import Date
 from app.db import db
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, exists
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.models.rol_tiene_permiso import rol_tiene_permiso

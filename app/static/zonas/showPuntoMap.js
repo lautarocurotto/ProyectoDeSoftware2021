@@ -1,6 +1,5 @@
 import { Map } from './MapMultipleMarkerShow.js';
 
-
 window.onload = () => {
     
     let latitud = document.getElementsByName('lat');
@@ -10,7 +9,4 @@ window.onload = () => {
         longitudes: longitud,
         latitudes:latitud
     })
-    
-    
-
 }
