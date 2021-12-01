@@ -1,6 +1,5 @@
 import { Map } from './MapMultipleMarkerCUS.js';
 
-
 window.onload = () => {
     
     let latitud = document.getElementsByName('lat');
@@ -9,11 +8,8 @@ window.onload = () => {
         selector:'mapid',
         longitudes: longitud,
         latitudes:latitud,
-        create:false,
-        update:false,
+        crearPoligono:true,
         show:true
-    })
-    
-    
 
+    })
 }

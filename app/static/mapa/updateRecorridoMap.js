@@ -24,9 +24,8 @@ window.onload = () => {
         selector:'mapid',
         longitudes: longitud,
         latitudes:latitud,
-        create:false,
+        crearPolyline:true,
         update:true,
-        show:false
     })
     let form = document.getElementById('formulario-update');
     let res=form.addEventListener('submit', (event)=> submitHandler(event,map));

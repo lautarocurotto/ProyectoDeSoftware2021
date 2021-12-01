@@ -12,7 +12,7 @@ export class Map{
     #crearRecta;
     #crearPoligono;
 
-    constructor({selector,crearPolyline,crearRectangle, crearPoligono,longitudes,latitudes,create,update,show}){
+    constructor({selector,crearPolyline=false,crearRectangle=false, crearPoligono=false,longitudes,latitudes,create=false,update=false,show=false}){
         this.#drawItems = new L.FeatureGroup();
         this.crearPoli = crearPolyline;
         this.crearRecta = crearRectangle;
@@ -43,7 +43,13 @@ export class Map{
                     let lalg=[latitudes[i].value,longitudes[i].value];
                     latlngs.push(lalg);
             }
-            let poli= L.polyline(latlngs,{color:'red'}).addTo(this.map);
+            let poli;
+            if(this.crearPoli){
+                poli= L.polyline(latlngs,{color:'red'}).addTo(this.map);
+            }
+            if(this.crearPoligono){
+                var polygon=L.polygon(latlngs,{color:'red'}).addTo(this.map);
+            }
             if(update){
                 poli.editing.enable();
                 this.#drawItems.addLayer(poli);
