@@ -1,9 +1,7 @@
-
-from sqlalchemy.orm import  relationship
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey
 from app.db import db
 from sqlalchemy import Column, Integer, String, DateTime, text
-
 
 
 class Denuncia(db.Model):

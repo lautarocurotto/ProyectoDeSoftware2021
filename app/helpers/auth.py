@@ -2,7 +2,6 @@ from app.models.usuario import Usuario
 from app.models.usuario_tiene_rol import usuario_tiene_rol
 
 
-
 def authenticated(session):
     return session.get("user")
 
