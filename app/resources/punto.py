@@ -42,7 +42,7 @@ def create():
     if mensaje.validate() == False:
         print(
             "Hay algo mal en el formulario"
-        )  # En realidad aca se haria un abort ya que algun dato esta mal ingresado
+        )  
     else:
         try:
             valid = validate_email(params["email"])

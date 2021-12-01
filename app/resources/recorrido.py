@@ -6,6 +6,7 @@ from app.helpers.auth import authenticated, check_permission
 from app.helpers.paginator import Paginator
 from app.models.recorrido import Recorrido
 from app.models.configuracion import Configuracion
+from app.validadores.validadorRecorridos import ValidarForm
 
 # Protected resources
 
@@ -42,28 +43,24 @@ def create():
     descripcionn = contenido["description"]
     estadoo = contenido["status"]
     coordendas = contenido["coodinates"]
-
-    if nombree == "" or descripcionn == "" or estadoo == "" or len(coordendas) < 3:
-        mensaje = "Formulario mal"
-    else:
+    respuesta=ValidarForm.validar(nombree,descripcionn,estadoo,coordendas)
+    if respuesta=="Todo ok":
         print("Los campos estan validados")
         cant_puntos = Recorrido.existe_recorrido(nombree)
         if cant_puntos == 0:
             new_recorrido = Recorrido(
-                nombre=nombree, descripcion=descripcionn, estado=estadoo
-            )
+                nombre=nombree, descripcion=descripcionn, estado=estadoo)
             for c in coordendas:
                 new_coordenada = Coordenadas(
-                    lat=c["lat"], lng=c["lng"], tipo="recorrido"
-                )
+                   lat=c["lat"], lng=c["lng"], tipo="recorrido")
                 new_recorrido.puntos.append(new_coordenada)
-            db.session.add(new_recorrido)
-            db.session.commit()
-            mensaje = "Se agrego el recorrido"
+                db.session.add(new_recorrido)
+                db.session.commit()
+                mensaje = "Se agrego el recorrido"
         else:
             mensaje = "El recorrido ya existe por favor elija otro nombre"
-    flash(mensaje)
-    return mensaje
+        flash(mensaje)
+    return redirect(url_for("recorridos_index"))
 
 
 def update(id):

@@ -88,7 +88,6 @@ class Usuario(db.Model):
     @classmethod
     def has_permission(cls, aUserID, aPermission):
         usuario = Usuario.find_by_id_first(aUserID)
-        print(usuario)
         lista = []
         for rol in usuario.roles:
             for permiso in rol.permisos:
