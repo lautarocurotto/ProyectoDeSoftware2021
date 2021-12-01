@@ -44,15 +44,17 @@ def create():
     descripcionn = contenido["descripcion"]
     estadoo = contenido["status"]
     coordendas = json.loads(contenido["coordinates"])
-    respuesta=ValidarForm.validar(nombree,descripcionn,estadoo,coordendas)
-    if respuesta=="Todo ok":
+    respuesta = ValidarForm.validar(nombree, descripcionn, estadoo, coordendas)
+    if respuesta == "Todo ok":
         cant_puntos = Recorrido.existe_recorrido(nombree)
         if cant_puntos == 0:
             new_recorrido = Recorrido(
-                nombre=nombree, descripcion=descripcionn, estado=estadoo)
+                nombre=nombree, descripcion=descripcionn, estado=estadoo
+            )
             for c in coordendas:
                 new_coordenada = Coordenadas(
-                   lat=c["lat"], lng=c["lng"], tipo="recorrido")
+                    lat=c["lat"], lng=c["lng"], tipo="recorrido"
+                )
                 new_recorrido.puntos.append(new_coordenada)
                 db.session.add(new_recorrido)
                 db.session.commit()
@@ -60,9 +62,10 @@ def create():
         else:
             mensaje = "El recorrido ya existe por favor elija otro nombre"
     else:
-        mensaje=respuesta
+        mensaje = respuesta
     flash(mensaje)
     return redirect(url_for("recorridos_index"))
+
 
 def update(id):
     user = authenticated(session)
@@ -77,11 +80,9 @@ def update(id):
         descripcionn = contenido["descripcion"]
         estadoo = contenido["status"]
         coordendas = json.loads(contenido["coordinates"])
-        respuesta=ValidarForm.validar(nombree,descripcionn,estadoo,coordendas)
-        if respuesta=="Todo ok":
-            cant_puntos = Recorrido.existe_recorrido(
-                contenido["nombre"], id, True
-            )
+        respuesta = ValidarForm.validar(nombree, descripcionn, estadoo, coordendas)
+        if respuesta == "Todo ok":
+            cant_puntos = Recorrido.existe_recorrido(contenido["nombre"], id, True)
             if cant_puntos == 0:
                 recorrido_to_update.nombre = contenido["nombre"]
                 recorrido_to_update.descripcion = contenido["descripcion"]
@@ -100,7 +101,8 @@ def update(id):
                 except:
                     flash("Hubo un problema al actualizar el recorrido de evacuacion")
                     return render_template(
-                        "recorridos/update.html", recorrido_to_update=recorrido_to_update
+                        "recorridos/update.html",
+                        recorrido_to_update=recorrido_to_update,
                     )
             else:
                 flash("El nombre ya existe, por favor elija otro nombre")
@@ -113,7 +115,9 @@ def update(id):
                 "recorridos/update.html", recorrido_to_update=recorrido_to_update
             )
     else:
-         return render_template("recorridos/update.html", recorrido_to_update=recorrido_to_update)
+        return render_template(
+            "recorridos/update.html", recorrido_to_update=recorrido_to_update
+        )
 
 
 def delete(id):

@@ -40,9 +40,7 @@ def create():
     params = request.form
     mensaje = ValidarForm(params)
     if mensaje.validate() == False:
-        print(
-            "Hay algo mal en el formulario"
-        )  
+        print("Hay algo mal en el formulario")
     else:
         try:
             valid = validate_email(params["email"])

@@ -1,8 +1,6 @@
-
-class ValidarForm():
-
+class ValidarForm:
     @classmethod
-    def validar(cls,nombree,descripcionn,estadoo,coordendas):
+    def validar(cls, nombree, descripcionn, estadoo, coordendas):
         if nombree == "":
             mensaje = "Falta el nombre del recorrido"
             return mensaje
