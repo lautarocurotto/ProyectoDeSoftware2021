@@ -1,5 +1,5 @@
 from flask import redirect, render_template, request, url_for, session, abort
-from flask.helpers import flash
+from flask.helpers import flash, get_flashed_messages
 from app.db import db
 from app.models.coordenadas import Coordenadas
 from app.helpers.auth import authenticated, check_permission
@@ -7,6 +7,7 @@ from app.helpers.paginator import Paginator
 from app.models.recorrido import Recorrido
 from app.models.configuracion import Configuracion
 from app.validadores.validadorRecorridos import ValidarForm
+import json
 
 # Protected resources
 
@@ -38,14 +39,13 @@ def create():
     if not check_permission(session["id"], "recorrido_new"):
         abort(401)
 
-    contenido = request.get_json()
-    nombree = contenido["name"]
-    descripcionn = contenido["description"]
+    contenido = request.form
+    nombree = contenido["nombre"]
+    descripcionn = contenido["descripcion"]
     estadoo = contenido["status"]
-    coordendas = contenido["coodinates"]
+    coordendas = json.loads(contenido["coordinates"])
     respuesta=ValidarForm.validar(nombree,descripcionn,estadoo,coordendas)
     if respuesta=="Todo ok":
-        print("Los campos estan validados")
         cant_puntos = Recorrido.existe_recorrido(nombree)
         if cant_puntos == 0:
             new_recorrido = Recorrido(
@@ -59,7 +59,9 @@ def create():
                 mensaje = "Se agrego el recorrido"
         else:
             mensaje = "El recorrido ya existe por favor elija otro nombre"
-        flash(mensaje)
+    else:
+        mensaje=respuesta
+    flash(mensaje)
     return redirect(url_for("recorridos_index"))
 
 
