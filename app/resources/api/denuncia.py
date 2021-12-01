@@ -5,15 +5,14 @@ from email_validator import validate_email, EmailNotValidError
 from app.models.denuncia import Denuncia
 from app.models.categoria import Categoria
 import json
-from flask_cors import cross_origin
 
 denuncia_api = Blueprint("denuncias", __name__, url_prefix="/denuncias")
 
 @denuncia_api.post("")
-@cross_origin()
 def new_denuncia():
     """Método para usar en la API"""
     postdata = request.get_json()
+    
 
     try:
         validate_email(postdata["email_denunciante"])
@@ -73,11 +72,10 @@ def new_denuncia():
         )
 
     if postdata["titulo"] == "":
-        return response.Response(
-            status=400,
-            response=json.dumps({"error": "Debe introducir un título."}),
-            content_type="application/json",
-        )
+        data = {
+            "error" : "Debe introducir un titulo"
+        }
+        return jsonify(data), 400
 
     if postdata["descripcion"] == "":
         return response.Response(

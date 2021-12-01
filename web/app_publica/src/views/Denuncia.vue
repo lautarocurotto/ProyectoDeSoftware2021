@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="text-center denuncia">
+        <div v-if="!enviada" class="text-center denuncia">
             <h2>Estás a punto de realizar una denuncia</h2>
             <p>Primero te tomaremos los datos sobre el lugar y de qué se trata el problema.</p>
             <p>Luego te pediremos información personal.</p>
             <p>Puedes ser contactado por alguno de nuestros operadores para validar información.</p>
         </div>
-        <form v-on:submit="mandarDenuncia">
+        <form v-if="!enviada" v-on:submit="mandarDenuncia">
             <div class="text-center denuncia">
                 <h2>¿De qué se trata?</h2>
                 <div class="mb-3">
@@ -60,6 +60,14 @@
                 <input class="btn btn-outline-success" type="submit" value="Listo, Mandar denuncia">
             </div>
         </form>
+        <div v-if="enviada" id="confirmacion" class="text-center">
+            <div class="mb-3">
+                <h4>Denuncia enviada</h4>
+                <i style="font-size: 70px; color: green;" class="far fa-check-circle"></i>
+                <p>Hemos recibido tu denuncia.</p>
+                <p>Una operador de nuestro equipo se pondrá en contacto contigo en caso de que sea necesario verificar información</p>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -91,29 +99,32 @@ export default {
                 zoom: 13,
                 center: [userlat, userlng],
                 marker: null
-            }
+            },
+            enviada: false
         }
     },
     methods: {
         mandarDenuncia(evt){
             evt.preventDefault();
             this.nuevadenuncia.coordenadas = this.mapa.marker.lat + ", " + this.mapa.marker.lng;
-            console.log(JSON.stringify(this.nuevadenuncia))
             fetch(this.$store.state.mainURL + "/denuncias",{
                 method : "POST",
-                body : JSON.stringify(this.nuevadenuncia)
+                body : JSON.stringify(this.nuevadenuncia),
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
-            .then(res => res.json())
+            .then(res => {
+                return res.json()                  
+            })
             .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.log(error);
+                if (data.error) alert(data.error)
+                else this.enviada = true;
             });
         },
         addMarker(evt){
             this.mapa.marker = evt.latlng;
-            console.log("lat: " + this.mapa.marker.lat + " lng: " + this.mapa.marker.lng)
         }
     },
     created(){
