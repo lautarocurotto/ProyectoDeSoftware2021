@@ -8,6 +8,7 @@ import json
 
 denuncia_api = Blueprint("denuncias", __name__, url_prefix="/denuncias")
 
+
 @denuncia_api.post("")
 def new_denuncia():
     """Método para usar en la API"""
