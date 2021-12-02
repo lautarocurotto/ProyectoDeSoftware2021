@@ -175,6 +175,8 @@ def verPerfil():
     user = authenticated(session)
     if (not user):
         return redirect(url_for("auth_login"))
+    if (not check_permission(session["id"],"usuario_perfil")):
+       abort(401)
     email=session["user"]
     u=Usuario.find_user_by_email(email)
     return render_template("usuarios/perfil.html", usuario=u)
