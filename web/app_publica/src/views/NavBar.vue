@@ -8,7 +8,6 @@
               </a>
         
               <ul class="nav">
-                <!-- <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li> -->
                 <li class="nav-item"><a href="#denunciar" class="nav-link">Denunciar</a></li>
                 <li class="nav-item">
                   <a href="#" class="btn btn-outline-primary"><i class="fas fa-user-plus"></i> Registrarse</a>

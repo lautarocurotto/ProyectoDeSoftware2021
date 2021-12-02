@@ -21,25 +21,16 @@
 <div class="container-fluid">
 
     <h1>Modificando recorrido de evacuacion {{recorrido_to_update.nombre}}</h1>
-
-    <div class="mb-3">
-        <a class="btn btn-outline-secondary" href="{{url_for('recorridos_index')}}">Volver</a>
-        {% if tiene_permiso(session["id"],"recorrido_destroy") %}
-        <a class="btn btn-outline-danger" href="/recorridos/delete/{{recorrido_to_update.id}}">Borrar</a>
-        {% endif %}
-    </div>
     
-    
-
     <form action="/recorridos/update/{{recorrido_to_update.id}}" method="POST" id="formulario-update">
         <div class="mb-3">
             <label for="nombre">Nombre de recorrido
-                <input class="form-control" type="text" id="nombre" name="nombre" required placeholder="Nombre" required value="{{recorrido_to_update.nombre}}">
+                <input class="form-control" required type="text" id="nombre" name="nombre"  placeholder="Nombre"  value="{{recorrido_to_update.nombre}}">
             </label>
         </div>
         <div class="mb-3">
             <label for="descripcion">Descripcion
-                <input class="form-control" type="text" id="descripcion" name="descripcion" required placeholder="Descripcion" required value="{{recorrido_to_update.descripcion}}">  
+                <input class="form-control" required type="text" id="descripcion" name="descripcion"  placeholder="Descripcion"  value="{{recorrido_to_update.descripcion}}">  
             </label>
         </div>
        
@@ -57,11 +48,16 @@
         <input style="display: none;" name="lng" value="{{coordenada.lng}}">
 
       {% endfor %}
+      <input id="coordinates" name="coordinates" style="display: none;">
         <div id="mapid"></div>
-        <input style="display: none;" id="idReco" value="{{recorrido_to_update.id}}">
         <input class="btn btn-success btn-lg" type="submit" value="Modificar recorrido de evacuacion">
         
     </form>
+    <br>
+
+    <div class="mb-3">
+        <a class="btn btn-outline-secondary" href="{{url_for('recorridos_index')}}">Volver</a>
+    </div>
 
 </div>
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div class="container-fluid" v-bind:style="{'background-image' : 'url(https://images.unsplash.com/photo-1485617359743-4dc5d2e53c89?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80)', 'height' : '250px' }" style="background-image: url('../assets/inundacion3.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center;">
+      <div class="container-fluid" v-bind:style="{'background-image' : 'url(https://images.unsplash.com/photo-1485617359743-4dc5d2e53c89?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80)', 'height' : '250px' }" style="background-repeat: no-repeat; background-size: cover; background-position: center;">
           <div class="row align-items-center h-100">
               <div class="col-6"></div>
               <div class="col-md-6 col-sm-12">
@@ -48,7 +48,7 @@
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet voluptatum vero perspiciatis possimus. Nemo fuga sapiente magni odio qui ullam sunt velit minus, aliquid sequi amet? Omnis rerum fugiat nesciunt!</p>
               </div>
               <div class="col-6" style="text-align: left;">
-                  <button class="btn btn-lg btn-light" data-bs-toggle="modal" data-bs-target="#new-denuncia">REALIZAR DENUNCIA</button>
+                  <router-link class="btn btn-lg btn-light" to="/denunciar">REALIZAR DENUNCIA</router-link>
               </div>
           </div>
         </div>

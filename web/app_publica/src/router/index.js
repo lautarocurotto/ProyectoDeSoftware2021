@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import MapaRP from '../views/MapaRP.vue'
 import MapaZonas from '../views/MapaZonas.vue'
 import MapaZonaUnica from '../views/MapaZonaUnica.vue'
+import Denuncia from '../views/Denuncia.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/mapaZonasInundables/:id',
     name: 'mapaZonaInundable',
     component: MapaZonaUnica
+  },
+  {
+    path: '/denunciar',
+    name: 'Denuncia',
+    component: Denuncia
   }
 ]
 
