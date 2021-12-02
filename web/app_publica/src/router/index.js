@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import MapaRP from '../views/MapaRP.vue'
+import MapaZonas from '../views/MapaZonas.vue'
+import MapaZonaUnica from '../views/MapaZonaUnica.vue'
 
 const routes = [
   {
@@ -12,6 +14,16 @@ const routes = [
     path: '/mapaRecorridosPuntos',
     name: 'mapaRecorridosPuntos',
     component: MapaRP
+  },
+  {
+    path: '/mapaZonasInundables',
+    name: 'mapaZonasInundables',
+    component: MapaZonas
+  },
+  {
+    path: '/mapaZonasInundables/:id',
+    name: 'mapaZonaInundable',
+    component: MapaZonaUnica
   }
 ]
 

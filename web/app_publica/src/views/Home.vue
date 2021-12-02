@@ -18,9 +18,7 @@
               </div>
               <h2>Zonas inundables</h2>
               <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-              <a href="#" class="icon-link btn btn-outline-primary">
-                Ver las zonas de inundación
-              </a>
+              <router-link class="icon-link btn btn-outline-primary" to="/mapaZonasInundables">Ver las zonas de inundación</router-link>
             </div>
             <div class="feature col">
               <div class="feature-icon h1">
