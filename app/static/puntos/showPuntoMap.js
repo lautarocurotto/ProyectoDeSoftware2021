@@ -1,4 +1,4 @@
-import { Map } from './MapSingleMarkerShow.js';
+import { Map } from '../mapa/MapSingleMarkerCUS.js';
 
 
 
@@ -6,6 +6,6 @@ window.onload = () => {
     
     let latitud = document.getElementById('lat');
     let longitud = document.getElementById('lng');
-    let map = new Map('mapid',latitud.getAttribute('value'), longitud.getAttribute('value'));
+    let map = new Map('mapid',latitud.getAttribute('value'), longitud.getAttribute('value'),false,false,true);
     
 };

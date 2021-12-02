@@ -22,4 +22,4 @@ def forbidden_error(e):
         "error_name": "403 Forbidden Error",
         "error_description": "Se ha denegado su solicitud",
     }
-    return render_template("error.html", **kwargs), 403    
+    return render_template("error.html", **kwargs), 403

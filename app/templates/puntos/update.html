@@ -59,9 +59,7 @@
         <input class="btn btn-success" type="submit" value="Modificar punto de encuentro">
         <div class="mb-3">
             <a class="btn btn-outline-secondary" href="{{url_for('puntos_index')}}">Volver</a>
-            {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
-            <a class="btn btn-outline-danger" href="/puntos/delete/{{punto_to_update.id}}">Borrar</a>
-            {% endif %}
+            
         </div>
        
     </form>

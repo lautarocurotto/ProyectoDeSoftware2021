@@ -45,7 +45,19 @@
     </table>
     <a class="btn btn-outline-primary" href="/puntos/update/{{punto.id}}">Editar</a>
     {% if tiene_permiso(session["id"],"punto_encuentro_destroy") %}
-    <a class="btn btn-outline-danger" href="/puntos/delete/{{punto.id}}">Borrar</a>
+    <a type="button" href="/puntos/delete/{{punto.id}}" class="btn btn-outline-danger" id="botonBorrar">Borrar</button>
+        <script type="text/javascript">
+            (function() {
+              var form = document.getElementById('botonBorrar');
+              form.addEventListener('click', function(event) {
+                // si es false entonces que no haga el submit
+                if (!confirm('Realmente desea eliminar?')) {
+                    event.preventDefault();
+                }
+              }, false);
+            })();
+          </script>
+    
     {% endif %}
     <a class="btn btn-outline-secondary" href="{{url_for('puntos_index')}}">Volver</a>
    
