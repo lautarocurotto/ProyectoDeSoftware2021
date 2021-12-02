@@ -1,4 +1,4 @@
-import { Map } from './MapMultipleMarkerShow.js';
+import { Map } from '../mapa/MapMultipleMarkerCUS.js';
 
 
 window.onload = () => {
@@ -8,7 +8,9 @@ window.onload = () => {
     let map = new Map({
         selector:'mapid',
         longitudes: longitud,
-        latitudes:latitud
+        latitudes:latitud,
+        crearPolyline:true,
+        show:true
     })
     
     

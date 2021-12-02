@@ -26,7 +26,7 @@ window.onload = () => {
     
     let latitud = document.getElementById('lat');
     let longitud = document.getElementById('lng');
-    let map = new Map('mapid', latitud.getAttribute('value'), longitud.getAttribute('value'),true,false,false);
+    let map = new Map('mapid', latitud.getAttribute('value'), longitud.getAttribute('value'),false,true,false);
     let form = document.getElementById('new-denuncia-form');
     let res=form.addEventListener('submit', (event)=> submitHandler(event,map));
     let res2=form.addEventListener('reset', (event)=> resetHandler(event,map));

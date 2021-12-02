@@ -1,5 +1,4 @@
 class Paginator:
-
     def __init__(self, query, max, page):
         self.query = query
         self.max = max
@@ -13,6 +12,6 @@ class Paginator:
 
     def next_page(self):
         return self.page + 1
-    
+
     def prev_page(self):
         return self.page - 1
