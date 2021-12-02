@@ -16,7 +16,7 @@
               <div class="feature-icon h1">
                 <i class="fas fa-water"></i>
               </div>
-              <h2>Zonas inundables</h2>
+              <h2 style="color: $store.state.configs.color1;">Zonas inundables</h2>
               <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
               <a href="#" class="icon-link btn btn-outline-primary">
                 Ver las zonas de inundación

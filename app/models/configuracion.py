@@ -32,3 +32,11 @@ class Configuracion(db.Model):
         self.maxElementos=maxElementos
         self.criterio_orden=criterio_orden
         self.sitio_en_mantenimiento=sitio_en_mantenimiento
+
+    def as_dict(self):
+        return {
+            "color1" : self.color1Publica,
+            "color2" : self.color2Publica,
+            "color3" : self.color3Publica,
+            "en_mantinimiento" : self.sitio_en_mantenimiento
+        }

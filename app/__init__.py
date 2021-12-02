@@ -16,6 +16,7 @@ from app.resources.api.zonainundable_api import zonainundable_api
 from app.resources import denuncia
 from app.resources.api.denuncia import denuncia_api
 from app.resources.api.puntos import puntos_encuentro_api
+from app.resources.api.configuracion import configuracion_api
 from flask_cors import CORS
 
 from app.resources.api.recorridos import recorridos_evacuacion_api
@@ -119,6 +120,7 @@ def create_app(environment="development"):
     api.register_blueprint(zonainundable_api)
     api.register_blueprint(puntos_encuentro_api)
     api.register_blueprint(recorridos_evacuacion_api)
+    api.register_blueprint(configuracion_api)
     app.register_blueprint(api)
 
     # Handlers

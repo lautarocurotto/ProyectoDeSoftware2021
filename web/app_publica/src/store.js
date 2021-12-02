@@ -3,10 +3,15 @@ import { createStore } from "vuex";
 const store = createStore({
     state(){
         return {
-            color1 : "",
-            color2 : "",
-            color3 : "",
-            mainURL : "http://127.0.0.1:5000/api"
+            mainURL : "http://127.0.0.1:5000/api",
+            configs : {"color2" : ""}
+        }
+    },
+    mutations : {
+        setConfigs(state, configs){
+            console.log("configurando configs : ");
+            state.configs = configs;
+            console.log(state.configs);
         }
     }
 })
