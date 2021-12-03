@@ -18,9 +18,11 @@
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'home'}}" aria-current="page" href="{{url_for('home')}}">Home</a>
                     </li>
+                    {% if tiene_permiso(session["id"], "punto_encuentro_index") %}
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'puntos_index'}}" href="{{url_for('puntos_index')}}">Puntos de encuentro</a>
                     </li>
+                    {% endif %}
                     {% if tiene_permiso(session["id"], "denuncia_index") %}
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'denuncias'}}" href="{{url_for('denuncias')}}">Denuncias</a>
@@ -31,10 +33,12 @@
                         <a class="nav-link {{'active' if request.endpoint == 'usuario_index'}}" href="{{url_for('usuario_index')}}">Usuarios</a>
                     </li>
                     {% endif %}
+                    {% if tiene_permiso(session["id"],"configuracion_update") %}
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'usuario_perfil'}}" href="{{url_for('usuario_perfil')}}">Perfil</a>
                     </li>
-                    {% if tiene_permiso(session["id"],"configuracion_update") %}
+                    {% endif %}
+                    {% if tiene_permiso(session["id"],"usuario_perfil") %}
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'configuracion'}}" href="{{url_for('configuracion')}}">Configuración</a>
                     </li>
@@ -47,6 +51,10 @@
                     {% if tiene_permiso(session["id"],"zonas_index") %}
                     <li class="nav-item">
                         <a class="nav-link {{'active' if request.endpoint == 'zonas_index'}}" href="{{url_for('zonas_index')}}">Zonas inundables</a>
+                    {% endif %}
+                    {% if tiene_permiso(session["id"],"usuariopublico_index") %}
+                    <li class="nav-item">
+                        <a class="nav-link {{'active' if request.endpoint == 'usuariopublico_index'}}" href="{{url_for('usuariopublico_index')}}">Usuarios publicos</a>
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{url_for('auth_logout')}}" style="color: red;">Cerrar Sesión</a>
