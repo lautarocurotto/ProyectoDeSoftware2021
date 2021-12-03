@@ -45,7 +45,18 @@
     </table>
     <a class="btn btn-outline-primary" href="/recorridos/update/{{recorrido.id}}">Editar</a>
     {% if tiene_permiso(session["id"],"recorrido_destroy") %}
-    <a class="btn btn-outline-danger" href="/recorridos/delete/{{recorrido.id}}">Borrar</a>
+    <a class="btn btn-outline-danger" id="botonBorrar" href="/recorridos/delete/{{recorrido.id}}">Borrar</a>
+    <script type="text/javascript">
+        (function() {
+          var form = document.getElementById('botonBorrar');
+          form.addEventListener('click', function(event) {
+            // si es false entonces que no haga el submit
+            if (!confirm('Realmente desea eliminar?')) {
+                event.preventDefault();
+            }
+          }, false);
+        })();
+      </script>
     {% endif %}
     <a class="btn btn-outline-secondary" href="{{url_for('recorridos_index')}}">Volver</a>
 </div>

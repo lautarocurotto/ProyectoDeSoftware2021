@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
-    <script type="module" src="/../static/zonas/showPuntoMap.js"></script>
+    <script type="module" src="/../static/zonas/showZonaMap.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {% endblock %}
@@ -36,6 +36,7 @@
             <th>CANTIDAD DE PUNTOS:</th>
             <td>{{cantidad_puntos(zonas.id)}}</td>
         </tr>
+        <input style="display: none;" id="color" value="{{zonas.color}}">
         {%for coordenada in zonas.puntos %}
        
           <input style="display: none;" name="lat" value="{{coordenada.lat}}">
@@ -45,7 +46,6 @@
        
         <div id="mapid"></div>
     </table>
-    <a class="btn btn-outline-primary" href="/zonas/update/{{zonas.id}}">Editar</a>
     {% if tiene_permiso(session["id"],"zonas_destroy") %}
     <a class="btn btn-outline-danger" href="/zonas/eliminar/{{zonas.id}}">Eliminar</a>
     {% if (zonas.estado=="publicado") %}
