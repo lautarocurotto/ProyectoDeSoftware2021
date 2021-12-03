@@ -16,6 +16,9 @@ export default {
   components : {
     NavBar,
     Footer
+  },
+  created(){
+    this.$store.commit('setURLs');
   }
 }
 </script>

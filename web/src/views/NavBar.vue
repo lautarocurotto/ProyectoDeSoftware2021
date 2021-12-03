@@ -10,7 +10,7 @@
               <ul class="nav">
                 <li class="nav-item"><a href="#denunciar" class="nav-link">Denunciar</a></li>
                 <li class="nav-item">
-                  <a href="#" class="btn btn-outline-primary"><i class="fas fa-user-plus"></i> Registrarse</a>
+                  <a v-bind:href="$store.state.registerURL" class="btn btn-outline-primary"> Ingresar con Google <i class="fab fa-google"></i></a>
                 </li>
               </ul>
             </header>
