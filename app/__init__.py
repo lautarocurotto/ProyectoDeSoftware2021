@@ -1,13 +1,19 @@
+from datetime import datetime
 from os import environ
 from flask import Flask, render_template, redirect, url_for, request, session, Blueprint
 from config import config
 from app import db
+from app.db import db
+from app.models.usuario import Usuario
+from app.models.usuario_publico import Usuario_publico
 from app.resources import punto
+from app.resources import usuariospublicos
 from app.resources import recorrido
 from app.resources import configuracion
 from app.resources import usuario
 from app.resources import zonas
 from app.resources import auth
+from app.resources import logingoogle
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.helpers.auth import authenticated
@@ -47,7 +53,15 @@ def create_app(environment="development"):
     app.add_url_rule(
         "/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"]
     )
+    # Login google
 
+    app.add_url_rule("/logingoogle","logingoogle",logingoogle.login)
+    app.add_url_rule("/authorize","authorize",logingoogle.authorize)
+
+    # Usuarios publicos
+
+    app.add_url_rule("/usuariospublicos","usuariopublico_index",usuariospublicos.index, methods=["POST", "GET"] )
+    app.add_url_rule("/usuariospublicos/activar/<int:id>","usuariopublico_activar",usuariospublicos.activar,methods=["POST", "GET"] )
     # Rutas de Consultas
 
     app.add_url_rule(

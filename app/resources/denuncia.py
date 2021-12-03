@@ -268,9 +268,10 @@ def set_status():
     try:
         db.session.commit()
         flash("Estado de denuncia actualizado")
-    except:
-        print("Error @ denuncia#set_status()")
-        flash("Error")
+    except Exception as e:
+        print("Error @ denuncia#set_status():")
+        print(e)
+        flash("Fin Error @ denuncia#set_status():")
 
     return redirect(url_for("denuncia_show", id=request.form["id"]))
 

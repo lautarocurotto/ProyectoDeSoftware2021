@@ -7,8 +7,10 @@ def authenticated(session):
 
 
 def check_permission(user_id, permission):
-    return Usuario.has_permission(user_id, permission)
-
-
+    if(user_id!=0):
+        return Usuario.has_permission(user_id,permission)
+    else:
+        return False
+    
 def isAdmin(anID):
     return usuario_tiene_rol.find_by_id(anID) > 0
