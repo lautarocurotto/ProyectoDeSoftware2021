@@ -36,6 +36,7 @@
             <th>CANTIDAD DE PUNTOS:</th>
             <td>{{cantidad_puntos(zonas.id)}}</td>
         </tr>
+        <input style="display: none;" id="color" value="{{zonas.color}}">
         {%for coordenada in zonas.puntos %}
        
           <input style="display: none;" name="lat" value="{{coordenada.lat}}">
