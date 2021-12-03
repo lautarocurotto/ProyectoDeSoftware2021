@@ -101,7 +101,6 @@ class Usuario(db.Model):
     #    return (consulta.count() > 0)
 
     def as_dict(self):
-<<<<<<< HEAD
         #return {attr.name: getattr(self,attr.name) for attr in self.__table__.columns}
         return {"email": self.email,
                 "username":self.username,
@@ -121,31 +120,3 @@ class Usuario(db.Model):
         self.first_name=first_name
         self.last_name=last_name
         
-=======
-        # return {attr.name: getattr(self,attr.name) for attr in self.__table__.columns}
-        return {
-            "email": self.email,
-            "username": self.username,
-            "firstname": self.first_name,
-        }
-
-    def __init__(
-        self,
-        email=None,
-        username=None,
-        password=None,
-        activo=None,
-        updated_at=None,
-        created_at=None,
-        first_name=None,
-        last_name=None,
-    ):
-        self.email = email
-        self.username = username
-        self.password = self.create_password(password)
-        self.activo = activo
-        self.updated_at = updated_at
-        self.created_at = created_at
-        self.first_name = first_name
-        self.last_name = last_name
->>>>>>> 28c55a865757567f63532fa93072117584300445

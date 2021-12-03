@@ -13,6 +13,7 @@ from app.resources import configuracion
 from app.resources import usuario
 from app.resources import zonas
 from app.resources import auth
+from app.resources import logingoogle
 from app.helpers import handler
 from app.helpers import auth as helper_auth
 from app.helpers.auth import authenticated

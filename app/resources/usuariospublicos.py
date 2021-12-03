@@ -6,7 +6,6 @@ from app.models.roles import Rol
 from app.models.usuario import Usuario
 from app.models.usuario_publico import Usuario_publico
 from app.models.usuario_tiene_rol import usuario_tiene_rol
-from app.resources.validadorUsuarios import ValidarForm
 from app.models.configuracion import Configuracion
 from app.helpers.auth import authenticated, check_permission
 from app.helpers.paginator import Paginator
