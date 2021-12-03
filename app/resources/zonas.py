@@ -9,6 +9,7 @@ from app.models.configuracion import Configuracion
 import csv
 import io
 import uuid
+import random
 
 # Protected resources
 
@@ -104,12 +105,13 @@ def importar():
         archi = arch.decode()
         mycsv = io.StringIO(archi)
         reader = csv.DictReader(mycsv)
+        vec_colores = ['blue','red','green','yellow','orange','pink']
         for row in reader:
             codigo = str(uuid.uuid4())
             nombre = row["name"]
             if not Zonas.existe_zona(nombre):
                 new_zona = Zonas(
-                    codigo=codigo, nombre=nombre, estado="publicado", color="#ff0000"
+                    codigo=codigo, nombre=nombre, estado="publicado", color=vec_colores[random.randint(0,5)]
                 )
             else:
                 new_zona = Zonas.get_by_name(nombre)
@@ -121,10 +123,8 @@ def importar():
             for i in range(len(stri)):
                 if i % 2 == 0:
                     lat = stri[i].replace("[", "")
-                    print(lat)
                 else:
                     lng = stri[i].replace("]", "")
-                    print(lng)
                     new_coordenada = Coordenadas(lat=lat, lng=lng, tipo="zonas")
                     new_zona.puntos.append(new_coordenada)
             db.session.add(new_zona)

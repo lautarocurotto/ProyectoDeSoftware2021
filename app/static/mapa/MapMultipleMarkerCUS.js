@@ -12,7 +12,7 @@ export class Map{
     #crearRecta;
     #crearPoligono;
 
-    constructor({selector,crearPolyline=false,crearRectangle=false, crearPoligono=false,longitudes,latitudes,create=false,update=false,show=false}){
+    constructor({selector,crearPolyline=false,crearRectangle=false, crearPoligono=false,longitudes,latitudes,create=false,update=false,show=false,color}){
         this.#drawItems = new L.FeatureGroup();
         this.crearPoli = crearPolyline;
         this.crearRecta = crearRectangle;
@@ -20,7 +20,7 @@ export class Map{
         this.#crear=create;
         this.#edita=update;
         this.#mostrar=show;
-        this.#initializeMap(selector,longitudes,latitudes,update,show);
+        this.#initializeMap(selector,longitudes,latitudes,update,show,color);
 
         if(create){
             this.map.on(L.Draw.Event.CREATED,(e)=>{
@@ -32,7 +32,7 @@ export class Map{
         }
     }
 
-    #initializeMap(selector,longitudes,latitudes,update,show){
+    #initializeMap(selector,longitudes,latitudes,update,show,color){
         this.map = L.map(selector).setView([initialLat,initialLng],13);
         L.tileLayer(mapLayerUrl).addTo(this.map);
         this.map.addLayer(this.#drawItems);
@@ -48,7 +48,7 @@ export class Map{
                 poli= L.polyline(latlngs,{color:'red'}).addTo(this.map);
             }
             if(this.crearPoligono){
-                var polygon=L.polygon(latlngs,{color:'red'}).addTo(this.map);
+                var polygon=L.polygon(latlngs,{color:color}).addTo(this.map);
             }
             if(update){
                 poli.editing.enable();

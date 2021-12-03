@@ -47,7 +47,18 @@ Esta seria la página de administracion las zonas inundables de la app privada
                 <td>{{zonas.estado}}</td>
                 <td>
                     {% if tiene_permiso(session["id"],"zonas_destroy") %}
-                    <a class="btn btn-outline-danger" href="/zonas/eliminar/{{zonas.id}}">Eliminar</a>
+                    <a type="button" href="/zonas/eliminar/{{zonas.id}}" class="btn btn-outline-danger" id="botonBorrar{{zonas.id}}">Eliminar</button>
+                    <script type="text/javascript">
+                        (function() {
+                            var form = document.getElementById('botonBorrar{{zonas.id}}');
+                            form.addEventListener('click', function(event) {
+                            // si es false entonces que no haga el submit
+                            if (!confirm('Realmente desea eliminar?')) {
+                                event.preventDefault();
+                            }
+                        }, false);
+                        })();
+                    </script>
                     {% if (zonas.estado=="publicado") %}
                     <a class="btn btn-outline-danger" href="/zonas/delete/{{zonas.id}}">Despublicar</a>
                     {% else %}
