@@ -33,7 +33,7 @@ def activar(id):
     if (not check_permission(session["id"],"usuariopublico_activar")):
        abort(401)
     usuario_to_activate=Usuario_publico.find_by_id(id)
-    username=(usuario_to_activate.first_name+'_'+usuario_to_activate.last_name).lower()
+    username=usuario_to_activate.first_name+'_'+usuario_to_activate.last_name
     new_usuario=Usuario(email=usuario_to_activate.email,username=username,password=None,activo=1,updated_at=datetime.now(),created_at=datetime.now(),first_name=usuario_to_activate.first_name,last_name=usuario_to_activate.last_name)
     db.session.add(new_usuario)
     db.session.commit()
