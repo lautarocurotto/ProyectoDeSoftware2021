@@ -1,0 +1,51 @@
+
+{% extends "layout.html"%}
+{% block title %}Usuarios - Zonas de inundación{% endblock %}
+{% block head %}
+    {{super()}}
+{% endblock %}
+{% block content %}
+  
+
+<div class="container-fluid">
+    <h1>Administración de usuarios publicos</h1>
+    <div class="table-responsive">
+        <table class="table">
+        
+            <thead>
+                <tr>
+                    <td>Nombre</td>
+                    <td>Apellido</td>
+                    <td>Email</td>
+                </tr>
+            </thead>
+            <tbody>
+                {%for usuario in paginator.get_page() %}
+                <tr>
+                    <td>{{usuario.first_name}}</td>
+                    <td>{{usuario.last_name}}</td>
+                    <td>{{usuario.email}}</td>
+                    <td>
+                        <a class="btn btn-outline-secondary" href="/usuariospublicos/activar/{{usuario.id}}">Activar</a> 
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Puntos navigation pages">
+        <ul class="pagination">
+            {% if(not paginator.prev_page() < 0)%}
+                <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=paginator.prev_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Anterior</a></li>
+            {% endif %}
+            {% if paginator.has_next_page() %}
+                <li class="page-item"><a class="page-link" href="{{url_for('usuario_index', page=paginator.next_page())}}{% for getparam in request.args %}{{'&' + getparam + '=' + request.args.get(getparam) if getparam != 'page'}}{% endfor %}">Siguiente</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+
+
+
+{% endblock %}

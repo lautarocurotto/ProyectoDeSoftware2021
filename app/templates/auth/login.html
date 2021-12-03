@@ -43,6 +43,7 @@
             </div>
 
             <h1>Autenticate</h1>
+            
             <form action="{{ url_for('auth_authenticate') }}" method="POST">
                 <div class="mb-3">
                     <label for="email">
@@ -58,6 +59,8 @@
 
                 <input class="btn btn-outline-primary form-control" type="submit" value="Ingresar">
             </form>
+            <br>
+            <span class="text-muted"> <a href="{{url_for('logingoogle')}}">Ingresar con google</a></span>
         </div>
     </div>
 
@@ -68,3 +71,4 @@
     </footer>
 </body>
 </html>
+

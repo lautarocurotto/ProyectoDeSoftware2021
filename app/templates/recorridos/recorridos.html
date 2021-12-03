@@ -18,7 +18,6 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {% endblock %}
 {% block content %}
-  
 
 <div class="container-fluid">
     <h1>Administración de recorridos de evacuacion</h1>
@@ -50,7 +49,19 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
                 <td>
                     <a class="btn btn-outline-secondary" href="/recorridos/update/{{recorrido.id}}">Editar</a>
                     {% if tiene_permiso(session["id"],"recorrido_destroy") %}
-                    <a class="btn btn-outline-danger" href="/recorridos/delete/{{recorrido.id}}">Borrar</a>
+                    
+                    <a type="button" href="/recorridos/delete/{{recorrido.id}}" class="btn btn-outline-danger" id="botonBorrar{{recorrido.id}}">Borrar</button>
+                        <script type="text/javascript">
+                            (function() {
+                              var form = document.getElementById('botonBorrar{{recorrido.id}}');
+                              form.addEventListener('click', function(event) {
+                                // si es false entonces que no haga el submit
+                                if (!confirm('Realmente desea eliminar?')) {
+                                    event.preventDefault();
+                                }
+                              }, false);
+                            })();
+                          </script>
                     {% endif %}
                     <a class="btn btn-outline-secondary" href="/recorridos/show/{{recorrido.id}}">Ver</a>
                 </td>
@@ -121,6 +132,8 @@ Esta seria la página de administracion CRUD de los recorridos de evacuacion de 
                         </select>
                     </label>
                 </div>
+
+                <input id="coordinates" name="coordinates" style="display: none;">
 
                
                 <div id="mapid"></div>
