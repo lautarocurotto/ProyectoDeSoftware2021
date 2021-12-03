@@ -45,7 +45,6 @@
        
         <div id="mapid"></div>
     </table>
-    <a class="btn btn-outline-primary" href="/zonas/update/{{zonas.id}}">Editar</a>
     {% if tiene_permiso(session["id"],"zonas_destroy") %}
     <a class="btn btn-outline-danger" href="/zonas/eliminar/{{zonas.id}}">Eliminar</a>
     {% if (zonas.estado=="publicado") %}
