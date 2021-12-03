@@ -17,7 +17,6 @@
                 <i class="fas fa-water"></i>
               </div>
               <h2>Zonas inundables</h2>
-              <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
               <router-link class="icon-link btn btn-outline-primary" to="/mapaZonasInundables">Ver las zonas de inundación</router-link>
             </div>
             <div class="feature col">
@@ -25,18 +24,7 @@
                 <i class="fas fa-route"></i>
               </div>
               <h2>Recorridos de evacuación</h2>
-              <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
               <router-link class="icon-link btn btn-outline-primary" to="/mapaRecorridosPuntos">Mapa de recorridos y puntos de evacuacion</router-link>
-            </div>
-            <div class="feature col">
-              <div class="feature-icon h1">
-                <i class="fas fa-map-marked-alt"></i>
-              </div>
-              <h2>Puntos de encuentro</h2>
-              <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-              <a href="#" class="icon-link btn btn-outline-primary">
-                Ver
-              </a>
             </div>
           </div>
       </div>
@@ -45,7 +33,6 @@
           <div class="row align-items-center h-100">
               <div class="col-6" style="text-align: right;">
                   <h5>¿Conoces una zona que puede ser riesgosa en la ciudad?</h5>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet voluptatum vero perspiciatis possimus. Nemo fuga sapiente magni odio qui ullam sunt velit minus, aliquid sequi amet? Omnis rerum fugiat nesciunt!</p>
               </div>
               <div class="col-6" style="text-align: left;">
                   <router-link class="btn btn-lg btn-light" to="/denunciar">REALIZAR DENUNCIA</router-link>
@@ -64,7 +51,5 @@ export default {
 </script>
 
 <style scoped>
-    .feature{
-        height: 320px;
-    }
+
 </style>
