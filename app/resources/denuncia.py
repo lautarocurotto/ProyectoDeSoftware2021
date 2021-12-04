@@ -262,8 +262,6 @@ def set_status():
     # En caso de que se re-abra la denuncia, borrar la fecha de clsed_at
     if request.form["status"] == "CLOSED":
         denuncia.closed_at = datetime.now()
-    else:
-        denuncia.closed_at = ""
 
     try:
         db.session.commit()
