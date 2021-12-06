@@ -67,6 +67,7 @@ export default {
     };
   },
   created(){
+      console.log(this.$store.state.mainURL);
       fetch(this.$store.state.mainURL + '/puntos-encuentro').then((response) =>{
           return response.json();
       }).then((json) => {
