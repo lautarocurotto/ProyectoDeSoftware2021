@@ -16,7 +16,7 @@ const store = createStore({
                 state.registerURL = "http://127.0.0.1:5000/logingoogle";
                 state.mainURL = "http://127.0.0.1:5000/api";
             }else{
-                state.mainURL = "https://grupo40.proyecto2021.linti.unlp.edu.ar/api/";
+                state.mainURL = "https://grupo40.proyecto2021.linti.unlp.edu.ar/api";
                 state.registerURL = "https://admin-grupo40.proyecto2021.linti.unlp.edu.ar/logingoogle";
             }
         }
